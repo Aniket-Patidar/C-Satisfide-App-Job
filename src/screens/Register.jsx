@@ -1,111 +1,316 @@
-import React from "react";
-import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import COLORS from "../constants/colors";
+import { Ionicons } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
+import Button from "../component/Button";
+import { useNavigation } from "@react-navigation/native";
 
-const RegistrationScreen = ({ navigation }) => {
+const Register = ({navigation}) => {
+
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#F3F4F6",
-      }}
-    >
-      <View
-        style={{
-          backgroundColor: "#FFFFFF",
-          padding: 20,
-          borderRadius: 10,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.25,
-          shadowRadius: 4,
-          elevation: 5,
-          width: "80%",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            marginBottom: 20,
-            textAlign: "center",
-          }}
-        >
-          Register
-        </Text>
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            borderColor: "#D1D5DB",
-            marginBottom: 20,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-          }}
-          placeholder="Username"
-        />
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            borderColor: "#D1D5DB",
-            marginBottom: 20,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-          }}
-          placeholder="Email"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            borderColor: "#D1D5DB",
-            marginBottom: 20,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-          }}
-          placeholder="Password"
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            borderColor: "#D1D5DB",
-            marginBottom: 20,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-          }}
-          placeholder="Confirm Password"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#3B82F6",
-            paddingVertical: 12,
-            borderRadius: 8,
-            marginBottom: 10,
-          }}
-          onPress={() => navigation.navigate("Jobs")}
-        >
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+      <View style={{ flex: 1, marginHorizontal: 22 }}>
+        <View style={{ marginVertical: 22 }}>
           <Text
             style={{
-              color: "#FFFFFF",
-              fontSize: 18,
+              fontSize: 22,
               fontWeight: "bold",
-              textAlign: "center",
+              marginVertical: 12,
+              color: COLORS.black,
             }}
           >
-            Register
+            Create Account
           </Text>
-        </TouchableOpacity>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={{ color: "#4B5563" }}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#3B82F6", fontWeight: "bold" }}>Login</Text>
+
+          <Text
+            style={{
+              fontSize: 16,
+              color: COLORS.black,
+            }}
+          >
+            Connect with your friend today!
+          </Text>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Email address
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your email address"
+              placeholderTextColor={COLORS.black}
+              keyboardType="email-address"
+              style={{
+                width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Mobile Number
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="+91"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              style={{
+                width: "12%",
+                borderRightWidth: 1,
+                borderLeftColor: COLORS.grey,
+                height: "100%",
+              }}
+            />
+
+            <TextInput
+              placeholder="Enter your phone number"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              style={{
+                width: "80%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Password
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your password"
+              placeholderTextColor={COLORS.black}
+              secureTextEntry={isPasswordShown}
+              style={{
+                width: "100%",
+              }}
+            />
+
+            <TouchableOpacity
+              onPress={() => setIsPasswordShown(!isPasswordShown)}
+              style={{
+                position: "absolute",
+                right: 12,
+              }}
+            >
+              {isPasswordShown == true ? (
+                <Ionicons name="eye-off" size={24} color={COLORS.black} />
+              ) : (
+                <Ionicons name="eye" size={24} color={COLORS.black} />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: 6,
+          }}
+        >
+          <Checkbox
+            style={{ marginRight: 8 }}
+            value={isChecked}
+            onValueChange={setIsChecked}
+            color={isChecked ? COLORS.primary : undefined}
+          />
+
+          <Text>I aggree to the terms and conditions</Text>
+        </View>
+
+        <Button
+          title="Sign Up"
+          filled
+          style={{
+            marginTop: 18,
+            marginBottom: 4,
+          }}
+          onPress={() => navigation.navigate("Home")}
+        />
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 20,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.grey,
+              marginHorizontal: 10,
+            }}
+          />
+          <Text style={{ fontSize: 14 }}>Or Sign up with</Text>
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.grey,
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => console.log("Pressed")}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 52,
+              borderWidth: 1,
+              borderColor: COLORS.grey,
+              marginRight: 4,
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              source={require("../../assets/facebook.png")}
+              style={{
+                height: 36,
+                width: 36,
+                marginRight: 8,
+              }}
+              resizeMode="contain"
+            />
+
+            <Text>Facebook</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => console.log("Pressed")}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 52,
+              borderWidth: 1,
+              borderColor: COLORS.grey,
+              marginRight: 4,
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              source={require("../../assets/google.png")}
+              style={{
+                height: 36,
+                width: 36,
+                marginRight: 8,
+              }}
+              resizeMode="contain"
+            />
+
+            <Text>Google</Text>
           </TouchableOpacity>
         </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginVertical: 22,
+          }}
+        >
+          <Text style={{ fontSize: 16, color: COLORS.black }}>
+            Already have an account
+          </Text>
+          <Pressable onPress={() => navigation.navigate("Login")}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: COLORS.primary,
+                fontWeight: "bold",
+                marginLeft: 6,
+              }}
+            >
+              Login
+            </Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default RegistrationScreen;
+export default Register;

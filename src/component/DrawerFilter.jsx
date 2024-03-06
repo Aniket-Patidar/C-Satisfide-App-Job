@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const CoolDrawer = () => {
@@ -27,16 +34,39 @@ const CoolDrawer = () => {
         visible={isDrawerOpen}
         onRequestClose={toggleDrawer}
       >
-
-        
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.overlay} onPress={toggleDrawer} />
           <View style={styles.drawer}>
+            <View className="my-2">
+              <Text className="my-1">Profile</Text>
+              <TextInput
+                className="border-[1px] w-[90%]  border-[#b4b1b1] rounded-sm  text-start px-1 "
+                placeholder="please enter profile Data"
+              ></TextInput>
+            </View>
+
+            <View className="my-1">
+              <Text>Location</Text>
+              <TextInput
+                className="border-[1px] w-[90%]  border-[#b4b1b1] rounded-sm  text-start px-1 "
+                placeholder="please select location"
+              ></TextInput>
+            </View>
+
+            <View className="my-1">
+              <Text>Work from home</Text>
+            </View>
 
 
-            <Text>Profile</Text>
-            <TextInput></TextInput>
-           
+            <View className="my-1">
+              <Text>Part Time</Text>
+            </View>
+
+            
+            <View className="my-2">
+              <Text>Include All internship</Text>
+            </View>
+
           </View>
         </View>
       </Modal>
