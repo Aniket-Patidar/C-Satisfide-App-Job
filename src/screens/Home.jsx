@@ -19,10 +19,6 @@ import COLORS from "../constants/colors";
 import { EvilIcons } from "@expo/vector-icons";
 
 const Home = ({ navigation }) => {
-  useEffect(() => {
-    navigation.navigate("Details");
-  }, []);
-
   return (
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>

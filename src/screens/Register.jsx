@@ -12,12 +12,15 @@ import COLORS from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import Button from "../component/Button";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-const Register = ({navigation}) => {
-
+const Register = () => {
+  const navigation = useNavigation();
+  const route = useRoute(); // Access the route object
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const { setUserLoggedIn } = route.params;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -188,16 +191,17 @@ const Register = ({navigation}) => {
           <Text>I aggree to the terms and conditions</Text>
         </View>
 
-        <Button
-          title="Sign Up"
-          filled
-          style={{
-            marginTop: 18,
-            marginBottom: 4,
-          }}
-          onPress={() => navigation.navigate("Home")}
-        />
-
+        <View>
+          <Button
+            title="Sign Up"
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+            }}
+            onPress={() => setUserLoggedIn(true)}
+          />
+        </View>
         <View
           style={{
             flexDirection: "row",

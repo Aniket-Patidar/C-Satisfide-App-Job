@@ -11,6 +11,7 @@ import DetailsScreen from "./src/screens/Details"; // Import Details screen
 import WelcomeScreen from "./src/screens/Welcome";
 import LoginScreen from "./src/screens/Login";
 import RegisterScreen from "./src/screens/Register";
+import AppliedScreen from "./src/screens/Applied";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,6 +43,20 @@ function TabNavigator() {
         }}
       />
 
+
+
+      {/* Setting Tab */}
+      <Tab.Screen
+        name="Applied"
+        component={AppliedScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require("./assets/save.png")} className="w-[20px] h-[20px]"></Image>
+          ),
+          tabBarLabel: () => null
+        }}
+      />
+
       {/* Profile Tab */}
       <Tab.Screen
         name="Profile"
@@ -54,24 +69,13 @@ function TabNavigator() {
         }}
       />
 
-      {/* Setting Tab */}
-      <Tab.Screen
-        name="Setting"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Image source={require("./assets/setting.png")} className="w-[22px] h-[22px]"></Image>
-          ),
-          tabBarLabel: () => null
-        }}
-      />
     </Tab.Navigator>
   );
 }
 
 // Main component
 export default function App() {
-  const [userLoggedIn, setUserLoggedIn] = React.useState(true);
+  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
 
   return (
     <NavigationContainer>
@@ -87,7 +91,7 @@ export default function App() {
             <>
               <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
               <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Register" initialParams={{ setUserLoggedIn: setUserLoggedIn }} component={RegisterScreen} options={{ headerShown: false }} />
             </>
           )}
           <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
