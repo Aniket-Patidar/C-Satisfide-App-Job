@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../component/Header";
 import {
   View,
@@ -9,8 +9,7 @@ import {
   TextInput,
   Animated,
 } from "react-native";
-// import { CheckBox } from 'react-native-elements'; // Assuming you have installed this library for checkboxes
-import Icon from "react-native-vector-icons/Feather"; // Assuming you are using Feather icons
+import Icon from "react-native-vector-icons/Feather";
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -30,27 +29,17 @@ const Jobs = ({ navigation }) => {
     openings: 5,
     isAlreadyApplied: false,
     jobId: 1,
-    navigation,
-  };
-
-  const [showF, setShowF] = useState(false);
-
-  const handelFilter = () => {
-    console.log("filter");
+    navigation
   };
 
   return (
     <ScrollView className="relative">
-      <Header isLogin={true}></Header>
-
       <Image
-        source={require("../../assets/banner.png")}
-        className="h-[95px] w-full object-cover object-center"
+        source={require("../../assets/jobBanner.jpg")}
+        className="h-[83px] w-full "
       ></Image>
-
       <CoolDrawer />
-
-      <View className="px-[3px]">
+      <View className="flex items-center">
         <JobCard {...jobData}></JobCard>
         <JobCard {...jobData}></JobCard>
         <JobCard {...jobData}></JobCard>
@@ -73,17 +62,18 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
-  navigation,
+  navigation
 }) => {
   return (
     <View
       style={{
         backgroundColor: "#FFFFFF",
-        width: "100%",
+        width: "95%",
         padding: 20,
         borderRadius: 2,
-        marginBottom: 5,
+        marginBottom: 10,
       }}
+      className="rounded-lg shadow-lg"
     >
       <View
         style={{
@@ -113,7 +103,7 @@ const JobCard = ({
             justifyContent: "",
             marginBottom: 0,
           }}
-          className="flex gap-2"
+          className="flex gap-2 justify-start items-start"
         >
           <View
             style={{
@@ -153,18 +143,17 @@ const JobCard = ({
               alignItems: "center",
               marginBottom: 5,
             }}
+            className="px-1"
           >
-            <FontAwesome
-              className="ml-[10px]"
-              name="rupee"
-              size={16}
-              color="#8A8A8A"
-            />
+            <FontAwesome className="" name="rupee" size={16} color="#8A8A8A" />
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
               {salary} / Per Year
             </Text>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            className="px-1"
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
             <FontAwesome name="shopping-bag" size={16} color="#8A8A8A" />
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
               {openings} Openings

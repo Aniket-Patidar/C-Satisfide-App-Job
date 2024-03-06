@@ -21,9 +21,6 @@ const Header = ({ navigation, isLogin }) => {
     <View className="w-[100%] relative px-[0.5px] py-2">
       <View className="flex flex-row align-center justify-between h-fit">
         <View className=" flex flex-row align-center justify-center my-auto ">
-          <TouchableOpacity>
-            <Entypo name="menu" size={24} color="black" />
-          </TouchableOpacity>
           <Text className="pt-[2px]">
             <Text
               style={{ color: `${COLORS.primary}` }}

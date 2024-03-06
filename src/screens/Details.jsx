@@ -36,9 +36,7 @@ const Details = () => {
     jobId: 1,
   };
 
-  const handleApply = () => {
-    console.log("deatils");
-  };
+
 
   return (
     <ScrollView>
