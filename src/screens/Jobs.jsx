@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../component/Header";
 import {
   View,
   Text,
@@ -9,7 +8,9 @@ import {
   TextInput,
   Animated,
 } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
+
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -29,7 +30,7 @@ const Jobs = ({ navigation }) => {
     openings: 5,
     isAlreadyApplied: false,
     jobId: 1,
-    navigation
+    navigation,
   };
 
   return (
@@ -62,7 +63,7 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
-  navigation
+  navigation,
 }) => {
   return (
     <View
@@ -83,17 +84,21 @@ const JobCard = ({
           marginBottom: 10,
         }}
       >
-        <View className=" border-[#c7c4c4] w-[34%] border-[1px] rounded-sm flex items-center px-1 py-[2px]">
-          <Text className="text-[10px] text-[#5794FF]">Actively hiring</Text>
+        <View className="flex flex-row justify-between items-center">
+          <View>
+            <Text
+              style={{ fontSize: 14, fontWeight: "bold" }}
+              className="my-1 text-[#484848]"
+            >
+              {title}
+            </Text>
+            <Text className="text-[12px] opacity-[.5]">INEXT ETS</Text>
+          </View>
+          <Image
+            source={require("../../assets/google.png")}
+            className="w-[22px] h-[22px]"
+          />
         </View>
-        <Text
-          style={{ fontSize: 14, fontWeight: "bold" }}
-          className="my-1 text-[#484848]"
-        >
-          {title}
-        </Text>
-        <Text className="text-[12px] opacity-[.5]">INEXT ETS</Text>
-        <Image source={{ uri: "../.../../../assets/2.webp" }} />
       </View>
 
       <View style={{ marginBottom: 0 }}>
@@ -143,18 +148,18 @@ const JobCard = ({
               alignItems: "center",
               marginBottom: 5,
             }}
-            className="px-1"
+            className=""
           >
-            <FontAwesome className="" name="rupee" size={16} color="#8A8A8A" />
+            <MaterialIcons name="currency-rupee" size={16} color="#8A8A8A" />
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
               {salary} / Per Year
             </Text>
           </View>
           <View
-            className="px-1"
+            className=""
             style={{ flexDirection: "row", alignItems: "center" }}
           >
-            <FontAwesome name="shopping-bag" size={16} color="#8A8A8A" />
+            <SimpleLineIcons name="people" size={16} color="#8A8A8A" />
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
               {openings} Openings
             </Text>
@@ -187,7 +192,6 @@ const JobCard = ({
         )} */}
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("Details")}
           style={{
             borderWidth: 1,
             borderColor: "#5794FF",
@@ -198,7 +202,12 @@ const JobCard = ({
           }}
           className="bg-[#008BDC]"
         >
-          <Text style={{ color: "white", fontSize: 12 }}>View details</Text>
+          <Text
+            style={{ color: "white", fontSize: 12 }}
+            onPress={() => navigation.navigate("Details")}
+          >
+            Details
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

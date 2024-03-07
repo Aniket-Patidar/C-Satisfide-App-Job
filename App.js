@@ -12,6 +12,8 @@ import WelcomeScreen from "./src/screens/Welcome";
 import LoginScreen from "./src/screens/Login";
 import RegisterScreen from "./src/screens/Register";
 import AppliedScreen from "./src/screens/Applied";
+import ResumaScreen from "./src/screens/Resuma.jsx";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +26,7 @@ function TabNavigator() {
         name="Home"
         component={HomeScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Image source={require("./assets/home.png")} className="w-[22px] h-[22px]"></Image>
           ),
@@ -36,6 +39,7 @@ function TabNavigator() {
         name="Jobs"
         component={JobsScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Image source={require("./assets/job.png")} className="w-[22px] h-[22px]"></Image>
           ),
@@ -50,6 +54,7 @@ function TabNavigator() {
         name="Applied"
         component={AppliedScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Image source={require("./assets/save.png")} className="w-[20px] h-[20px]"></Image>
           ),
@@ -62,6 +67,7 @@ function TabNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Image source={require("./assets/profile.png")} className="w-[22px] h-[22px]"></Image>
           ),
@@ -95,7 +101,10 @@ export default function App() {
             </>
           )}
           <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
+          <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
         </Stack.Navigator>
+
+        {/* Resuma */}
       </SafeAreaView>
     </NavigationContainer>
   );

@@ -1,9 +1,7 @@
-// Import necessary modules from React
 import React from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 
-// Define the JobSeekerProfile component
-const JobSeekerProfile = () => {
+const JobSeekerProfile = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileContainer}>
@@ -26,9 +24,29 @@ const JobSeekerProfile = () => {
         <Text style={styles.experience}>
           2 years as a React Native Developer at ABC Company
         </Text>
-        <TouchableOpacity style={styles.button} className="bg-[#2ea1e0] py-2 rounded-md">
-          <Text style={styles.buttonText} className="text-center text-white font-semibold ">
+
+        <TouchableOpacity
+          style={styles.button}
+          className="bg-[#2ea1e0] py-2 rounded-md mb-2"
+        >
+          <Text
+            style={styles.buttonText}
+            className="text-center text-white font-semibold "
+          >
             Create Resume
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Resuma")}
+          className="bg-[#2ea1e0] py-2 rounded-md"
+        >
+          <Text
+            style={styles.buttonText}
+            className="text-center text-white font-semibold "
+          >
+            upload Resume
           </Text>
         </TouchableOpacity>
       </View>
@@ -36,7 +54,6 @@ const JobSeekerProfile = () => {
   );
 };
 
-// Define styles using Tailwind CSS classes
 const styles = {
   container: {
     flexGrow: 1,
@@ -88,5 +105,4 @@ const styles = {
   },
 };
 
-// Export the JobSeekerProfile component
 export default JobSeekerProfile;

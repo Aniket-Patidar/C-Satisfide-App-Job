@@ -8,6 +8,8 @@ import {
   TextInput,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { CheckBox } from "react-native-web";
+import Checkbox from "expo-checkbox";
 
 const CoolDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -45,28 +47,28 @@ const CoolDrawer = () => {
               ></TextInput>
             </View>
 
-            <View className="my-1">
+            <View className="my-1 space-y-1">
               <Text>Location</Text>
               <TextInput
-                className="border-[1px] w-[90%]  border-[#b4b1b1] rounded-sm  text-start px-1 "
+                className="border-[1px] w-[90%]  border-[#b4b1b1] text-start px-1 rounded-sm"
                 placeholder="please select location"
               ></TextInput>
             </View>
 
-            <View className="my-1">
+            <View className="my-1 flex flex-row items-center space-x-1">
+              <Checkbox className="w-[13px] h-[13px]" />
               <Text>Work from home</Text>
             </View>
 
-
-            <View className="my-1">
+            <View className="my-1 flex flex-row items-center space-x-1">
+              <Checkbox className="w-[13px] h-[13px]" />
               <Text>Part Time</Text>
             </View>
 
-            
-            <View className="my-2">
+            <View className="my-1 flex flex-row items-center space-x-1">
+              <Checkbox className="w-[13px] h-[13px]" />
               <Text>Include All internship</Text>
             </View>
-
           </View>
         </View>
       </Modal>
