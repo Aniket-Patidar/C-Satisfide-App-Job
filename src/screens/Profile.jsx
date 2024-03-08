@@ -27,6 +27,7 @@ const JobSeekerProfile = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.button}
+          onPress={() => navigation.navigate("Resuma")}
           className="bg-[#2ea1e0] py-2 rounded-md mb-2"
         >
           <Text
@@ -39,7 +40,6 @@ const JobSeekerProfile = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Resuma")}
           className="bg-[#2ea1e0] py-2 rounded-md"
         >
           <Text

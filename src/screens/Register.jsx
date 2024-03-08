@@ -19,8 +19,6 @@ const Register = () => {
   const route = useRoute(); // Access the route object
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const { setUserLoggedIn } = route.params;
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -199,7 +197,7 @@ const Register = () => {
               marginTop: 18,
               marginBottom: 4,
             }}
-            onPress={() => setUserLoggedIn(true)}
+            // onPress={() => setUserLoggedIn(true)}
           />
         </View>
         <View
