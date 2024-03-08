@@ -23,6 +23,7 @@ import DashScreen from "./src/dashbord/DashBord";
 import AllJobsScreen from "./src/dashbord/AllJobs";
 import CreateJobScreen from "./src/dashbord/CreateJob";
 import Profile from "./src/dashbord/Profile";
+import { View } from 'react-native-web';
 
 
 const Stack = createNativeStackNavigator();
@@ -90,13 +91,12 @@ function TabNavigator() {
   );
 }
 
-
 function MyDrawer() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Dashboard" component={DashScreen} />
+      <Drawer.Screen name="Create Job" component={CreateJobScreen} />
       <Drawer.Screen name="Jobs" component={AllJobsScreen} />
-      <Drawer.Screen name="Add Job" component={CreateJobScreen} />
       <Drawer.Screen name="Profile" component={Profile} />
     </Drawer.Navigator>
   );
