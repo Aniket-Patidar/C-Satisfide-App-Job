@@ -1,258 +1,81 @@
 import React from "react";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
-import { Octicons, AntDesign } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-const ProductTable = () => {
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Alert,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import Filter from "../component/DrawerFilter";
+const ProductTable = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginVertical: 5,
-          gap: 2,
-        }}
-      >
-        <View
-          style={[styles.card, { backgroundColor: "#124076", display: "flex" }]}
-          className="space-x-2"
-        >
-          <Octicons name="person-add" size={23} color="white" />
-          <Text style={{ color: "white", fontWeight: "800", fontSize: 16 }}>
-            76 Applications
-          </Text>
-        </View>
-        <View
-          style={[styles.card, { backgroundColor: "#A95E5E" }]}
-          className="space-x-2"
-        >
-          <AntDesign name="linechart" size={23} color="white" />
-          <Text style={{ color: "white", fontWeight: "800", fontSize: 16 }}>
-            500 Job Post{"    "}
-          </Text>
-        </View>
-        <View
-          style={[styles.card, { backgroundColor: "#6196A6" }]}
-          className="space-x-2"
-        >
-          <FontAwesome name="handshake-o" size={23} color="white" />
-          <Text style={{ color: "white", fontWeight: "800", fontSize: 16 }}>
-            76 Applications
-          </Text>
-        </View>
+      <Image
+        source={require("../../assets/graph.png")}
+        className="w-[160px] mt-6 h-[100px] mx-auto"
+      ></Image>
+
+      <Text className="mx-auto w-[70%] text-center opacity-[.5] mb-2">
+        Total <Text className="text-blue-900">56</Text> Applications on{" "}
+        <Text className="text-blue-900">506</Text> jobs Aniket Patidar
+      </Text>
+
+      <Filter />
+
+      <View className="flex flex-row justify-between px-3 py-3">
+        <Text className="font-semibold text-md">Application</Text>
+        <Text className="border-[.2px] px-2 rounded-full items-center justify-center  text-[12px] opacity-[.5]">
+          last Week
+        </Text>
       </View>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView horizontal={true} className="px-[10px]">
           <View style={styles.table}>
-            <View style={styles.thead}>
-              <View style={styles.tr}>
-                <View style={styles.th}>
-                  <Text style={styles.heading}>Title</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.heading}>Name</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.heading}>Email</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.heading}>Contract</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.heading}>Status</Text>
-                </View>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.header}>Job</Text>
+              <Text style={styles.header}>Name</Text>
+              <Text style={styles.header} className="">
+                Status
+              </Text>
             </View>
-            <View style={styles.tr}>
-              <View style={styles.th}>
-                <Text>java</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Aniket</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell}>web Developer</Text>
+              <Text style={styles.cell}>Aniket Patidar </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
-            <View style={[styles.tr, styles.evenRow]}>
-              <View style={styles.th}>
-                <Text>web</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Prince</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell} className="text-sm">
+                web Developer
+              </Text>
+              <Text style={styles.cell} className="text-[13px]">
+                {" "}
+                Aniket Patidar{" "}
+              </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
-            <View style={styles.tr}>
-              <View style={styles.th}>
-                <Text>Pytho</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Ram</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell}>web Developer</Text>
+              <Text style={styles.cell}>Aniket Patidar </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
-            <View style={[styles.tr, styles.evenRow]}>
-              <View style={styles.th}>
-                <Text>java</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Aniket</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell}>web Developer</Text>
+              <Text style={styles.cell}>Aniket Patidar </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
-            <View style={styles.tr}>
-              <View style={styles.th}>
-                <Text>web</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Prince</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell}>web Developer</Text>
+              <Text style={styles.cell}>Aniket Patidar </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
-            <View style={[styles.tr, styles.evenRow]}>
-              <View style={styles.th}>
-                <Text>Pytho</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Ram</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
-            </View>
-            <View style={styles.tr}>
-              <View style={styles.th}>
-                <Text>Pytho</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Ram</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
-            </View>
-            <View style={[styles.tr, styles.evenRow]}>
-              <View style={styles.th}>
-                <Text>java</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Aniket</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
-            </View>
-            <View style={styles.tr}>
-              <View style={styles.th}>
-                <Text>web</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Prince</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
-            </View>
-            <View style={[styles.tr, styles.evenRow]}>
-              <View style={styles.th}>
-                <Text>Pytho</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>Ram</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>anike..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text>62663..</Text>
-              </View>
-              <View style={styles.th}>
-                <Text numberOfLines={1} ellipsizeMode="tail">
-                  pending
-                </Text>
-              </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cell}>web Developer</Text>
+              <Text style={styles.cell}>Aniket Patidar </Text>
+              <Text style={styles.cell}>Pending</Text>
             </View>
           </View>
         </ScrollView>
@@ -260,49 +83,19 @@ const ProductTable = () => {
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: "200vh",
     backgroundColor: "white",
   },
-  table: {
-    width: "100%",
-  },
-  thead: {
-    backgroundColor: "#124076",
-  },
-  tr: {
+  table: { flexDirection: "column", borderWidth: 1, borderColor: "#e2e8f0" },
+  tableRow: {
     flexDirection: "row",
-  },
-  evenRow: {
-    backgroundColor: "#f2f2f2",
-  },
-  heading: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  th: {
-    padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    borderColor: "#e2e8f0",
   },
-  td: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  card: {
-    height: 90,
-    width: 300,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 2,
-    borderRadius: 6,
-  },
+  header: { flex: 1, padding: 10, fontWeight: "bold", textAlign: "center" },
+  cell: { flex: 1, padding: 10, textAlign: "center" },
 });
-
 export default ProductTable;

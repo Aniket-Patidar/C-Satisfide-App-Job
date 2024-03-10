@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Image } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import COLORS from "../constants/colors";
+import { COLORS } from "../constants/colors";
 import Button from "../component/Button";
 
 const Welcome = ({ navigation }) => {
@@ -130,14 +130,28 @@ const Welcome = ({ navigation }) => {
             </Text>
           </View>
 
-          <Button
-            title="Join Now"
-            onPress={() => navigation.navigate("Register")}
-            style={{
-              marginTop: 5,
-              width: "100%",
-            }}
-          />
+          <View className="flex flex-row">
+            <Button
+              title="Student"
+              onPress={() =>
+                navigation.navigate("Register", { role: "Student" })
+              }
+              style={{
+                marginTop: 5,
+                width: "50%",
+              }}
+            />
+            <Button
+              title="Employee"
+              onPress={() =>
+                navigation.navigate("Register", { role: "Employee" })
+              }
+              style={{
+                marginTop: 5,
+                width: "50%",
+              }}
+            />
+          </View>
 
           <View
             style={{
@@ -152,20 +166,8 @@ const Welcome = ({ navigation }) => {
                 color: COLORS.white,
               }}
             >
-              Already have an account ?
+              Find your dream job on our app
             </Text>
-            <Pressable onPress={() => navigation.navigate("Login")}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: COLORS.white,
-                  fontWeight: "bold",
-                  marginLeft: 4,
-                }}
-              >
-                Login
-              </Text>
-            </Pressable>
           </View>
         </View>
       </View>

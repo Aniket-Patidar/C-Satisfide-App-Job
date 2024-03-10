@@ -37,7 +37,7 @@ const JobForm = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20 }}>
+    <ScrollView  className="bg-white" contentContainerStyle={{ padding: 20 }}>
       <View>
         <Text style={styles.label}>Title:</Text>
         <TextInput

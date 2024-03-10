@@ -20,7 +20,7 @@ const CoolDrawer = () => {
 
   return (
     <View style={styles.container}>
-      <View className="bg-[#F8F8F8] w-full">
+      <View className="w-full">
         <TouchableOpacity
           onPress={toggleDrawer}
           className="text-md border-[0.5px] border-[#c7c4c4] bg-white px-2 py-1 flex flex-row items-center w-[20%] mx-auto my-3 rounded-sm"

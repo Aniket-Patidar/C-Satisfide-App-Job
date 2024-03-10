@@ -21,7 +21,7 @@ const AllJobs = ({ navigate }) => {
   const jobData = {
     title: "Software Engineer",
     skills: ["JavaScript", "React", "Node.js"],
-    employer: { organisationlogo: { url: "https://example.com/logo1.png" } },
+    employer: { organisationlogo: { url: "../../assets/facbook.webp" } },
     location: "New York",
     jobType: "Full-time",
     salary: 100000,
@@ -32,7 +32,7 @@ const AllJobs = ({ navigate }) => {
 
   return (
     <ScrollView className="relative">
-      <View className="flex items-center">
+      <View className="flex items-center px-3 py-3">
         <JobCard {...jobData}></JobCard>
         <JobCard {...jobData}></JobCard>
         <JobCard {...jobData}></JobCard>
@@ -86,7 +86,10 @@ const JobCard = ({
             </Text>
             <Text className="text-[12px] opacity-[.5]">INEXT ETS</Text>
           </View>
-          <Image source={require("../../assets/google.png")} style={{width:"40px" ,height:"40px"}} />
+          <Image
+            source={require("../../assets/google.png")}
+            style={{ width: "40px", height: "40px" }}
+          />
         </View>
       </View>
 
@@ -175,7 +178,7 @@ const JobCard = ({
           className="bg-[#008BDC]"
         >
           <Text
-            style={{ color: "#008BDC", fontSize: 12 }}
+            style={{ color: "white", fontSize: 12 }}
             onPress={() => navigation.navigate("Details")}
           >
             Details
