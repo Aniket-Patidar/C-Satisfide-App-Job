@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Button, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { createJobs } from "../redux/action/jobAction";
+import { setError, setJobCreated } from "../redux/sclice/JobSclice";
+import CustomInput from "../component/Dropdowns";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const JobForm = () => {
+  const dispatch = useDispatch();
+
+  const { error, job } = useSelector((e) => e.Jobs);
+
   const [formData, setFormData] = useState({
     title: "",
     skills: [],
-    jobType: "",
-    category: "",
+    jobType: "", //'In Office', 'Remote'
+    category: "", //'Internship', 'job'
     graduation: "",
     openings: "",
     description: "",
@@ -15,29 +24,69 @@ const JobForm = () => {
     location: "",
   });
 
-  const handleSkillChange = (newSkill) => {
-    if (newSkill.trim() !== "" && !formData.skills.includes(newSkill.trim())) {
-      setFormData({
-        ...formData,
-        skills: [...formData.skills, newSkill.trim()],
-      });
+  useEffect(() => {
+    if (job) {
+      alert("Job created successfully");
+    }
+  }, [job]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(setError(null));
+    }
+  }, [error]);
+
+  const [skillInput, setSkillInput] = useState("");
+  const [skills, setSkills] = useState([]);
+
+  const handleAddSkill = () => {
+    if (skillInput.trim() !== "") {
+      setSkills([...skills, skillInput]);
+      setSkillInput("");
     }
   };
 
   const handleRemoveSkill = (index) => {
-    const updatedSkills = [...formData.skills];
+    const updatedSkills = [...skills];
     updatedSkills.splice(index, 1);
-    setFormData({ ...formData, skills: updatedSkills });
+    setSkills(updatedSkills);
   };
 
   const handleSubmit = () => {
-    // Perform form submission logic here
-    // For demonstration, we'll just display the form data
-    console.log(formData);
+    if (
+      formData.title.trim() === "" ||
+      formData.jobType.trim() === "" ||
+      formData.category.trim() === "" ||
+      formData.graduation.trim() === "" ||
+      formData.openings.trim() === "" ||
+      formData.description.trim() === "" ||
+      formData.preferences.trim() === "" ||
+      formData.salary.trim() === "" ||
+      formData.location.trim() === "" ||
+      skills.length === 0
+    ) {
+      alert("Please fill in all fields and add at least one skill.");
+      return;
+    }
+
+    dispatch(createJobs({ ...formData, skills }));
+    setFormData({
+      title: "",
+      skills: [],
+      jobType: "", //'In Office', 'Remote'
+      category: "", //'Internship', 'job'
+      graduation: "",
+      openings: "",
+      description: "",
+      preferences: "",
+      salary: "",
+      location: "",
+    });
   };
 
   return (
-    <ScrollView  className="bg-white" contentContainerStyle={{ padding: 20 }}>
+    <ScrollView className="bg-white" contentContainerStyle={{ padding: 20 }}>
       <View>
         <Text style={styles.label}>Title:</Text>
         <TextInput
@@ -47,46 +96,43 @@ const JobForm = () => {
           placeholder="Title"
         />
       </View>
-      <View>
+      <View style={styles.container}>
         <Text style={styles.label}>Skills:</Text>
         <TextInput
           style={styles.input}
-          value={formData.skillInput}
-          onChangeText={handleSkillChange}
+          value={skillInput}
+          onChangeText={setSkillInput}
           placeholder="Enter a skill and press Enter"
+          onSubmitEditing={handleAddSkill}
         />
-        <ScrollView horizontal>
-          {formData.skills.map((skill, index) => (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {skills.map((skill, index) => (
             <View
               key={index}
-              style={{ flexDirection: "row", alignItems: "center" }}
+              className="flex flex-row gap-1 bg-[#dadada] text-sm px-1 py-1 mb-2 ml-1"
+              style={styles.skillTab}
             >
               <Text>{skill}</Text>
-              <Button title="Remove" onPress={() => handleRemoveSkill(index)} />
+              <TouchableOpacity onPress={() => handleRemoveSkill(index)}>
+                <Text>x</Text>
+              </TouchableOpacity>
             </View>
           ))}
         </ScrollView>
       </View>
+      <CustomInput
+        label="Job Type"
+        options={["In Office", "Remote"]}
+        onSelect={(option) => setFormData({ ...formData, jobType: option })}
+      />
+
+      <CustomInput
+        label="Category"
+        options={["Internship", "Job"]}
+        onSelect={(option) => setFormData({ ...formData, category: option })}
+      />
       <View>
-        <Text style={styles.label}>Job Type:</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.jobType}
-          onChangeText={(text) => setFormData({ ...formData, jobType: text })}
-          placeholder="Job Type"
-        />
-      </View>
-      <View >
-        <Text style={styles.label}>Category:</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.category}
-          onChangeText={(text) => setFormData({ ...formData, category: text })}
-          placeholder="Category"
-        />
-      </View>
-      <View>
-        <Text  style={styles.label}>Graduation:</Text>
+        <Text style={styles.label}>Graduation:</Text>
         <TextInput
           style={styles.input}
           value={formData.graduation}
@@ -105,7 +151,7 @@ const JobForm = () => {
           placeholder="Openings"
         />
       </View>
-      <View >
+      <View>
         <Text style={styles.label}>Description:</Text>
         <TextInput
           style={styles.input}
@@ -116,7 +162,7 @@ const JobForm = () => {
           placeholder="Description"
         />
       </View>
-      <View >
+      <View>
         <Text style={styles.label}>Preferences:</Text>
         <TextInput
           style={styles.input}
@@ -136,7 +182,7 @@ const JobForm = () => {
           placeholder="Salary"
         />
       </View>
-      <View >
+      <View>
         <Text style={styles.label}>Location:</Text>
         <TextInput
           style={styles.input}
@@ -157,7 +203,7 @@ const styles = {
     fontSize: 15,
     marginBottom: 5,
     color: "#333",
-    fontWeight:500,
+    fontWeight: 500,
   },
 
   input: {

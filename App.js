@@ -14,6 +14,7 @@ import { Provider, useSelector } from 'react-redux';
 import store from './store';
 import TabNavigator from './src/constants/TabNavigation.js';
 import { useEmployeeLoggedIn, useUserLoggedIn } from './src/constants/auth.js';
+import DetailsEmployee from './src/dashbord/DetailsEmployee.jsx';
 
 export default function App() {
 
@@ -45,7 +46,9 @@ export default function App() {
               <Stack.Screen name="Register" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreen} options={{ headerShown: false }} />
             </>)
             }
+
             <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
+            <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: true }} />
             <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
           </Stack.Navigator>
         </SafeAreaView>

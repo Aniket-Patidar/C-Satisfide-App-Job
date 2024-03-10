@@ -6,7 +6,7 @@ import { useEmployeeLoggedIn } from '../../constants/auth';
 
 /* TODO */
 // const basePath = `"http://localhost:8080/employer`
-const basePath = "http://[2401:4900:1ca3:420e:c45d:2cc5:c87c:6463]:8080/employer";
+const basePath = "http://[2401:4900:1ca2:c4fc:f0dc:25dd:5376:10b1]:8080/employer";
 
 
 async function config() {
@@ -87,7 +87,6 @@ export const updateEmployee = (details) => async (dispatch) => {
     }
 }
 
-
 export const logoutEmployee = (userData) => async (dispatch) => {
     return;
     try {
@@ -109,8 +108,7 @@ export const logoutEmployee = (userData) => async (dispatch) => {
 }
 
 
-
-
+ 
 /*TODO  */
 export const avatarEmployee = (fileData) => async (dispatch) => {
     try {
@@ -133,7 +131,6 @@ export const avatarEmployee = (fileData) => async (dispatch) => {
     }
 }
 
-/* TODO */
 export const allApplications = (filters = {}) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -146,8 +143,6 @@ export const allApplications = (filters = {}) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "Request failed"));
     }
 };
-
-
 
 export const updateStatus = (requestData) => async (dispatch) => {
     try {

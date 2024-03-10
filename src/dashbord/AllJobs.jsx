@@ -7,7 +7,7 @@ import {
   TextInput,
   Animated,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import {
@@ -17,7 +17,18 @@ import {
 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { allJobs } from "../redux/action/jobAction";
 const AllJobs = ({ navigate }) => {
+  const { jobs, loading, error } = useSelector((e) => e.Jobs);
+  const dispatch = useDispatch();
+
+  console.log(jobs);
+
+  useEffect(() => {
+    dispatch(allJobs());
+  }, []);
+
   const jobData = {
     title: "Software Engineer",
     skills: ["JavaScript", "React", "Node.js"],
@@ -33,11 +44,14 @@ const AllJobs = ({ navigate }) => {
   return (
     <ScrollView className="relative">
       <View className="flex items-center px-3 py-3">
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
+        {loading && (
+          <>
+            <Text>Loading</Text>
+          </>
+        )}
+        {jobs.map((e, i) => {
+          return <JobCard {...e}></JobCard>;
+        })}
       </View>
     </ScrollView>
   );
@@ -55,6 +69,7 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
+  _id,
 }) => {
   const navigation = useNavigation();
   return (
@@ -179,7 +194,7 @@ const JobCard = ({
         >
           <Text
             style={{ color: "white", fontSize: 12 }}
-            onPress={() => navigation.navigate("Details")}
+            onPress={() => navigation.navigate("Job Details", { id: _id })}
           >
             Details
           </Text>
