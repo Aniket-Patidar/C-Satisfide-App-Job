@@ -134,7 +134,7 @@ const Welcome = ({ navigation }) => {
             <Button
               title="Student"
               onPress={() =>
-                navigation.navigate("Register", { role: "Student" })
+                navigation.navigate("Register Student", { role: "Student" })
               }
               style={{
                 marginTop: 5,
@@ -144,7 +144,7 @@ const Welcome = ({ navigation }) => {
             <Button
               title="Employee"
               onPress={() =>
-                navigation.navigate("Register", { role: "Employee" })
+                navigation.navigate("Register Employee", { role: "Employee" })
               }
               style={{
                 marginTop: 5,

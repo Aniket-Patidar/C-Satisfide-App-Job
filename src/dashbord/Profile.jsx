@@ -16,7 +16,9 @@ import UploadAvatar from "../component/UploadAvatar";
 
 const Profile = () => {
   const { employee, error, loading } = useSelector((e) => e.employee);
+  
   const [editMode, setEditMode] = useState(false);
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -24,6 +26,7 @@ const Profile = () => {
     contact: "",
     organisationname: "",
   });
+  
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -21,9 +21,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { allJobs } from "../redux/action/jobAction";
 const AllJobs = ({ navigate }) => {
   const { jobs, loading, error } = useSelector((e) => e.Jobs);
-  const dispatch = useDispatch();
+  const { employee } = useSelector((e) => e.employee);
 
-  console.log(jobs);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(allJobs());
@@ -49,7 +49,7 @@ const AllJobs = ({ navigate }) => {
             <Text>Loading</Text>
           </>
         )}
-        {jobs.map((e, i) => {
+        {jobs?.map((e, i) => {
           return <JobCard {...e}></JobCard>;
         })}
       </View>
@@ -99,7 +99,11 @@ const JobCard = ({
             >
               {title}
             </Text>
-            <Text className="text-[12px] opacity-[.5]">INEXT ETS</Text>
+            {/* {employee && (
+              <Text className="text-[12px] text-black">
+                {employee?.organisationname}
+              </Text>
+            )} */}
           </View>
           <Image
             source={require("../../assets/google.png")}

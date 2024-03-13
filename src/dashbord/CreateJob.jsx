@@ -24,11 +24,11 @@ const JobForm = () => {
     location: "",
   });
 
-  useEffect(() => {
-    if (job) {
-      alert("Job created successfully");
-    }
-  }, [job]);
+  // useEffect(() => {
+  //   if (job) {
+  //     alert("Job created successfully");
+  //   }
+  // }, [job]);
 
   useEffect(() => {
     if (error) {
@@ -106,7 +106,7 @@ const JobForm = () => {
           onSubmitEditing={handleAddSkill}
         />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {skills.map((skill, index) => (
+          {skills?.map((skill, index) => (
             <View
               key={index}
               className="flex flex-row gap-1 bg-[#dadada] text-sm px-1 py-1 mb-2 ml-1"
@@ -128,7 +128,7 @@ const JobForm = () => {
 
       <CustomInput
         label="Category"
-        options={["Internship", "Job"]}
+        options={["Internship", "job"]}
         onSelect={(option) => setFormData({ ...formData, category: option })}
       />
       <View>

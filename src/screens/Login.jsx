@@ -15,15 +15,18 @@ import Button from "../component/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { loginEmployee } from "../redux/action/employeeAction";
 import { setError } from "../redux/sclice/employeeSclice";
-import { getToken, config, setToken, clearToken } from '../constants/handelToken'
+import { loginStudent } from "../redux/action/studentAction";
 
 const Login = ({ navigation, route }) => {
+  //student
+
+  const { student, error } = useSelector((e) => e.student);
+
+
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch()
-  const { setUserLoggedIn, setEmployeeLoggedIn } = route.params;
-
-  const { employee, error, loading } = useSelector((e) => e.employee);
+  const dispatch = useDispatch();
+  const { setUserLoggedIn } = route.params;
 
   const [userData, setUserData] = useState({
     email: "",
@@ -42,22 +45,21 @@ const Login = ({ navigation, route }) => {
       alert("Please fill out all required fields.");
       return;
     }
-    dispatch(loginEmployee(userData));
+    dispatch(loginStudent(userData))
   };
-
+  
   useEffect(() => {
-    if (employee) {
-      setEmployeeLoggedIn(true);
+    if (student) {
+      setUserLoggedIn(true);
     }
-  }, [employee]);
-
+  }, [student]);
+  
   useEffect(() => {
     if (error) {
       alert(error);
       dispatch(setError(null));
     }
   }, [error]);
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -80,7 +82,7 @@ const Login = ({ navigation, route }) => {
               color: COLORS.black,
             }}
           >
-            Hello again you have been missed!
+            Hello again you have been missed! Student
           </Text>
         </View>
 
@@ -291,7 +293,9 @@ const Login = ({ navigation, route }) => {
           <Text style={{ fontSize: 16, color: COLORS.black }}>
             Don't have an account ?{" "}
           </Text>
-          <Pressable onPress={() => navigation.navigate("Register")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Register Student")}
+          >
             <Text
               style={{
                 fontSize: 16,
@@ -302,7 +306,7 @@ const Login = ({ navigation, route }) => {
             >
               Register
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

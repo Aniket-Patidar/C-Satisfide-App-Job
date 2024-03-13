@@ -8,6 +8,9 @@ import {
   TextInput,
   Animated,
 } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
@@ -18,34 +21,59 @@ import {
 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import CoolDrawer from "../component/DrawerFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { AllJobs } from "../redux/action/studentAction";
+import { useNavigation } from "@react-navigation/native";
 
 const Jobs = ({ navigation }) => {
-  const jobData = {
-    title: "Software Engineer",
-    skills: ["JavaScript", "React", "Node.js"],
-    employer: { organisationlogo: { url: "https://example.com/logo1.png" } },
-    location: "New York",
-    jobType: "Full-time",
-    salary: 100000,
-    openings: 5,
-    isAlreadyApplied: false,
-    jobId: 1,
-    navigation,
-  };
+  const dispatch = useDispatch();
+
+  const { allJobs, error } = useSelector((e) => e.student);
+  useEffect(() => {
+    dispatch(AllJobs());
+  }, []);
 
   return (
     <ScrollView className="relative">
+      {/* <View>
+        
+        <CoolDrawer />
+      </View> */}
+
+      <View
+        className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+      >
+        <View className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white">
+          <EvilIcons
+            className="mx-2 px-3 font-semibold"
+            name="search"
+            size={20}
+            color="gray"
+          />
+          <TextInput
+            className="text-[11px]"
+            placeholder="Search your dream job"
+          ></TextInput>
+        </View>
+
+        <View
+          className="w-[30px] flex items-center justify-center
+             h-[30px] bg-white  opacity-[0.5] rounded-md"
+        >
+          <FontAwesome name="filter" size={16} color="black" />
+        </View>
+      </View>
+
       <Image
-        source={require("../../assets/jobBanner.jpg")}
-        className="h-[83px] w-full "
+        source={require("../../assets/banner/Banner1.png")}
+        className="h-[83px] w-full"
       ></Image>
-      <CoolDrawer />
-      <View className="flex items-center">
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
+
+      <View className="flex items-center my-[12px]">
+        {allJobs &&
+          allJobs.map((e) => {
+            return <JobCard {...e}></JobCard>;
+          })}
       </View>
     </ScrollView>
   );
@@ -54,6 +82,7 @@ const Jobs = ({ navigation }) => {
 export default Jobs;
 
 const JobCard = ({
+  _id,
   title,
   skills,
   employer,
@@ -63,8 +92,8 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
-  navigation,
 }) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -92,10 +121,13 @@ const JobCard = ({
             >
               {title}
             </Text>
-            <Text className="text-[12px] opacity-[.5]">INEXT ETS</Text>
+            <Text className="text-[12px] opacity-[.5]">
+              {employer.organisationname}
+            </Text>
           </View>
           <Image
-            source={require("../../assets/google.png")}
+            // source={{ uri: `${employer?.organisationlogo.url}` }}
+            source={require("../../assets/Images/google.png")}
             className="w-[22px] h-[22px]"
           />
         </View>
@@ -128,7 +160,7 @@ const JobCard = ({
               {location}
             </Text>
           </View>
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -141,7 +173,7 @@ const JobCard = ({
               color="#8A8A8A"
             />
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{jobType}</Text>
-          </View>
+          </View> */}
           <View
             style={{
               flexDirection: "row",
@@ -155,7 +187,7 @@ const JobCard = ({
               {salary} / Per Year
             </Text>
           </View>
-          <View
+          {/* <View
             className=""
             style={{ flexDirection: "row", alignItems: "center" }}
           >
@@ -163,7 +195,7 @@ const JobCard = ({
             <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
               {openings} Openings
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
 
@@ -174,41 +206,20 @@ const JobCard = ({
           justifyContent: "flex-end",
         }}
       >
-        {/* {isAlreadyApplied ? (
-          <Text>Applied</Text>
-        ) : (
+        <View>
           <TouchableOpacity
-            onPress={() => console.log("Applied for job", jobId)}
-            style={{
-              borderWidth: 2,
-              borderColor: "#5794FF",
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-              borderRadius: 4,
-            }}
+            onPress={() => navigation.navigate("Job Details", { id: _id })}
           >
-            <Text style={{ color: "#5794FF", fontSize: 14 }}>Apply</Text>
+            <View className="flex flex-row items-center">
+              <Text className="text-[12px] text-[#2ea1e0] pr-1">
+                View Details
+              </Text>
+              <AntDesign name="arrowright" size={12} color="#2ea1e0" />
+            </View>
           </TouchableOpacity>
-        )} */}
+        </View>
 
-        <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: "#5794FF",
-            paddingVertical: 4,
-            paddingHorizontal: 8,
-            borderRadius: 4,
-            marginLeft: 10,
-          }}
-          className="bg-[#008BDC]"
-        >
-          <Text
-            style={{ color: "white", fontSize: 12 }}
-            onPress={() => navigation.navigate("Details")}
-          >
-            Details
-          </Text>
-        </TouchableOpacity>
+    
       </View>
     </View>
   );

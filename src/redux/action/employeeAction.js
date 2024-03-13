@@ -5,8 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEmployeeLoggedIn } from '../../constants/auth';
 
 /* TODO */
-// const basePath = `"http://localhost:8080/employer`
-const basePath = "http://[2401:4900:1ca2:c4fc:f0dc:25dd:5376:10b1]:8080/employer";
+const basePath = "http://[2401:4900:1c09:6413:3582:f936:9f60:dab2]:8080/employer";
 
 
 async function config() {
@@ -108,7 +107,6 @@ export const logoutEmployee = (userData) => async (dispatch) => {
 }
 
 
- 
 /*TODO  */
 export const avatarEmployee = (fileData) => async (dispatch) => {
     try {

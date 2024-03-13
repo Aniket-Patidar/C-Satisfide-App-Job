@@ -3,7 +3,7 @@ exports.setToken = async (value) => {
     try {
         await AsyncStorage.setItem('token', value);
     } catch (e) {
-        console.log("token error");
+        console.error("token error");
     }
 };
 exports.getToken = async () => {
@@ -12,9 +12,8 @@ exports.getToken = async () => {
         if (value !== null) {
             return value;
         }
-        console.log();
     } catch (e) {
-        console.log("token error");
+        console.error("token error");
     }
 };
 
@@ -22,7 +21,7 @@ exports.clearToken = async () => {
     try {
         await AsyncStorage.removeItem('token');
     } catch (e) {
-        console.log("clear token error");
+        console.error("clear token error");
     }
 };
 
@@ -35,6 +34,6 @@ exports.config = async () => {
             withCredentials: true
         };
     } catch (e) {
-        console.log("config error");
+        console.error("config error");
     }
 }

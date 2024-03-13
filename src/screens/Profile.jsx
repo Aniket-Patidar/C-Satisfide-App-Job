@@ -1,108 +1,156 @@
-import React from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Image } from "react-native";
+import UploadAvatar from "../component/UploadAvatar";
+import { avatarStudent, updateStudent } from "../redux/action/studentAction";
+import { useDispatch, useSelector } from "react-redux";
+import { setError, setUpdateStudent } from "../redux/sclice/studentSclice";
 
-const JobSeekerProfile = ({ navigation }) => {
+const Profile = () => {
+  const { student, error } = useSelector((e) => e.student);
+
+  const [editMode, setEditMode] = useState(false);
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({
+    firstname: "John",
+    lastname: "Doe",
+    email: "john.doe@example.com",
+    contact: "1234567890",
+  });
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    setEditMode(false);
+    dispatch(updateStudent(formData));
+  };
+
+  useEffect(() => {
+    if (student) {
+      setFormData({
+        firstname: student.firstname,
+        lastname: student.lastname,
+        email: student.email,
+        contact: student.contact,
+      });
+    }
+  }, [student]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(setError(null));
+    }
+  }, [error]);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <View style={styles.profileContainer}>
+        {/* <UploadAvatar
+          upload={avatarStudent}
+          data={
+            <Image
+              source={{ uri: student?.avatar.url }}
+              style={styles.profileImage}
+            />
+          }
+        /> */}
+
         <Image
+          source={{ uri: student?.avatar.url }}
           style={styles.profileImage}
-          source={require("../../assets/hero2.jpg")}
         />
-        <Text style={styles.name}>John Doe</Text>
-        <Text style={styles.email}>john.doe@example.com</Text>
-        <Text style={styles.phone}>123-456-7890</Text>
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.sectionTitle}>Skills</Text>
-        <Text style={styles.skills}>JavaScript, React Native, Node.js</Text>
-        <Text style={styles.sectionTitle}>Education</Text>
-        <Text style={styles.education}>
-          Bachelor's in Computer Science - XYZ University
-        </Text>
-        <Text style={styles.sectionTitle}>Experience</Text>
-        <Text style={styles.experience}>
-          2 years as a React Native Developer at ABC Company
-        </Text>
+        <Text style={styles.title}>Profile</Text>
+        {editMode ? (
+          <View>
+            <TextInput
+              style={styles.input}
+              value={formData.firstname}
+              onChangeText={(text) =>
+                setFormData({ ...formData, firstname: text })
+              }
+              placeholder="First Name"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.lastname}
+              onChangeText={(text) =>
+                setFormData({ ...formData, lastname: text })
+              }
+              placeholder="Last Name"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.email}
+              onChangeText={(text) => setFormData({ ...formData, email: text })}
+              placeholder="Email"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.contact}
+              onChangeText={(text) =>
+                setFormData({ ...formData, contact: text })
+              }
+              placeholder="Phone Number"
+            />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Resuma")}
-          className="bg-[#2ea1e0] py-2 rounded-md mb-2"
-        >
-          <Text
-            style={styles.buttonText}
-            className="text-center text-white font-semibold "
-          >
-            Create Resume
-          </Text>
-        </TouchableOpacity>
+            <Button onPress={handleSave} title="Save" />
+          </View>
+        ) : (
+          <View>
+            <Text style={styles.label}>First Name: {formData.firstname}</Text>
+            <Text style={styles.label}>Last Name: {formData.lastname}</Text>
+            <Text style={styles.label}>Email: {formData.email}</Text>
+            <Text style={styles.label}>Phone Number: {formData.contact}</Text>
 
-        <TouchableOpacity
-          style={styles.button}
-          className="bg-[#2ea1e0] py-2 rounded-md"
-        >
-          <Text
-            style={styles.buttonText}
-            className="text-center text-white font-semibold "
-          >
-            upload Resume
-          </Text>
-        </TouchableOpacity>
+            <Button onPress={handleEdit} title="Edit" />
+          </View>
+        )}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 20,
+    backgroundColor: "white", // Background color
   },
   profileContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    padding: 20,
   },
   profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 10,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    marginBottom: 20,
   },
-  name: {
-    fontSize: 20,
+  title: {
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 5,
+    color: "#333", // Text color
+    marginBottom: 20,
   },
-  email: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  phone: {
-    fontSize: 13,
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
     marginBottom: 10,
+    width: 250,
+    backgroundColor: "#fff",
+    color: "#333",
   },
-  detailsContainer: {
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
+  label: {
     fontSize: 15,
-    fontWeight: "bold",
     marginBottom: 10,
+    color: "#333",
   },
-  skills: {
-    fontSize: 13,
-    marginBottom: 10,
-  },
-  education: {
-    fontSize: 13,
-    marginBottom: 10,
-  },
-  experience: {
-    fontSize: 13,
-    marginBottom: 10,
-  },
-};
+});
 
-export default JobSeekerProfile;
+export default Profile;

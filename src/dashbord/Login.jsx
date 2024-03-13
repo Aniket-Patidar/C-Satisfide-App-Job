@@ -10,32 +10,24 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import Checkbox from "expo-checkbox";
+// import Checkbox from "expo-checkbox"
 import Button from "../component/Button";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
-import { registerEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
-import { setError } from "../redux/sclice/studentSclice";
-import { registerStudent } from "../redux/action/studentAction";
+import { loginEmployee } from "../redux/action/employeeAction";
+import { setError } from "../redux/sclice/employeeSclice";
+import { getToken, config, setToken, clearToken } from '../constants/handelToken'
 
-const Register = ({ route }) => {
-  //student
-
-  const { student, error } = useSelector((e) => e.student);
-  const { setUserLoggedIn } = route.params;
-
-  const navigation = useNavigation();
+const Login = ({ navigation, route }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const { setUserLoggedIn, setEmployeeLoggedIn } = route.params;
+
+  const { employee, error, loading } = useSelector((e) => e.employee);
 
   const [userData, setUserData] = useState({
-    contact: "",
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
   });
 
   const handleInputChange = (field, value) => {
@@ -45,25 +37,19 @@ const Register = ({ route }) => {
     });
   };
 
-  const handleSignUp = () => {
-    if (
-      !userData.firstname ||
-      !userData.email ||
-      !userData.contact ||
-      !userData.password ||
-      !userData.lastname
-    ) {
+  const handleSignIn = () => {
+    if (!userData.email || !userData.password) {
       alert("Please fill out all required fields.");
       return;
     }
-    dispatch(registerStudent(userData));
+    dispatch(loginEmployee(userData));
   };
 
   useEffect(() => {
-    if (student) {
-      setUserLoggedIn(true);
+    if (employee) {
+      setEmployeeLoggedIn(true);
     }
-  }, [student]);
+  }, [employee]);
 
   useEffect(() => {
     if (error) {
@@ -72,10 +58,11 @@ const Register = ({ route }) => {
     }
   }, [error]);
 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
-        <View style={{ marginVertical: 2 }}>
+        <View style={{ marginVertical: 22 }}>
           <Text
             style={{
               fontSize: 22,
@@ -84,90 +71,20 @@ const Register = ({ route }) => {
               color: COLORS.black,
             }}
           >
-          S Create Account
+            Hi Welcome Back ! 👋
           </Text>
-          {/* 
+
           <Text
             style={{
               fontSize: 16,
               color: COLORS.black,
             }}
           >
-            Connect with your friend today!
-          </Text> */}
-        </View>
-
-        <View style={{ marginBottom: 3 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            First Name
+            Hello again you have been missed!
           </Text>
-
-          <View
-            style={{
-              width: "100%",
-              height: 48,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="Enter your first name"
-              placeholderTextColor={COLORS.black}
-              keyboardType="text"
-              onChangeText={(text) => handleInputChange("firstname", text)}
-              style={{
-                width: "100%",
-              }}
-            />
-          </View>
         </View>
 
-        <View style={{ marginBottom: 3 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            Last Name
-          </Text>
-
-          <View
-            style={{
-              width: "100%",
-              height: 48,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="Enter your last name"
-              placeholderTextColor={COLORS.black}
-              keyboardType="text"
-              onChangeText={(text) => handleInputChange("lastname", text)}
-              style={{
-                width: "100%",
-              }}
-            />
-          </View>
-        </View>
-
-        <View style={{ marginBottom: 3 }}>
+        <View style={{ marginBottom: 12 }}>
           <Text
             style={{
               fontSize: 16,
@@ -202,42 +119,7 @@ const Register = ({ route }) => {
           </View>
         </View>
 
-        <View style={{ marginBottom: 3 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            contact
-          </Text>
-
-          <View
-            style={{
-              width: "100%",
-              height: 48,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="Enter your contact"
-              placeholderTextColor={COLORS.black}
-              keyboardType="numeric"
-              onChangeText={(text) => handleInputChange("contact", text)}
-              style={{
-                width: "100%",
-              }}
-            />
-          </View>
-        </View>
-
-        <View style={{ marginBottom: 3 }}>
+        <View style={{ marginBottom: 12 }}>
           <Text
             style={{
               fontSize: 16,
@@ -286,17 +168,32 @@ const Register = ({ route }) => {
           </View>
         </View>
 
-        <View>
-          <Button
-            title="Sign Up"
-            filled
-            style={{
-              marginTop: 18,
-              marginBottom: 4,
-            }}
-            onPress={handleSignUp}
-          />
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: 6,
+          }}
+        >
+          {/* <Checkbox
+                        style={{ marginRight: 8 }}
+                        value={isChecked}
+                        onValueChange={setIsChecked}
+                        color={isChecked ? COLORS.primary : undefined}
+                    /> */}
+          {/* 
+          <Text>Remenber Me</Text> */}
         </View>
+
+        <Button
+          title="Login"
+          filled
+          style={{
+            marginTop: 18,
+            marginBottom: 4,
+          }}
+          onPress={handleSignIn}
+        />
+
         <View
           style={{
             flexDirection: "row",
@@ -312,14 +209,7 @@ const Register = ({ route }) => {
               marginHorizontal: 10,
             }}
           />
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Login Student")}
-            className="flex flex-row gap-1"
-            style={{ fontSize: 14 }}
-          >
-            <Text>Already have an Account</Text>
-            <Text className="text-[#008BDC]">Login</Text>
-          </TouchableOpacity>
+          <Text style={{ fontSize: 14 }}>Or Login with</Text>
           <View
             style={{
               flex: 1,
@@ -330,71 +220,7 @@ const Register = ({ route }) => {
           />
         </View>
 
-        {/* <View
-          style={{
-            flexDirection: "row",
-            marginVertical: 6,
-          }}
-        >
-          <Checkbox
-            style={{ marginRight: 8 }}
-            value={isChecked}
-            onValueChange={setIsChecked}
-            color={isChecked ? COLORS.primary : undefined}
-          />
-
-          <Text>I aggree to the terms and conditions</Text>
-        </View> 
-
-         <View style={{ marginBottom: 3 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            Mobile Number
-          </Text>
-
-          <View
-            style={{
-              width: "100%",
-              height: 48,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="+91"
-              placeholderTextColor={COLORS.black}
-              keyboardType="numeric"
-              onChangeText={(text) => handleInputChange("contact", text)}
-              style={{
-                width: "12%",
-                borderRightWidth: 1,
-                borderLeftColor: COLORS.grey,
-                height: "100%",
-              }}
-            />
-
-            <TextInput
-              placeholder="Enter your phone number"
-              placeholderTextColor={COLORS.black}
-              keyboardType="numeric"
-              style={{
-                width: "80%",
-              }}
-            />
-          </View>
-        </View> 
-
-       <View
+        <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -463,9 +289,9 @@ const Register = ({ route }) => {
           }}
         >
           <Text style={{ fontSize: 16, color: COLORS.black }}>
-            Already have an account
+            Don't have an account ?{" "}
           </Text>
-          <Pressable onPress={() => navigation.navigate("Login")}>
+          <Pressable onPress={() => navigation.navigate("Register")}>
             <Text
               style={{
                 fontSize: 16,
@@ -474,13 +300,13 @@ const Register = ({ route }) => {
                 marginLeft: 6,
               }}
             >
-              Login
+              Register
             </Text>
           </Pressable>
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Register;
+export default Login;
