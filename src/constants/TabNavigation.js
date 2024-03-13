@@ -5,6 +5,7 @@ import ProfileScreen from "../screens/Profile.jsx"; // Import Profile screen
 import AppliedScreen from "../screens/Applied";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AntDesign } from '@expo/vector-icons';
 import { Image } from "react-native";
 const Tab = createBottomTabNavigator();
 function TabNavigator() {
@@ -16,7 +17,7 @@ function TabNavigator() {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <FontAwesome5 name="home" size={24} color="back" />
+                        <FontAwesome5 name="home" size={24} color="black" />
                     ),
                     tabBarLabel: () => null
                 }}
@@ -28,7 +29,7 @@ function TabNavigator() {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <Image source={require("../../assets/job.png")} className={`w-[22px] h-[22px]`}></Image>
+                        <AntDesign name="search1" size={24} color="black" />
                     ),
                     tabBarLabel: () => null
                 }}
@@ -55,8 +56,18 @@ function TabNavigator() {
                 component={ProfileScreen}
                 options={{
                     headerShown: false,
+                    headerTitle: 'Profile',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: 'black',
+                    },
+                    headerStyle: {
+                        backgroundColor: 'lightblue',
+                        // You can add more styles as needed
+                    },
                     tabBarIcon: ({ focused }) => (
-                        <Image source={require("../../assets/profile.png")} className="w-[22px] h-[22px]"></Image>
+                        <FontAwesome5 name="user-alt" size={24} color="black" />
                     ),
                     tabBarLabel: () => null
                 }}

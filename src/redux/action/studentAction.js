@@ -3,7 +3,7 @@ import { setAllJobs, setApplication, setError, setLoading, setPage, setStudent }
 import { getToken, config, setToken, clearToken } from '../../constants/handelToken'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const basePath = "http://[2401:4900:1c09:6413:3582:f936:9f60:dab2]:8080/user";
+const basePath = "http://[2401:4900:1c09:c764:3b18:a7d2:33df:6e79]:8080/user";
 
 
 export const loginStudent = (userData) => async (dispatch) => {

@@ -211,10 +211,10 @@ const JobCard = ({
             onPress={() => navigation.navigate("Job Details", { id: _id })}
           >
             <View className="flex flex-row items-center">
-              <Text className="text-[12px] text-[#2ea1e0] pr-1">
+              <Text className="text-[12px] text-[#4080ED]  pr-1">
                 View Details
               </Text>
-              <AntDesign name="arrowright" size={12} color="#2ea1e0" />
+              <AntDesign name="arrowright" size={12} color="#4080ED" />
             </View>
           </TouchableOpacity>
         </View>

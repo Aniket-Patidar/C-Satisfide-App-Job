@@ -4,7 +4,9 @@ import UploadAvatar from "../component/UploadAvatar";
 import { avatarStudent, updateStudent } from "../redux/action/studentAction";
 import { useDispatch, useSelector } from "react-redux";
 import { setError, setUpdateStudent } from "../redux/sclice/studentSclice";
-
+import { FontAwesome6 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 const Profile = () => {
   const { student, error } = useSelector((e) => e.student);
 
@@ -46,111 +48,60 @@ const Profile = () => {
   }, [error]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        {/* <UploadAvatar
-          upload={avatarStudent}
-          data={
-            <Image
-              source={{ uri: student?.avatar.url }}
-              style={styles.profileImage}
-            />
-          }
-        /> */}
+    <View className="bg-white min-h-[100vh] relative">
+      <Image
+        source={require("../../assets/banner/Banner1.png")}
+        className="w-full h-[140px]"
+      ></Image>
+      <View className=" w-full  flex-col ml-[30px] -mt-[40px]">
+        <View className="">
+          <Image
+            source={require("../../assets/Images/profile.webp")}
+            className="w-[80px] h-[80px] rounded-full"
+          ></Image>
+        </View>
+        <View className="flex w-fit">
+          <Text className="font-semibold text-lg">Haley Jessica </Text>
+          <Text className="text-sm font-[400] opacity-[0.3]">UX Designer</Text>
+        </View>
+      </View>
 
-        <Image
-          source={{ uri: student?.avatar.url }}
-          style={styles.profileImage}
-        />
-        <Text style={styles.title}>Profile</Text>
-        {editMode ? (
-          <View>
-            <TextInput
-              style={styles.input}
-              value={formData.firstname}
-              onChangeText={(text) =>
-                setFormData({ ...formData, firstname: text })
-              }
-              placeholder="First Name"
-            />
-            <TextInput
-              style={styles.input}
-              value={formData.lastname}
-              onChangeText={(text) =>
-                setFormData({ ...formData, lastname: text })
-              }
-              placeholder="Last Name"
-            />
-            <TextInput
-              style={styles.input}
-              value={formData.email}
-              onChangeText={(text) => setFormData({ ...formData, email: text })}
-              placeholder="Email"
-            />
-            <TextInput
-              style={styles.input}
-              value={formData.contact}
-              onChangeText={(text) =>
-                setFormData({ ...formData, contact: text })
-              }
-              placeholder="Phone Number"
-            />
-
-            <Button onPress={handleSave} title="Save" />
-          </View>
-        ) : (
-          <View>
-            <Text style={styles.label}>First Name: {formData.firstname}</Text>
-            <Text style={styles.label}>Last Name: {formData.lastname}</Text>
-            <Text style={styles.label}>Email: {formData.email}</Text>
-            <Text style={styles.label}>Phone Number: {formData.contact}</Text>
-
-            <Button onPress={handleEdit} title="Edit" />
-          </View>
-        )}
+      <View className="mt-[16px] space-y-3 px-[20px]">
+        <View className="flex flex-row items-center gap-1 mb-0">
+          <FontAwesome6 name="user-large" size={13} color="black" />
+          <Text className="font-semibold text-[16px]">Profile Details</Text>
+        </View>
+        <View>
+          <Text className="font-[500] text-[16px] my-[0.8px] ">Name</Text>
+          <Text className="">Aniket Patidar</Text>
+        </View>
+        <View>
+          <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
+          <Text>aniketpatidar76@gmail.com</Text>
+        </View>
+        <View>
+          <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
+          <Text>6266302210</Text>
+        </View>
+        <View>
+          <Text className="font-[500] text-[15px] my-[0.8px]">Date of Birth</Text>
+          <Text>20-01-2003</Text>
+        </View>
+        <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+          <Entypo name="plus" size={18} color="black" className="font-[400]" />
+          <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
+            Upload Resuma
+          </Text>
+        </View>
+        <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+          <Ionicons name="create" size={18} color="black" />
+          <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
+            Create Resuma
+          </Text>
+        </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white", // Background color
-  },
-  profileContainer: {
-    alignItems: "center",
-    padding: 20,
-  },
-  profileImage: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#333", // Text color
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    width: 250,
-    backgroundColor: "#fff",
-    color: "#333",
-  },
-  label: {
-    fontSize: 15,
-    marginBottom: 10,
-    color: "#333",
-  },
-});
 
 export default Profile;
