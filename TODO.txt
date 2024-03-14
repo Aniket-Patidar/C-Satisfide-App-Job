@@ -1,1 +1,4 @@
-update employee and Admin dashboard 
+use deployeed bakend
+add all features for user  like call to hr and whatsupp and all funcinality
+add logo and banner 
+and send update wellcome page

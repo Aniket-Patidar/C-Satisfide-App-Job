@@ -1,136 +1,158 @@
-import React, { useEffect, useState } from "react";
-import Header from "../component/Header";
+import React from "react";
 import {
   View,
   Text,
-  Image,
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import Icon from "react-native-vector-icons/Feather";
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome,
-} from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 
-const Applied = ({ navigation }) => {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+const ApplicationPage = () => {
   const jobData = {
     title: "Software Engineer",
-    skills: ["JavaScript", "React", "Node.js"],
-    employer: { organisationlogo: { url: "https://example.com/logo1.png" } },
+    employer: "Google",
     location: "New York",
     jobType: "Full-time",
-    salary: 100000,
-    openings: 5,
-    isAlreadyApplied: false,
-    jobId: 1,
-    navigation,
+    salary: "$100,000",
+    status: "Closed",
   };
 
   return (
-    <View className="bg-[#F7F7F7] px-[20px] overflow-hidden">
-      <View className=" pt-[18px] my-1">
-        <Text className="text-[18px] my-1  font-semibold text-center">
-          👋 You Have 27 Applications
-        </Text>
-      </View>
-      <ScrollView horizontal contentContainerStyle={styles.container}>
-        <View style={styles.textContainer} className="flex flex-row gap-2">
-          <Text style={styles.text}>All</Text>
-          <Text style={[styles.text, styles.activeText]}>Pending</Text>
-          <Text style={styles.text}>Reject</Text>
-          <Text style={styles.text}>Accepted</Text>
-        </View>
+    <View style={styles.container}>
+      {/* <Text style={styles.header}>Your Job Applications</Text> */}
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={styles.jobCardsContainer}
+      >
+        {[...Array(10)].map((_, index) => (
+          <JobCard key={index} {...jobData} />
+        ))}
       </ScrollView>
-
-      <View className="flex items-center">
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-        <JobCard {...jobData}></JobCard>
-      </View>
     </View>
   );
 };
 
-export default Applied;
-
-const JobCard = ({
-  title,
-  skills,
-  employer,
-  location,
-  jobType,
-  salary,
-  openings,
-  isAlreadyApplied,
-  jobId,
-  navigation,
-}) => {
+const JobCard = ({ title, employer, location, jobType, salary, status }) => {
   return (
-    <View className="text-black  py-[20px] px-[12px] rounded-md space-y-2 bg-white my-2">
-      <View className="flex flex-row justify-between  w-full">
-        <View className="flex flex-row gap-2">
-          <Image
-            source={require("../../assets/Images/facebook.png")}
-            className="w-[32px] h-[32px]"
-          ></Image>
-          <View>
-            <Text className="font-[500] text-[13px]">UX Inter</Text>
-            <Text className="opacity-[0.5] text-[11px]">Google</Text>
-          </View>
-        </View>
-
-        <View className="text-black">
-          <Text className="text-black font-[500] text-[11px]">$88,000/y</Text>
-          <Text className="opacity-[0.5] text-[11px] text-right">
-            Bhopal,M.P
-          </Text>
+    <TouchableOpacity style={styles.jobCard}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/Images/facebook.png")}
+          style={styles.logo}
+        />
+        <View>
+          <Text style={styles.jobTitle}>{title}</Text>
+          <Text style={styles.employer}>{employer}</Text>
         </View>
       </View>
-      <View className="flex flex-row justify-between py-1">
-        <Text className="bg-[#FFEDED]  text-[#E45A57] px-[15px] py-[3px] rounded-full text-[10px] font-semibold">
-          Closed
+      <View style={styles.detailsContainer}>
+        <View style={styles.detailContainer}>
+          <MaterialIcons
+            name="location-on"
+            size={windowWidth * 0.04}
+            color="#555"
+          />
+          <Text style={styles.detail}>{location}</Text>
+        </View>
+        <Text style={styles.detail}>{salary}</Text>
+      </View>
+      <View style={styles.statusContainer}>
+        <Text
+          style={[
+            styles.detail,
+            status === "Closed" ? styles.closedStatus : null,
+          ]}
+        >
+          {status}
         </Text>
-        <Text className="font-[500] text-[12px] ">Full-Time</Text>
+        <View style={styles.jobTypeContainer}>
+          <MaterialIcons name="work" size={windowWidth * 0.04} color="#555" />
+          <Text style={styles.detail}>{jobType}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
+
+export default ApplicationPage;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 1,
+    flex: 1,
+    backgroundColor: "#F7F7F7",
+    padding: 20,
   },
-  textContainer: {
+  header: {
+    fontSize: windowWidth * 0.06,
+    fontWeight: "bold",
+    marginBottom: windowHeight * 0.02,
+    textAlign: "center",
+    color: "#333",
+  },
+  jobCardsContainer: {
+    flex: 1,
+  },
+  jobCard: {
+    backgroundColor: "#FFF",
+    borderRadius: windowWidth * 0.04,
+    padding: windowWidth * 0.05,
+    marginBottom: windowHeight * 0.03,
+    elevation: 3,
+  },
+  logoContainer: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    paddingVertical: 10,
+    alignItems: "center",
+    marginBottom: windowHeight * 0.015,
   },
-  text: {
-    borderWidth: 1,
-    paddingVertical: 3,
-    paddingHorizontal: 15,
-    borderRadius: 20, // Adjust the border radius to make it perfectly round
-    borderColor: "#C6C6C6", // Border color
-    backgroundColor: "transparent", // Background color
-    overflow: "hidden",
-    fontWeight: 400,
-    color: "black",
+  logo: {
+    width: windowWidth * 0.12,
+    height: windowWidth * 0.12,
+    borderRadius: windowWidth * 0.06,
+    marginRight: windowWidth * 0.04,
   },
-  activeText: {
-    // backgroundColor: "#007bff", // Active background color
-    color: "black", // Active text color
+  jobTitle: {
+    fontSize: windowWidth * 0.05,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  employer: {
+    fontSize: windowWidth * 0.035,
+    color: "#888",
+  },
+  detailsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: windowHeight * 0.015,
+  },
+  detailContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  detail: {
+    fontSize: windowWidth * 0.04,
+    color: "#555",
+    marginLeft: windowWidth * 0.02,
+  },
+  statusContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  closedStatus: {
+    color: "#FF4136",
+    fontWeight: "bold",
+  },
+  jobTypeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

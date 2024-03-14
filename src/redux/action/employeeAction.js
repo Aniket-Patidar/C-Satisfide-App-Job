@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEmployeeLoggedIn } from '../../constants/auth';
 
 /* TODO */
-const basePath = "http://[2401:4900:1c09:c764:3b18:a7d2:33df:6e79]:8080/employer";
+const basePath = "http://[2401:4900:1ca2:fb81:39f1:a8f1:4040:ee4b]:8080/employer";
 
 
 async function config() {
@@ -105,7 +105,6 @@ export const logoutEmployee = (userData) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "Register failed"));
     }
 }
-
 
 /*TODO  */
 export const avatarEmployee = (fileData) => async (dispatch) => {

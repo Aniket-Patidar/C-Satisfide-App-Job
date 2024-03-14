@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -79,6 +80,7 @@ const Home = ({ navigation }) => {
             </View>
           </View>
 
+          {/* <Image source={require("../../assets/banner/Banner1.png")} className="w-[100vw] h-[70px] "></Image> */}
           <View className="mt-1 font-semibold">
             <View className="flex flex-row py-1 justify-between">
               <Text className="text-[13px] font-[500]">Top Jobs</Text>
@@ -210,10 +212,6 @@ const Home = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-
-          
-
-      
         </View>
       </ScrollView>
     </View>

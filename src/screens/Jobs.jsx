@@ -7,6 +7,8 @@ import {
   ScrollView,
   TextInput,
   Animated,
+  StatusBar
+  
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -32,6 +34,13 @@ const Jobs = ({ navigation }) => {
   useEffect(() => {
     dispatch(AllJobs());
   }, []);
+
+
+
+  React.useEffect(() => {
+    StatusBar.setBackgroundColor('#4080ED');
+  }, []);
+
 
   return (
     <ScrollView className="relative">
@@ -60,14 +69,14 @@ const Jobs = ({ navigation }) => {
           className="w-[30px] flex items-center justify-center
              h-[30px] bg-white  opacity-[0.5] rounded-md"
         >
-          <FontAwesome name="filter" size={16} color="black" />
+          <FontAwesome name="filter" size={16} color="gray" />
         </View>
       </View>
 
-      <Image
+      {/* <Image
         source={require("../../assets/banner/Banner1.png")}
         className="h-[83px] w-full"
-      ></Image>
+      ></Image> */}
 
       <View className="flex items-center my-[12px]">
         {allJobs &&
@@ -94,133 +103,154 @@ const JobCard = ({
   jobId,
 }) => {
   const navigation = useNavigation();
+
+  const scaleAnimation = new Animated.Value(1);
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 1,
+      friction: 4,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  // Function to handle calling HR
+  const callHR = () => {
+    // Implement your logic to call HR
+  };
+
   return (
-    <View
+    <Animated.View
       style={{
         backgroundColor: "#FFFFFF",
-        width: "95%",
-        padding: 20,
-        borderRadius: 2,
-        marginBottom: 10,
+        width: "90%",
+        padding: 15,
+        borderRadius: 8,
+        marginBottom: 15,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        transform: [{ scale: scaleAnimation }],
       }}
-      className="rounded-lg shadow-lg"
     >
       <View
-        style={{
-          flexDirection: "col",
-          alignItems: "start",
-          justifyContent: "start",
-          marginBottom: 10,
-        }}
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
       >
-        <View className="flex flex-row justify-between items-center">
-          <View>
-            <Text
-              style={{ fontSize: 14, fontWeight: "bold" }}
-              className="my-1 text-[#484848]"
-            >
-              {title}
-            </Text>
-            <Text className="text-[12px] opacity-[.5]">
-              {employer.organisationname}
-            </Text>
-          </View>
-          <Image
-            // source={{ uri: `${employer?.organisationlogo.url}` }}
-            source={require("../../assets/Images/google.png")}
-            className="w-[22px] h-[22px]"
-          />
+        <Image
+          source={require("../../assets/Icons/logo.jpg")}
+          style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
+        />
+        <View>
+          <Text
+            style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}
+            className="capitalize"
+          >
+            {title}
+          </Text>
+          <Text
+            style={{
+              fontSize: 11,
+              color: "#666666",
+              textTransform: "capitalize",
+            }}
+          >
+            {employer.organisationname}
+          </Text>
         </View>
       </View>
 
-      <View style={{ marginBottom: 0 }}>
+      <View style={{ marginBottom: 10 }}>
         <View
           style={{
-            flexDirection: "col",
-            justifyContent: "",
-            marginBottom: 0,
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
           }}
-          className="flex gap-2 justify-start items-start"
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-          >
-            <Ionicons name="location-outline" size={16} color="#8A8A8A" />
-            <Text
-              style={{
-                textTransform: "capitalize",
-                color: "#8A8A8A",
-                marginLeft: 5,
-              }}
-            >
-              {location}
-            </Text>
-          </View>
-          {/* <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-          >
-            <MaterialCommunityIcons
-              name="progress-clock"
-              size={16}
-              color="#8A8A8A"
-            />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{jobType}</Text>
-          </View> */}
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-            className=""
-          >
-            <MaterialIcons name="currency-rupee" size={16} color="#8A8A8A" />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
-              {salary} / Per Year
-            </Text>
-          </View>
-          {/* <View
-            className=""
-            style={{ flexDirection: "row", alignItems: "center" }}
-          >
-            <SimpleLineIcons name="people" size={16} color="#8A8A8A" />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
-              {openings} Openings
-            </Text>
-          </View> */}
+          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+            {location}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+            {salary} / Per Year
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <FontAwesome name="briefcase" size={14} color="#8A8A8A" />
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+            {jobType}
+          </Text>
         </View>
       </View>
 
       <View
         style={{
           flexDirection: "row",
+          justifyContent: "space-between",
           alignItems: "center",
-          justifyContent: "flex-end",
         }}
       >
-        <View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Job Details", { id: _id })}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Job Details", { id: _id })}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={{ fontSize: 12, color: "#4080ED", marginRight: 5 }}>
+              View Details
+            </Text>
+            <AntDesign name="arrowright" size={12} color="#4080ED" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={callHR}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
+          <View
+            style={{
+              backgroundColor: "#2cc57b",
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 5,
+            }}
           >
-            <View className="flex flex-row items-center">
-              <Text className="text-[12px] text-[#4080ED]  pr-1">
-                View Details
-              </Text>
-              <AntDesign name="arrowright" size={12} color="#4080ED" />
-            </View>
-          </TouchableOpacity>
-        </View>
-
-    
+            <Text
+              style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+            >
+              Call HR
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 };

@@ -37,7 +37,6 @@ const Details = () => {
   };
 
 
-
   return (
     <ScrollView>
       <JobCard {...jobData}></JobCard>

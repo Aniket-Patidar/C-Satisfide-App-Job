@@ -16,12 +16,12 @@ export const studentSlice = createSlice({
     },
     reducers: {
         setIsAuthenticated: (state, action) => {
-            state.error = null,
-                state.isAuthenticated = action.payload;
+            state.error = null
+            state.isAuthenticated = action.payload
         },
         setLoading: (state, action) => {
             state.error = null,
-                state.loading = action.payload;
+                state.loading = action.payload
         },
         setError: (state, action) => {
             state.error = null

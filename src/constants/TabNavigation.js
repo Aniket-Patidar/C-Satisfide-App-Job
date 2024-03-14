@@ -1,79 +1,186 @@
+import React from "react";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Text, StyleSheet, Dimensions, View, Image } from "react-native";
 
 import HomeScreen from "../screens/Home.jsx";
 import JobsScreen from "../screens/Jobs";
-import ProfileScreen from "../screens/Profile.jsx"; // Import Profile screen
+import ProfileScreen from "../screens/Profile.jsx";
 import AppliedScreen from "../screens/Applied";
-import { FontAwesome5 } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign } from '@expo/vector-icons';
-import { Image } from "react-native";
+
 const Tab = createBottomTabNavigator();
-function TabNavigator() {
+const windowWidth = Dimensions.get('window').width;
+
+const TabNavigator = () => {
+    const iconSize = windowWidth * 0.06;
+
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            tabBarOptions={{
+                style: {
+                    height: 60,
+                    borderTopWidth: 0,
+                    elevation: 0,
+                    backgroundColor: '#f2f2f2',
+                },
+                labelStyle: {
+                    fontSize: 12,
+                    fontWeight: 'bold',
+                },
+                tabStyle: {
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                iconStyle: {
+                    marginBottom: 5,
+                },
+                activeTintColor: '#007bff',
+                inactiveTintColor: '#888',
+            }}
+        >
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
                 options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <FontAwesome5 name="home" size={24} color="black" />
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome5 name="home" size={iconSize} color={color} />
                     ),
-                    tabBarLabel: () => null
+                    tabBarLabel: ({ focused, color }) => (
+                        <Text style={[styles.tabLabel, { color }]}>Home</Text>
+                    ),
+                    headerShown: true,// Hide the default navigation bar
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        elevation: 0, // Remove shadow on Android
+                        shadowOpacity: 0, // Remove shadow on iOS
+                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerTitle: () => (
+                        <View style={styles.headerTitleContainer}>
+                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Text style={styles.headerTitle}>Satisfied Job</Text>
+                        </View>
+                    ),
+
                 }}
             />
-
             <Tab.Screen
                 name="Jobs"
                 component={JobsScreen}
                 options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <AntDesign name="search1" size={24} color="black" />
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome5 name="search" size={iconSize} color={color} />
                     ),
-                    tabBarLabel: () => null
+                    tabBarLabel: ({ focused, color }) => (
+                        <Text style={[styles.tabLabel, { color }]}>Jobs</Text>
+                    ),
+                    headerShown: true,// Hide the default navigation bar
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        elevation: 0, // Remove shadow on Android
+                        shadowOpacity: 0, // Remove shadow on iOS
+                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerTitle: () => (
+                        <View style={styles.headerTitleContainer}>
+                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Text style={styles.headerTitle}>Satisfied Job</Text>
+                        </View>
+                    ),
                 }}
             />
-
-
-
-            {/* Setting Tab */}
             <Tab.Screen
                 name="Applied"
                 component={AppliedScreen}
                 options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => (
-                        <Image source={require("../../assets/save.png")} className="w-[20px] h-[20px]"></Image>
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome5 name="check" size={iconSize} color={color} />
                     ),
-                    tabBarLabel: () => null
+                    tabBarLabel: ({ focused, color }) => (
+                        <Text style={[styles.tabLabel, { color }]}>Applied</Text>
+                    ),
+                    headerShown: true, // Show the custom header
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        elevation: 0, // Remove shadow on Android
+                        shadowOpacity: 0, // Remove shadow on iOS
+                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerTitle: () => (
+                        <View style={styles.headerTitleContainer}>
+                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Text style={styles.headerTitle}>Applied Jobs</Text>
+                        </View>
+                    ),
                 }}
             />
-
-            {/* Profile Tab */}
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={{
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome5 name="user-alt" size={iconSize} color={color} />
+                    ),
+                    tabBarLabel: ({ focused, color }) => (
+                        <Text style={[styles.tabLabel, { color }]}>Profile</Text>
+                    ),
                     headerShown: false,
-                    headerTitle: 'Profile',
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        elevation: 0, // Remove shadow on Android
+                        shadowOpacity: 0, // Remove shadow on iOS
+                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                    },
+                    headerTintColor: '#fff',
                     headerTitleStyle: {
                         fontWeight: 'bold',
-                        fontSize: 20,
-                        color: 'black',
                     },
-                    headerStyle: {
-                        backgroundColor: 'lightblue',
-                        // You can add more styles as needed
-                    },
-                    tabBarIcon: ({ focused }) => (
-                        <FontAwesome5 name="user-alt" size={24} color="black" />
+                    headerTitle: () => (
+                        <View style={styles.headerTitleContainer}>
+                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Text style={styles.headerTitle}>Profile</Text>
+                        </View>
                     ),
-                    tabBarLabel: () => null
+                    
                 }}
             />
-
         </Tab.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+    tabLabel: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginTop: -9,
+    },
+    headerTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginLeft: 10,
+    },
+});
+
 export default TabNavigator;

@@ -3,7 +3,7 @@ import { setAllJobs, setApplication, setError, setLoading, setPage, setStudent }
 import { getToken, config, setToken, clearToken } from '../../constants/handelToken'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const basePath = "http://[2401:4900:1c09:c764:3b18:a7d2:33df:6e79]:8080/user";
+const basePath = "http://[2401:4900:1ca2:fb81:39f1:a8f1:4040:ee4b]:8080/user";
 
 
 export const loginStudent = (userData) => async (dispatch) => {
@@ -74,8 +74,6 @@ export const AllJobs = (obj = {}) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "get current user failed"));
     }
 }
-
-
 
 export const logoutStudent = (userData) => async (dispatch) => {
     try {
