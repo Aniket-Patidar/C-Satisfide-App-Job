@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect } from "react";
 import Header from "../component/Header";
 import {
@@ -21,52 +28,62 @@ const Details = ({}) => {
   useEffect(() => {
     dispatch(getJobById(id));
   }, []);
-
   return (
     <View className="bg-white">
-      <View className="w-full h-[35vh] rounded-b-[28px] flex items-center justify-center bg-[#4080ED] space-y-1">
-        <Image
-          source={require("../../assets/Images/goole.webp")}
-          className="h-[60px] w-[60px] mx-auto  rounded-full"
-        ></Image>
-        <Text className="text-white text-md  font-semibold">
-          Product Designer
-        </Text>
-        <Text className="text-white text-1xl opacity-[0.8]">Google</Text>
-        <View className="flex flex-row  justify-center w-full gap-3">
-          <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-            Design
-          </Text>
-
-          <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-            Design
-          </Text>
-
-          <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-            Design
-          </Text>
+      {loading ? (
+        <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <ActivityIndicator
+            size="large"
+            className="-mt-[100px]"
+            color="#007AFF"
+          />
         </View>
-        <View className="flex flex-row justify-center space-x-5 w-full px-[20px] py-[10px]">
-          <Text className="text-white font-semibold">$160,00/year</Text>
-          <Text className="text-white font-semibold">California,USA</Text>
-        </View>
-      </View>
+      ) : (
+        <>
+          <View className="w-full h-[35vh] rounded-b-[28px] flex items-center justify-center bg-[#4080ED] space-y-1">
+            <Image
+              source={require("../../assets/Images/goole.webp")}
+              className="h-[60px] w-[60px] mx-auto  rounded-full"
+            ></Image>
+            <Text className="text-white text-md  font-semibold">
+              Product Designer
+            </Text>
+            <Text className="text-white text-1xl opacity-[0.8]">Google</Text>
+            <View className="flex flex-row  justify-center w-full gap-3">
+              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
+                Design
+              </Text>
 
-      <View className="flex flex-row justify-evenly pt-2">
-        <Text className="opacity-[0.5]">About</Text>
-        <Text className="opacity-[0.5]">Description</Text>
-        <Text className="opacity-[0.5]">Review</Text>
-        <Text className="opacity-[0.5]">Hr</Text>
-      </View>
+              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
+                Design
+              </Text>
 
-      <ScrollView className="h-[51vh] bg-white">
-        <>{job && <JobCard {...job}></JobCard>}</>
-      </ScrollView>
-      {student && (
-        
-        <View className="w-[90vw]  mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed">
-          <Text className="text-white font-semibold">Apply Now</Text>
-        </View>
+              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
+                Design
+              </Text>
+            </View>
+            <View className="flex flex-row justify-center space-x-5 w-full px-[20px] py-[10px]">
+              <Text className="text-white font-semibold">$160,00/year</Text>
+              <Text className="text-white font-semibold">California,USA</Text>
+            </View>
+          </View>
+
+          <View className="flex flex-row justify-evenly pt-2">
+            <Text className="opacity-[0.5]">About</Text>
+            <Text className="opacity-[0.5]">Description</Text>
+            <Text className="opacity-[0.5]">Review</Text>
+            <Text className="opacity-[0.5]">Hr</Text>
+          </View>
+
+          <ScrollView className="h-[51vh] bg-white">
+            {job && <JobCard {...job}></JobCard>}
+          </ScrollView>
+          {student && (
+            <View className="w-[90vw]  mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed">
+              <Text className="text-white font-semibold">Apply Now</Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );
@@ -86,6 +103,8 @@ const JobCard = ({
   navigation,
   description,
   preferences,
+  organisationname,
+  category,
 }) => {
   const { student } = useSelector((e) => e.student);
 
@@ -107,12 +126,24 @@ const JobCard = ({
         salary={salary}
         openings={openings}
         skills={skills}
+        organisationname={organisationname}
+        category={category}
       />
     </View>
   );
 };
 
-function About({ title, location, jobType, salary, openings, skills }) {
+function About({
+  title,
+  location,
+  jobType,
+  salary,
+  openings,
+  category,
+  skills,
+  employer,
+  organisationname,
+}) {
   return (
     <>
       <View
@@ -129,11 +160,14 @@ function About({ title, location, jobType, salary, openings, skills }) {
         >
           {title}
         </Text>
-        <Text className="text-[12px] opacity-[.5] mx-auto">INEXT ETS</Text>
+        <Text className="text-[12px] opacity-[.5] mx-auto">
+          {organisationname}
+        </Text>
         <Image source={{ uri: "../.../../../assets/2.webp" }} />
       </View>
 
       <Text className="font-semibold mb-[10px]">Details</Text>
+
       <View
         style={{
           flexDirection: "col",
@@ -160,6 +194,7 @@ function About({ title, location, jobType, salary, openings, skills }) {
             {location}
           </Text>
         </View>
+
         <View
           style={{
             flexDirection: "row",
@@ -174,6 +209,7 @@ function About({ title, location, jobType, salary, openings, skills }) {
           />
           <Text style={{ color: "#8A8A8A", marginLeft: 4 }}>{jobType}</Text>
         </View>
+
         <View
           style={{
             flexDirection: "row",
@@ -192,42 +228,34 @@ function About({ title, location, jobType, salary, openings, skills }) {
             {salary} / Per Year
           </Text>
         </View>
+
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {/* <FontAwesome name="shopping-bag" size={14} color="#8A8A8A" /> */}
+          <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{category}</Text>
+        </View>
+
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <FontAwesome name="shopping-bag" size={14} color="#8A8A8A" />
           <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
             {openings} Openings
           </Text>
         </View>
-        <View>
-          <Text className="font-semibold mt-[8px]">Requirment</Text>
-          <Text className="text-[12px] mt-1 opacity-[0.5]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt iure
-            quasi eum deserunt animi quam facilis illum cupiditate eveniet magni
-            tenetur quisquam beatae repellat veniam officiis, reprehenderit sed.
-            Nihil, voluptatem!
-          </Text>
-        </View>
-      </View>
 
-      {/* <View className="my-2">
-        <Text className="text-md">Skill(s) required</Text>
-        <View className="flex flex-row py-1 w-full">
+        {/* skills */}
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text className="font-semibold mb-[1px]">Skills:</Text>
           {skills.map((e) => {
             return (
-              <Text className=" mr-1 bg-[#F8F8F8] text-[12px] px-2 py-2 rounded-md">
-                {e}
+              <Text style={{ color: "#8A8A8A", marginLeft: 5 }} className="capitalize">
+                {e} 
               </Text>
             );
           })}
         </View>
-      </View> */}
+      </View>
     </>
   );
 }
-
-// function About() {
-//   return <></>;
-// }
 
 function Description() {
   return (
@@ -242,10 +270,10 @@ function Description() {
   );
 }
 
-// function Review() {
-//   return <></>;
-// }
+function HR() {
+  return <></>;
+}
 
-// function About() {
-//   return <></>;
-// }
+function Review() {
+  return <></>;
+}

@@ -84,7 +84,7 @@ const Register = ({ route }) => {
               color: COLORS.black,
             }}
           >
-          S Create Account
+            Create Account
           </Text>
           {/* 
           <Text

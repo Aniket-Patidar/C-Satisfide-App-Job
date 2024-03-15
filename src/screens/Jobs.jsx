@@ -7,8 +7,8 @@ import {
   ScrollView,
   TextInput,
   Animated,
-  StatusBar
-  
+  StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -29,61 +29,93 @@ import { useNavigation } from "@react-navigation/native";
 
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { allJobs, error, loading } = useSelector((e) => e.student);
 
-  const { allJobs, error } = useSelector((e) => e.student);
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const [formData, setFormData] = useState({
+    title: "",
+    location: "",
+    skills: "",
+    inOffice: false,
+    remote: false,
+    internship: false,
+    salary: "",
+  });
+
   useEffect(() => {
     dispatch(AllJobs());
   }, []);
 
-
-
-  React.useEffect(() => {
-    StatusBar.setBackgroundColor('#4080ED');
-  }, []);
-
+  const handelSubmit = () => {
+    dispatch(AllJobs(formData));
+    toggleDrawer();
+    setFormData({
+      
+    })
+    console.log("Handel Submit");
+  };
 
   return (
     <ScrollView className="relative">
-      {/* <View>
-        
-        <CoolDrawer />
-      </View> */}
-
-      <View
-        className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
-      >
-        <View className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white">
-          <EvilIcons
-            className="mx-2 px-3 font-semibold"
-            name="search"
-            size={20}
-            color="gray"
-          />
-          <TextInput
-            className="text-[11px]"
-            placeholder="Search your dream job"
-          ></TextInput>
+      {loading ? (
+        <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <ActivityIndicator size="large" className="-mt-[100px]" color="#007AFF" />
         </View>
+      ) : (
+        <>
+          <View>
+            <CoolDrawer
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+              toggleDrawer={toggleDrawer}
+              formData={formData}
+              setFormData={setFormData}
+              handelSubmit={handelSubmit}
+            />
+          </View>
 
-        <View
-          className="w-[30px] flex items-center justify-center
+          <View
+            className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+          >
+            <TouchableOpacity
+              onPress={handelSubmit}
+              className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white"
+            >
+              <EvilIcons
+                className="mx-2 px-3 font-semibold"
+                name="search"
+                size={20}
+                color="gray"
+              />
+              <TextInput
+                className="text-[11px]"
+                placeholder="Search your dream job"
+                value={formData.title}
+                onChangeText={(text) => handleInputChange("title", text)}
+              ></TextInput>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={toggleDrawer}
+              className="w-[30px] flex items-center justify-center
              h-[30px] bg-white  opacity-[0.5] rounded-md"
-        >
-          <FontAwesome name="filter" size={16} color="gray" />
-        </View>
-      </View>
+            >
+              <AntDesign name="filter" size={15} color="#008BDC" />
+            </TouchableOpacity>
+          </View>
 
-      {/* <Image
-        source={require("../../assets/banner/Banner1.png")}
-        className="h-[83px] w-full"
-      ></Image> */}
-
-      <View className="flex items-center my-[12px]">
-        {allJobs &&
-          allJobs.map((e) => {
-            return <JobCard {...e}></JobCard>;
-          })}
-      </View>
+          <View className="flex items-center my-[12px]">
+            {allJobs &&
+              allJobs.map((e) => {
+                return <JobCard {...e}></JobCard>;
+              })}
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -122,9 +154,8 @@ const JobCard = ({
     }).start();
   };
 
-  // Function to handle calling HR
   const callHR = () => {
-    // Implement your logic to call HR
+    console.log("call hr");
   };
 
   return (

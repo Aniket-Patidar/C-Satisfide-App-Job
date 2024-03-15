@@ -1,10 +1,14 @@
-import { View, Text, Pressable, Image } from "react-native";
-import React from "react";
+import { View, Text, Pressable, Image, StatusBar } from "react-native";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "../constants/colors";
 import Button from "../component/Button";
 
 const Welcome = ({ navigation }) => {
+  React.useEffect(() => {
+    StatusBar.setBackgroundColor("white");
+  }, []);
+
   return (
     <LinearGradient
       style={{

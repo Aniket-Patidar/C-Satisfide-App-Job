@@ -3,7 +3,7 @@ import { setAllJobs, setApplication, setError, setLoading, setPage, setStudent }
 import { getToken, config, setToken, clearToken } from '../../constants/handelToken'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const basePath = "http://[2401:4900:1ca2:fb81:39f1:a8f1:4040:ee4b]:8080/user";
+const basePath = "https://final-satisfied-backend-2.onrender.com/user";
 
 
 export const loginStudent = (userData) => async (dispatch) => {

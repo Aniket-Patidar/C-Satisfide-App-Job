@@ -7,29 +7,32 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { CheckBox } from "react-native-web";
+import { AntDesign } from "@expo/vector-icons"; // Importing AntDesign icons
 import Checkbox from "expo-checkbox";
+import Slider from "@react-native-community/slider";
 
-const CoolDrawer = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+const CoolDrawer = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  toggleDrawer,
+  formData,
+  setFormData,
+  handelSubmit,
+}) => {
+  // Function to handle input changes
+  const handleInputChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  const handleSliderChange = (sliderValue) => {
+    setFormData({ ...formData, salary: sliderValue });
   };
 
   return (
     <View style={styles.container}>
-      <View className="w-full">
-        <TouchableOpacity
-          onPress={toggleDrawer}
-          className="text-md border-[0.5px] border-[#c7c4c4] bg-white px-2 py-1 flex flex-row items-center w-[20%] mx-auto my-3 rounded-sm"
-        >
-          <AntDesign name="filter" size={15} color="#008BDC" />
-          <Text className="text-[13px]">Filter</Text>
-        </TouchableOpacity>
-      </View>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -39,36 +42,114 @@ const CoolDrawer = () => {
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.overlay} onPress={toggleDrawer} />
           <View style={styles.drawer}>
-            <View className="my-2">
-              <Text className="my-1">Profile</Text>
+            <View>
+              <Text style={styles.title}>Profile</Text>
               <TextInput
-                className="border-[1px] w-[90%]  border-[#b4b1b1] rounded-sm  text-start px-1 "
-                placeholder="please enter profile Data"
-              ></TextInput>
+                style={styles.input}
+                placeholder="Job profile"
+                value={formData.title}
+                onChangeText={(text) => handleInputChange("title", text)}
+              />
             </View>
 
-            <View className="my-1 space-y-1">
-              <Text>Location</Text>
+            <View>
+              <Text style={styles.title}>Location</Text>
               <TextInput
-                className="border-[1px] w-[90%]  border-[#b4b1b1] text-start px-1 rounded-sm"
-                placeholder="please select location"
-              ></TextInput>
+                style={styles.input}
+                placeholder="Location"
+                value={formData.location}
+                onChangeText={(text) => handleInputChange("location", text)}
+              />
             </View>
 
-            <View className="my-1 flex flex-row items-center space-x-1">
-              <Checkbox className="w-[13px] h-[13px]" />
-              <Text>Work from home</Text>
+            <View>
+              <Text style={styles.title}>Skills</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Skills"
+                value={formData.skills}
+                onChangeText={(text) => handleInputChange("skills", text)}
+              />
             </View>
 
-            <View className="my-1 flex flex-row items-center space-x-1">
-              <Checkbox className="w-[13px] h-[13px]" />
-              <Text>Part Time</Text>
+            <View>
+              <View className="flex flex-row items-start gap-2 justify-start">
+                <Text style={styles.title}>Salary</Text>
+                <Text style={styles.sliderValue}>₹ {""}{formData.salary}</Text>
+              </View>
+
+              {/* <TextInput
+                style={styles.input}
+                placeholder="Salary"
+                value={formData.salary}
+                onChangeText={(text) => handleInputChange("salary", text)}
+              /> */}
+              <Slider
+                maximumValue={100000}
+                minimumValue={0}
+                minimumTrackTintColor="#307ecc"
+                maximumTrackTintColor="#000000"
+                step={1}
+                value={formData.salary}
+                onValueChange={handleSliderChange}
+                style={styles.slider}
+              />
             </View>
 
-            <View className="my-1 flex flex-row items-center space-x-1">
-              <Checkbox className="w-[13px] h-[13px]" />
-              <Text>Include All internship</Text>
+            <View style={styles.item}>
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={formData.inOffice}
+                  onValueChange={(value) =>
+                    handleInputChange("inOffice", value)
+                  }
+                />
+                <Text style={styles.checkboxLabel}>In Office</Text>
+              </View>
             </View>
+
+            <View style={styles.item}>
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={formData.remote}
+                  onValueChange={(value) => handleInputChange("remote", value)}
+                />
+                <Text style={styles.checkboxLabel}>Remote</Text>
+              </View>
+            </View>
+
+            <View style={styles.item}>
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={formData.internship}
+                  onValueChange={(value) =>
+                    handleInputChange("internship", value)
+                  }
+                />
+                <Text style={styles.checkboxLabel}>Internship</Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              onPress={handelSubmit}
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
+              className="w-fit py-[10px]"
+            >
+              <Text
+                style={{ fontSize: 15, color: "#FFFFFF", fontWeight: "bold" }}
+                className="mx-auto"
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -82,15 +163,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-  },
-  button: {
-    padding: 10,
-    backgroundColor: "blue",
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
   },
   modalContainer: {
     flex: 1,
@@ -106,8 +178,36 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     padding: 20,
   },
-  drawerText: {
-    fontSize: 18,
+  title: {
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1.2,
+    borderColor: "#b4b1b1",
+    borderRadius: 4,
+    padding: 5,
+    marginBottom: 10,
+  },
+  item: {
+    marginBottom: 10,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  checkboxLabel: {
+    fontSize: 16,
+  },
+  slider: {
+    width: 300,
+    height: 20,
+    marginLeft: -15,
   },
 });
 

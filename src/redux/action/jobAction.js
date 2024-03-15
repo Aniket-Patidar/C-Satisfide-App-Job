@@ -3,7 +3,7 @@ import { setJobs, setLoading, setError, setJob } from '../sclice/JobSclice';
 import { getToken, config, setToken, clearToken } from '../../constants/handelToken'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const basePath = "http://[2401:4900:1ca2:fb81:39f1:a8f1:4040:ee4b]:8080/employer";
+const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
 
 export const createJobs = (userData) => async (dispatch) => {
     try {

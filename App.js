@@ -39,20 +39,11 @@ export default function App() {
     StatusBar.setBackgroundColor('#4080ED');
   }, []);
 
-  const [splashVisible, setSplashVisible] = React.useState(true);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setSplashVisible(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
+ 
   const { userLoggedIn, setUserLoggedIn } = useUserLoggedIn();
   const { employeeLoggedIn, setEmployeeLoggedIn } = useEmployeeLoggedIn();
 
   return (
-    splashVisible ? <SplashScreen /> : (
       <NavigationContainer>
         <Provider store={store}>
           <SafeAreaView style={styles.container}>
@@ -103,7 +94,6 @@ export default function App() {
           </SafeAreaView>
         </Provider>
       </NavigationContainer>
-    )
   );
 }
 
