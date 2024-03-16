@@ -10,6 +10,8 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
+import Onboarding from 'react-native-onboarding-swiper';
+
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 

@@ -5,19 +5,18 @@ import { COLORS } from "../constants/colors";
 import Button from "../component/Button";
 
 const Welcome = ({ navigation }) => {
-  React.useEffect(() => {
-    StatusBar.setBackgroundColor("white");
+  useEffect(() => {
+    StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
   return (
-    <LinearGradient
-      style={{
-        flex: 1,
-      }}
+    <View
+      className="bg-[#4080ED] relative w-screen h-screen"
+      style={{ flex: 1 }}
       colors={[COLORS.secondary, COLORS.primary]}
     >
       <View style={{ flex: 1 }}>
-        <View>
+        {/* <View>
           <Image
             source={require("../../assets/hero1.jpg")}
             style={{
@@ -83,10 +82,10 @@ const Welcome = ({ navigation }) => {
               ],
             }}
           />
-        </View>
+        </View> */}
 
         {/* content  */}
-
+      
         <View
           style={{
             paddingHorizontal: 22,
@@ -175,7 +174,7 @@ const Welcome = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </LinearGradient>
+    </View>
   );
 };
 
