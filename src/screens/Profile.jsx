@@ -7,40 +7,27 @@ import {
   Button,
   StyleSheet,
   Image,
-  StatusBar
+  StatusBar,
 } from "react-native";
-import UploadAvatar from "../component/UploadAvatar";
-import { avatarStudent, updateStudent } from "../redux/action/studentAction";
-import { useDispatch, useSelector } from "react-redux";
-import { setError, setUpdateStudent } from "../redux/sclice/studentSclice";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { setError } from "../redux/sclice/studentSclice";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { updateStudent } from "../redux/action/studentAction";
 
 const Profile = () => {
   const navigation = useNavigation();
-
-  const { student, error } = useSelector((e) => e.student);
-
-  const [editMode, setEditMode] = useState(false);
+  const { student, loading, error } = useSelector((e) => e.student);
   const dispatch = useDispatch();
-
+  const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     firstname: "John",
     lastname: "Doe",
     email: "john.doe@example.com",
     contact: "1234567890",
   });
-
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  const handleSave = () => {
-    setEditMode(false);
-    dispatch(updateStudent(formData));
-  };
 
   useEffect(() => {
     if (student) {
@@ -60,76 +47,157 @@ const Profile = () => {
     }
   }, [error]);
 
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    setEditMode(false);
+    dispatch(updateStudent(formData));
+  };
+
+  const handleChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   React.useEffect(() => {
-    StatusBar.setBackgroundColor('#4080ED');
+    StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
   return (
-    <View className="bg-white min-h-[100vh] relative">
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Setting")}
-        className="absolute z-10 right-2 top-2"
-      >
-        <Ionicons name="settings" size={20} color="black" />
-      </TouchableOpacity>
+    <View>
+      {loading && <View>
+        <Text>Loading...</Text>
+        </View>}
+      {!error && (
+        <View className="bg-white min-h-[100vh] relative">
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Setting")}
+            className="absolute z-10 right-2 top-2"
+          >
+            <Ionicons name="settings" size={20} color="black" />
+          </TouchableOpacity>
 
-      <Image
-        source={require("../../assets/banner/profile.jpg")}
-        className="w-full h-[90px] mt-0"
-      ></Image>
-
-      <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
-        <View className="">
           <Image
-            source={require("../../assets/Images/profile.webp")}
-            className="w-[80px] h-[80px] rounded-full"
+            source={require("../../assets/banner/profile.jpg")}
+            className="w-full h-[90px] mt-0"
           ></Image>
-        </View>
-        <View className="flex w-fit">
-          <Text className="font-semibold text-lg">Haley Jessica </Text>
-          <Text className="text-sm font-[400] opacity-[0.3]">UX Designer</Text>
-        </View>
-      </View>
 
-      <View className="mt-[16px] space-y-4 px-[20px]">
-        <View className="flex flex-row items-center gap-1 mb-0">
-          <FontAwesome6 name="user-large" size={13} color="black" />
-          <Text className="font-semibold text-[16px]">Profile Details</Text>
-        </View>
-        <View>
-          <Text className="font-[500] text-[16px] my-[0.8px] ">Name</Text>
-          <Text className="">Aniket Patidar</Text>
-        </View>
-        <View>
-          <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
-          <Text>aniketpatidar76@gmail.com</Text>
-        </View>
-        <View>
-          <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
-          <Text>6266302210</Text>
-        </View>
-        <View>
-          <Text className="font-[500] text-[15px] my-[0.8px]">
-            Date of Birth
-          </Text>
-          <Text>20-01-2003</Text>
-        </View>
+          <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
+            <View className="">
+              <Image
+                source={require("../../assets/Images/profile.webp")}
+                className="w-[80px] h-[80px] rounded-full"
+              ></Image>
+            </View>
+            <View className="flex w-fit">
+              {editMode ? (
+                <TextInput
+                  value={formData.firstname}
+                  onChangeText={(text) => handleChange("firstname", text)}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                />
+              ) : (
+                <Text className="font-semibold text-lg capitalize">
+                  {formData.firstname} {formData.lastname}
+                </Text>
+              )}
+              <Text className="text-sm font-[400] opacity-[0.3]">
+                UX Designer
+              </Text>
+            </View>
+          </View>
 
+          <View className="mt-[16px] space-y-4 px-[20px]">
+            <View className="flex flex-row items-center gap-1 mb-0">
+              {/* <FontAwesome6 name="user-large" size={13} color="black" /> */}
+              <Text className="font-semibold text-[16px]">Profile Details</Text>
+              {editMode ? (
+                <TouchableOpacity onPress={handleSave}>
+                  <Feather name="check" size={20} color="black" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={handleEdit}>
+                  <Feather name="edit" size={13} color="black" />
+                </TouchableOpacity>
+              )}
+            </View>
+            <View>
+              <Text className="font-[500] text-[16px] my-[0.8px] ">
+                First Name
+              </Text>
+              {editMode ? (
+                <TextInput
+                  value={formData.firstname}
+                  onChangeText={(text) => handleChange("firstname", text)}
+                />
+              ) : (
+                <Text>{formData.firstname}</Text>
+              )}
+            </View>
 
+            <View>
+              <Text className="font-[500] text-[16px] my-[0.8px] ">
+                Last Name
+              </Text>
+              {editMode ? (
+                <TextInput
+                  value={formData.lastname}
+                  onChangeText={(text) => handleChange("lastname", text)}
+                />
+              ) : (
+                <Text>{formData.lastname}</Text>
+              )}
+            </View>
 
-        <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-          <Entypo name="plus" size={18} color="black" className="font-[400]" />
-          <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-            Upload Resume
-          </Text>
+            <View>
+              <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
+
+              {editMode ? (
+                <TextInput
+                  value={formData.email}
+                  onChangeText={(text) => handleChange("email", text)}
+                />
+              ) : (
+                <Text>{formData.email}</Text>
+              )}
+            </View>
+            <View>
+              <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
+
+              {editMode ? (
+                <TextInput
+                  value={formData.contact}
+                  onChangeText={(text) => handleChange("contact", text)}
+                />
+              ) : (
+                <Text>{formData.contact}</Text>
+              )}
+            </View>
+
+            <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+              <Entypo
+                name="plus"
+                size={18}
+                color="black"
+                className="font-[400]"
+              />
+              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
+                Upload Resume
+              </Text>
+            </View>
+            <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+              <Ionicons name="create" size={18} color="black" />
+              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
+                Create Resume
+              </Text>
+            </View>
+          </View>
         </View>
-        <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-          <Ionicons name="create" size={18} color="black" />
-          <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-            Create Resume
-          </Text>
-        </View>
-      </View>
+      )}
     </View>
   );
 };

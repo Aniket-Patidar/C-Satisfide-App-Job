@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Satisfied Jobs",
-    "slug": "SatisfiedJobs",
+    "slug": "AwesomeProject",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aniketpatidar.SatisfiedJobs"
     },
     "android": {
       "adaptiveIcon": {

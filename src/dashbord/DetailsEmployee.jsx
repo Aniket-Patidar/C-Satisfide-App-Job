@@ -5,8 +5,10 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
-import React, { useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import Header from "../component/Header";
 import {
   Ionicons,
@@ -16,10 +18,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getJobById } from "../redux/action/jobAction";
 import { useRoute } from "@react-navigation/native";
+import { applicationSend } from "../redux/action/studentAction";
 
 const Details = ({}) => {
-  const { jobs, job, loading, error } = useSelector((e) => e.Jobs);
-  const { student } = useSelector((e) => e.student);
+  const { jobs, job, loading } = useSelector((e) => e.Jobs);
+  const { student, loading: loading2 ,error} = useSelector((e) => e.student);
+  const [Tab, setTab] = useState("About");
 
   const dispatch = useDispatch();
   const route = useRoute();
@@ -28,6 +32,13 @@ const Details = ({}) => {
   useEffect(() => {
     dispatch(getJobById(id));
   }, []);
+
+  function HandelApply() {
+    console.log(id);
+    dispatch(applicationSend({ id }));
+  }
+
+
   return (
     <View className="bg-white">
       {loading ? (
@@ -40,48 +51,85 @@ const Details = ({}) => {
         </View>
       ) : (
         <>
-          <View className="w-full h-[35vh] rounded-b-[28px] flex items-center justify-center bg-[#4080ED] space-y-1">
-            <Image
-              source={require("../../assets/Images/goole.webp")}
-              className="h-[60px] w-[60px] mx-auto  rounded-full"
-            ></Image>
-            <Text className="text-white text-md  font-semibold">
-              Product Designer
-            </Text>
-            <Text className="text-white text-1xl opacity-[0.8]">Google</Text>
-            <View className="flex flex-row  justify-center w-full gap-3">
-              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-                Design
-              </Text>
+          {job && (
+            <>
+              <View className="w-full h-[35vh] rounded-b-[28px] flex items-center justify-center bg-[#4080ED] space-y-1">
+                <Image
+                  source={{ uri: job?.employer?.organisationlogo?.url }}
+                  className="h-[60px] w-[60px] mx-auto  rounded-full"
+                ></Image>
+                <Text className="text-white text-md  font-semibold">
+                  {job?.title}
+                </Text>
+                <Text className="text-white text-1xl opacity-[0.8]">
+                  {job?.employer.organisationname}
+                </Text>
+                <View className="flex flex-row  justify-center w-full gap-3">
+                  {job?.skills.slice(0, 3).map((e) => {
+                    return (
+                      <Text className="bg-[#ffffff61] uppercase  text-[12px] px-[10px] py-[3px] rounded-md text-white">
+                        {e}
+                      </Text>
+                    );
+                  })}
+                </View>
+                <View className="flex flex-row justify-evenly space-x-5 w-full px-[20px] py-[10px]">
+                  <Text className="text-white font-semibold">
+                    {job.salary}/year
+                  </Text>
+                  <Text className="text-white font-semibold">
+                    {job.location},India
+                  </Text>
+                </View>
+              </View>
 
-              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-                Design
-              </Text>
+              <View className="flex flex-row justify-evenly pt-2">
+                <Text
+                  className={`opacity-[0.5]  ${
+                    Tab == "About" &&
+                    "border-b-[1.5px] border-black opacity-[1]"
+                  }`}
+                  onPress={() => setTab("About")}
+                >
+                  About
+                </Text>
+                <Text
+                  className={`opacity-[0.5]  ${
+                    Tab == "Description" &&
+                    "border-b-[1.5px] border-black opacity-[1]"
+                  }`}
+                  onPress={() => setTab("Description")}
+                >
+                  Description
+                </Text>
 
-              <Text className="bg-[#ffffff61]  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-                Design
-              </Text>
-            </View>
-            <View className="flex flex-row justify-center space-x-5 w-full px-[20px] py-[10px]">
-              <Text className="text-white font-semibold">$160,00/year</Text>
-              <Text className="text-white font-semibold">California,USA</Text>
-            </View>
-          </View>
+                <Text
+                  className={`opacity-[0.5]  ${
+                    Tab == "Company" &&
+                    "border-b-[1.5px] border-black opacity-[1]"
+                  }`}
+                  onPress={() => setTab("Company")}
+                >
+                  Company
+                </Text>
+              </View>
 
-          <View className="flex flex-row justify-evenly pt-2">
-            <Text className="opacity-[0.5]">About</Text>
-            <Text className="opacity-[0.5]">Description</Text>
-            <Text className="opacity-[0.5]">Review</Text>
-            <Text className="opacity-[0.5]">Hr</Text>
-          </View>
-
-          <ScrollView className="h-[51vh] bg-white">
-            {job && <JobCard {...job}></JobCard>}
-          </ScrollView>
-          {student && (
-            <View className="w-[90vw]  mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed">
-              <Text className="text-white font-semibold">Apply Now</Text>
-            </View>
+              <ScrollView className="h-[51vh] bg-white">
+                {job && <JobCard {...job} Tab={Tab}></JobCard>}
+              </ScrollView>
+              {student && (
+                <TouchableOpacity
+                  onPress={HandelApply}
+                  className="w-[90vw]  mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed"
+                >
+                  {loading2 ? (
+                    <Text className="text-white font-semibold">Loading...</Text>
+                  ) : (
+                    <Text className="text-white font-semibold">Apply Now</Text>
+                  )}
+                </TouchableOpacity>
+              )}
+            </>
           )}
         </>
       )}
@@ -105,6 +153,7 @@ const JobCard = ({
   preferences,
   organisationname,
   category,
+  Tab,
 }) => {
   const { student } = useSelector((e) => e.student);
 
@@ -119,16 +168,28 @@ const JobCard = ({
       }}
       className="px-[25px]"
     >
-      <About
-        title={title}
-        location={location}
-        jobType={jobType}
-        salary={salary}
-        openings={openings}
-        skills={skills}
-        organisationname={organisationname}
-        category={category}
-      />
+      {Tab == "About" && (
+        <About
+          title={title}
+          location={location}
+          jobType={jobType}
+          salary={salary}
+          openings={openings}
+          skills={skills}
+          organisationname={organisationname}
+          category={category}
+        />
+      )}
+
+      {Tab == "Description" && (
+        <Description preferences={preferences} description={description} />
+      )}
+
+      {Tab == "Company" && (
+        <Company employer={employer} organisationname={organisationname} />
+      )}
+
+      {Tab == "Review" && <Review />}
     </View>
   );
 };
@@ -154,12 +215,6 @@ function About({
         }}
         className="my-[10px] text-center mx-auto"
       >
-        <Text
-          style={{ fontSize: 14, fontWeight: "bold" }}
-          className="my-1 text-[#484848]"
-        >
-          {title}
-        </Text>
         <Text className="text-[12px] opacity-[.5] mx-auto">
           {organisationname}
         </Text>
@@ -167,7 +222,6 @@ function About({
       </View>
 
       <Text className="font-semibold mb-[10px]">Details</Text>
-
       <View
         style={{
           flexDirection: "col",
@@ -231,6 +285,7 @@ function About({
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {/* <FontAwesome name="shopping-bag" size={14} color="#8A8A8A" /> */}
+          <MaterialIcons name="library-books" size={14} color="#8A8A8A" />
           <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{category}</Text>
         </View>
 
@@ -243,11 +298,14 @@ function About({
 
         {/* skills */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text className="font-semibold mb-[1px]">Skills:</Text>
+          <Text className="font-semibold mb-[1px]">Skills:</Text>
           {skills.map((e) => {
             return (
-              <Text style={{ color: "#8A8A8A", marginLeft: 5 }} className="capitalize">
-                {e} 
+              <Text
+                style={{ color: "#8A8A8A", marginLeft: 5 }}
+                className="capitalize"
+              >
+                {e}
               </Text>
             );
           })}
@@ -257,23 +315,112 @@ function About({
   );
 }
 
-function Description() {
+function Description({ description, preferences }) {
   return (
     <>
-      <View className="my-1">
-        <Text className="text-md">Description</Text>
-        <Text className="text-[12px] mt-1 font-light">{description}</Text>
-        <Text className="text-md">Preferences</Text>
-        <Text className="text-[12px] mt-1 font-light">{preferences}</Text>
+      <View className="my-1 w-full space-y-2">
+        <View>
+          <Text className="text-md font-semibold text-md">Description</Text>
+          <View style={{ marginLeft: 15 }} className="space-y-1">
+            <Text style={{ marginLeft: 5 }} className="text-[13px]">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+            <Text style={{ marginLeft: 5 }} className="text-[13px]">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+          </View>
+        </View>
+        <View>
+          <Text className="text-md font-semibold text-md">Preference</Text>
+          <View style={{ marginLeft: 15 }} className="space-y-1">
+            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
+              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </Text>
+          </View>
+        </View>
       </View>
     </>
   );
 }
 
-function HR() {
-  return <></>;
-}
+const Company = ({ employer }) => {
+  const companyData = {
+    name: "Company Inc.",
+    industry: "Tech",
+    location: "San Francisco, CA",
+    employees: 1000,
+    hrManager: "Jane Smith",
+    hrContact: "jane.smith@coolcompany.com",
+  };
 
-function Review() {
-  return <></>;
-}
+  return (
+    <View style={styles.container} className="space-y-2">
+      <View>
+        <Text style={styles.title} className="my-1">
+          {companyData.name}
+        </Text>
+        <View className="space-y-[0.5]">
+          <Text style={styles.text}>Industry: {employer.organisationname}</Text>
+          <Text style={styles.text}>Location: {companyData.location}</Text>
+          <Text style={styles.text}>Employees: {companyData.employees}</Text>
+        </View>
+      </View>
+      <View>
+        <Text style={styles.title} className="my-1">
+          Details:
+        </Text>
+        <View className="space-y-[0.5]">
+          <Text style={styles.text}>
+            Manager: {employer.firstname}
+            {employer.lastname}
+          </Text>
+          <Text style={styles.text}>Contact: {employer.contact}</Text>
+          <Text style={styles.text}>Email: {employer.email}</Text>
+        </View>
+      </View>
+      <View>
+        <Text style={styles.title} className="my-1">
+          Description
+        </Text>
+        <View className="space-y-[0.5]">
+          <Text style={styles.text}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
+            non laboriosa
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: "#ffffff",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  subTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  text: {
+    fontSize: 14,
+    marginBottom: 3,
+  },
+});

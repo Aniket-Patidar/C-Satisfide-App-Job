@@ -93,6 +93,87 @@ export const logoutStudent = (userData) => async (dispatch) => {
     }
 }
 
+export const getApplication = () => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const { data } = await axios.get(`${basePath}/student/applications`, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(setApplication(data.applications));
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(setError(error?.response?.data?.message || "get Application failed"));
+    }
+}
+
+export const currentStudent = () => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const token = getToken()
+        if (!token) {
+            return;
+        }
+        const { data } = await axios.post(`${basePath}/student`, null, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(setStudent(data.student));
+    } catch (error) {
+        dispatch(setError(error?.response?.data?.message || "Failed to get current user"));
+    } finally {
+        dispatch(setLoading(false));
+    }
+};
+
+export const avatarStudent = (fileData) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const formData = new FormData();
+        formData.append('avatar', fileData);
+        const res = await axios.post(`${basePath}/student/avatar`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'authorization': await AsyncStorage.getItem('token')
+            },
+        });
+        dispatch(setLoading(false));
+        dispatch(currentStudent());
+
+    } catch (error) {
+        console.error(error);
+        dispatch(setLoading(false));
+        dispatch(setError(error?.response?.data?.message || "failed to upload a new avatar"));
+    }
+}
+
+export const applicationSend = (dets) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const { data } = await axios.post(`${basePath}/student/apply`, dets, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(AllJobs())
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(setError(error?.response?.data?.message || "send Application failed"));
+    }
+}
+
+
+
+/* ------------- */
 export const uploadResuma = (fileData) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -150,80 +231,7 @@ export const resetPassword = (password, id) => async (dispatch) => {
     }
 }
 
-export const applicationSend = (dets) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const { data } = await axios.post(`${basePath}/student/apply`, dets, {
-            headers: {
-                'authorization': await AsyncStorage.getItem('token')
-            },
-            withCredentials: true
-        });
-        dispatch(AllJobs())
-        dispatch(setLoading(false));
-    } catch (error) {
-        dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "send Application failed"));
-    }
-}
 
-export const getApplication = () => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const { data } = await axios.get(`${basePath}/student/applications`, {
-            headers: {
-                'authorization': await AsyncStorage.getItem('token')
-            },
-            withCredentials: true
-        });
-        dispatch(setApplication(data.applications));
-        dispatch(setLoading(false));
-    } catch (error) {
-        dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "get Application failed"));
-    }
-}
 
-export const avatarStudent = (fileData) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const formData = new FormData();
-        formData.append('avatar', fileData);
-        const res = await axios.post(`${basePath}/student/avatar`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'authorization': await AsyncStorage.getItem('token')
-            },
-        });
-        dispatch(setLoading(false));
-        dispatch(currentStudent());
 
-    } catch (error) {
-        console.error(error);
-        dispatch(setLoading(false));
-        dispatch(setError(error?.response?.data?.message || "failed to upload a new avatar"));
-    }
-}
 
-export const currentStudent = () => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const token = getToken()
-        if (!token) {
-            return;
-        }
-        const { data } = await axios.post(`${basePath}/student`, null, {
-            headers: {
-                'authorization': await AsyncStorage.getItem('token')
-            },
-            withCredentials: true
-        });
-        dispatch(setStudent(data.student));
-    } catch (error) {
-        dispatch(setError(error?.response?.data?.message || "Failed to get current user"));
-    } finally {
-        dispatch(setLoading(false));
-    }
-};

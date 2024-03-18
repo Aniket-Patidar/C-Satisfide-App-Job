@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,38 +9,56 @@ import {
   Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getApplication } from "../redux/action/studentAction";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const ApplicationPage = () => {
-  const jobData = {
-    title: "Software Engineer",
-    employer: "Google",
-    location: "New York",
-    jobType: "Full-time",
-    salary: "$100,000",
-    status: "Closed",
-  };
+  const dispatch = useDispatch();
+  const { loading, applications } = useSelector((state) => state.student);
+
+  useEffect(() => {
+    dispatch(getApplication());
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.header}>Your Job Applications</Text> */}
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={styles.jobCardsContainer}
-      >
-        {[...Array(10)].map((_, index) => (
-          <JobCard key={index} {...jobData} />
-        ))}
-      </ScrollView>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.jobCardsContainer}
+        >
+          {applications.map((application, index) => (
+            <JobCard key={index} application={application} />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
 
-const JobCard = ({ title, employer, location, jobType, salary, status }) => {
+const JobCard = ({ application }) => {
+  const { jobId, status } = application;
+
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case "Closed":
+        return styles.closedStatus;
+      case "Rejected":
+        return styles.rejectedStatus;
+      case "Accepted":
+        return styles.acceptedStatus;
+      case "Pending":
+        return styles.pendingStatus;
+      default:
+        return null;
+    }
+  };
+
   return (
     <TouchableOpacity style={styles.jobCard}>
       <View style={styles.logoContainer}>
@@ -49,8 +67,8 @@ const JobCard = ({ title, employer, location, jobType, salary, status }) => {
           style={styles.logo}
         />
         <View>
-          <Text style={styles.jobTitle}>{title}</Text>
-          <Text style={styles.employer}>{employer}</Text>
+          <Text style={styles.jobTitle}>{jobId.title}</Text>
+          <Text style={styles.employer}>{jobId.employer.name}</Text>
         </View>
       </View>
       <View style={styles.detailsContainer}>
@@ -60,29 +78,20 @@ const JobCard = ({ title, employer, location, jobType, salary, status }) => {
             size={windowWidth * 0.04}
             color="#555"
           />
-          <Text style={styles.detail}>{location}</Text>
+          <Text style={styles.detail} className="capitalize">{jobId.location}</Text>
         </View>
-        <Text style={styles.detail}>{salary}</Text>
+        <Text style={styles.detail}>{jobId.salary}</Text>
       </View>
       <View style={styles.statusContainer}>
-        <Text
-          style={[
-            styles.detail,
-            status === "Closed" ? styles.closedStatus : null,
-          ]}
-        >
-          {status}
-        </Text>
+        <Text style={[styles.detail, getStatusStyle(status)]}>{status}</Text>
         <View style={styles.jobTypeContainer}>
           <MaterialIcons name="work" size={windowWidth * 0.04} color="#555" />
-          <Text style={styles.detail}>{jobType}</Text>
+          <Text style={styles.detail}>{jobId.jobType}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
-
-export default ApplicationPage;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,15 +99,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7F7F7",
     padding: 20,
   },
-  header: {
-    fontSize: windowWidth * 0.06,
-    fontWeight: "bold",
-    marginBottom: windowHeight * 0.02,
-    textAlign: "center",
-    color: "#333",
-  },
   jobCardsContainer: {
-    flex: 1,
+    paddingBottom: 20,
   },
   jobCard: {
     backgroundColor: "#FFF",
@@ -155,4 +157,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+
+  closedStatus: {
+    color: "#FF4136", // Red color for Closed status
+    fontWeight: "bold",
+  },
+  rejectedStatus: {
+    color: "#FF5733", // Custom color for Rejected status
+    fontWeight: "bold",
+  },
+  acceptedStatus: {
+    color: "#2ECC40", // Green color for Accepted status
+    fontWeight: "bold",
+  },
+  pendingStatus: {
+    color: "#FFC300", // Yellow color for Pending status
+    fontWeight: "bold",
+  },
 });
+
+export default ApplicationPage;
