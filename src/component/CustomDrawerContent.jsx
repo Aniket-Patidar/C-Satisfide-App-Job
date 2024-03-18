@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   DrawerContentScrollView,
@@ -26,7 +27,15 @@ const CustomDrawer = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
-        {loading && <Text>Loading..</Text>}
+        {loading && (
+          <View className="my-auto flex items-center justify-center w-screen h-screen">
+            <ActivityIndicator
+              size="large"
+              className="-mt-[100px]"
+              color="#007AFF"
+            />
+          </View>
+        )}
         {employee && (
           <ImageBackground
             source={require("../../assets/menu-bg.jpg")}

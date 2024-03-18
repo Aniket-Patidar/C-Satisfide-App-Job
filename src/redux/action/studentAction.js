@@ -132,26 +132,6 @@ export const currentStudent = () => async (dispatch) => {
     }
 };
 
-export const avatarStudent = (fileData) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const formData = new FormData();
-        formData.append('avatar', fileData);
-        const res = await axios.post(`${basePath}/student/avatar`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'authorization': await AsyncStorage.getItem('token')
-            },
-        });
-        dispatch(setLoading(false));
-        dispatch(currentStudent());
-
-    } catch (error) {
-        console.error(error);
-        dispatch(setLoading(false));
-        dispatch(setError(error?.response?.data?.message || "failed to upload a new avatar"));
-    }
-}
 
 export const applicationSend = (dets) => async (dispatch) => {
     try {
@@ -171,6 +151,25 @@ export const applicationSend = (dets) => async (dispatch) => {
     }
 }
 
+export const avatarStudent = (fileData) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const formData = new FormData();
+        formData.append('avatar', fileData);
+        const res = await axios.post(`${basePath}/student/avatar`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'authorization': await AsyncStorage.getItem('token')
+            },
+        });
+        dispatch(setLoading(false));
+        dispatch(currentStudent());
+    } catch (error) {
+        console.log(error);
+        dispatch(setLoading(false));
+        dispatch(setError(error?.response?.data?.message || "failed to upload a new avatar"));
+    }
+}
 
 
 /* ------------- */

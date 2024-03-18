@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,15 +27,21 @@ const ApplicationPage = () => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <Text>Loading...</Text>
+        <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <ActivityIndicator
+            size="large"
+            className="-mt-[100px]"
+            color="#007AFF"
+          />
+        </View>
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.jobCardsContainer}
         >
-          {applications.map((application, index) => (
-            <JobCard key={index} application={application} />
-          ))}
+          {applications.map((application, index) => {
+            return <JobCard key={index} application={application} />;
+          })}
         </ScrollView>
       )}
     </View>
@@ -63,7 +70,9 @@ const JobCard = ({ application }) => {
     <TouchableOpacity style={styles.jobCard}>
       <View style={styles.logoContainer}>
         <Image
-          source={require("../../assets/Images/facebook.png")}
+          source={{
+            uri: `${application?.jobId?.employer?.organisationlogo?.url}`,
+          }}
           style={styles.logo}
         />
         <View>
@@ -78,7 +87,9 @@ const JobCard = ({ application }) => {
             size={windowWidth * 0.04}
             color="#555"
           />
-          <Text style={styles.detail} className="capitalize">{jobId.location}</Text>
+          <Text style={styles.detail} className="capitalize">
+            {jobId.location}
+          </Text>
         </View>
         <Text style={styles.detail}>{jobId.salary}</Text>
       </View>

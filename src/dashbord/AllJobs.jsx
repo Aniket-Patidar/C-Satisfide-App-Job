@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -45,9 +46,9 @@ const AllJobs = ({ navigate }) => {
     <ScrollView className="relative">
       <View className="flex items-center px-3 py-3">
         {loading && (
-          <>
-            <Text>Loading</Text>
-          </>
+          <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <ActivityIndicator size="large" className="-mt-[100px]" color="#007AFF" />
+        </View>
         )}
         {jobs?.map((e, i) => {
           return <JobCard {...e}></JobCard>;

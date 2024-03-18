@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,7 +16,10 @@ import { setError } from "../redux/sclice/studentSclice";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { updateStudent } from "../redux/action/studentAction";
+import { avatarStudent, updateStudent } from "../redux/action/studentAction";
+import UploadAvatar from "../component/UploadAvatar";
+
+import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -67,12 +71,36 @@ const Profile = () => {
     StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    dispatch(avatarStudent(result.uri));
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+    if (image) {
+    }
+  };
+
   return (
     <View>
-      {loading && <View>
-        <Text>Loading...</Text>
-        </View>}
-      {!error && (
+      {loading ? (
+        <View>
+          <View className="my-auto flex items-center justify-center w-screen h-screen">
+            <ActivityIndicator
+              size="large"
+              className="-mt-[100px]"
+              color="#007AFF"
+            />
+          </View>
+        </View>
+      ) : (
         <View className="bg-white min-h-[100vh] relative">
           <TouchableOpacity
             onPress={() => navigation.navigate("Setting")}
@@ -87,12 +115,13 @@ const Profile = () => {
           ></Image>
 
           <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
-            <View className="">
+            <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
               <Image
                 source={require("../../assets/Images/profile.webp")}
                 className="w-[80px] h-[80px] rounded-full"
               ></Image>
-            </View>
+            </TouchableOpacity>
+
             <View className="flex w-fit">
               {editMode ? (
                 <TextInput

@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -63,8 +64,8 @@ const Login = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View>
-          <Text>Loading...</Text>
+        <View className="h-screen  flex items-center justify-center">
+          <ActivityIndicator size="large" color="#007AFF" />
         </View>
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>

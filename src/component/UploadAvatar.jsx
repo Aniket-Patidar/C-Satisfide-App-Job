@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { View, Image, Button, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 
 const UploadAvatar = ({ data, upload }) => {
@@ -24,9 +27,9 @@ const UploadAvatar = ({ data, upload }) => {
   };
 
   return (
-    <View>
-      <TouchableOpacity onPress={pickImage}>{data}</TouchableOpacity>
-    </View>
+    <GestureHandlerRootView>
+        <TouchableOpacity onPress={pickImage}>{data}</TouchableOpacity>
+    </GestureHandlerRootView>
   );
 };
 

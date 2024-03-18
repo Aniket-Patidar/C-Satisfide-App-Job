@@ -22,22 +22,32 @@ import { applicationSend } from "../redux/action/studentAction";
 
 const Details = ({}) => {
   const { jobs, job, loading } = useSelector((e) => e.Jobs);
-  const { student, loading: loading2 ,error} = useSelector((e) => e.student);
+  const { student, loading: loading2, error } = useSelector((e) => e.student);
+  const [isApplied, setApplied] = useState(false);
+
   const [Tab, setTab] = useState("About");
 
   const dispatch = useDispatch();
   const route = useRoute();
   const { id } = route.params;
 
+  const checkIsApplyed = async () => {
+    const currentId = id?.toString();
+    const apply = student?.jobapplications?.includes(currentId);
+    if (apply) {
+      setApplied(true);
+    }
+  };
+
   useEffect(() => {
     dispatch(getJobById(id));
+    checkIsApplyed(id);
   }, []);
 
   function HandelApply() {
-    console.log(id);
-    dispatch(applicationSend({ id }));
+    dispatch(applicationSend({ jobId: id, resume: "a.pdf" }));
+    setApplied(true);
   }
-
 
   return (
     <View className="bg-white">
@@ -119,13 +129,21 @@ const Details = ({}) => {
               </ScrollView>
               {student && (
                 <TouchableOpacity
-                  onPress={HandelApply}
-                  className="w-[90vw]  mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed"
+                  onPress={() => !isApplied && HandelApply()}
+                  className="w-[90vw] mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed"
                 >
                   {loading2 ? (
                     <Text className="text-white font-semibold">Loading...</Text>
                   ) : (
-                    <Text className="text-white font-semibold">Apply Now</Text>
+                    <View>
+                      {isApplied ? (
+                        <Text className="text-white">Applied</Text>
+                      ) : (
+                        <Text className="text-white font-semibold">
+                          Apply Now
+                        </Text>
+                      )}
+                    </View>
                   )}
                 </TouchableOpacity>
               )}
