@@ -75,7 +75,7 @@ export const AllJobs = (obj = {}) => async (dispatch) => {
     }
 }
 
-export const logoutStudent = (userData) => async (dispatch) => {
+export const logoutStudent = () => async (dispatch) => {
     try {
         dispatch(setLoading(true));
         const data = await axios.get(`${basePath}/student/signout`, {
@@ -86,7 +86,7 @@ export const logoutStudent = (userData) => async (dispatch) => {
         });
         dispatch(setLoading(false));
         dispatch(setStudent(null))
-        clearToken()
+        await AsyncStorage.removeItem('token');
     } catch (error) {
         dispatch(setLoading(false));
         dispatch(setError(error?.response?.data?.message || "registerStudent failed"));
@@ -130,8 +130,7 @@ export const currentStudent = () => async (dispatch) => {
     } finally {
         dispatch(setLoading(false));
     }
-};
-
+}
 
 export const applicationSend = (dets) => async (dispatch) => {
     try {
@@ -171,6 +170,8 @@ export const avatarStudent = (fileData) => async (dispatch) => {
     }
 }
 
+
+/* ------------- */
 export const uploadResuma = (fileData) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -192,10 +193,6 @@ export const uploadResuma = (fileData) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "get current user failed"));
     }
 }
-
-
-/* ------------- */
-
 
 export const sendMail = (email) => async (dispatch) => {
     try {

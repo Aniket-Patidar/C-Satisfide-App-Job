@@ -111,6 +111,13 @@ const Jobs = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
+          <View className="flex flex-row items-center justify-center">
+            <Image
+              source={require("../../assets/banner/b2.jpg")}
+              className="w-[94vw] h-[100px] "
+              ></Image>
+          </View>
+
           <View className="flex items-center my-[12px]">
             {allJobs &&
               allJobs.map((e) => {
@@ -228,7 +235,10 @@ const JobCard = ({
           }}
         >
           <Ionicons name="location-outline" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }} className='capitalize'>
+          <Text
+            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize"
+          >
             {location}
           </Text>
         </View>
@@ -278,7 +288,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={()=>callHR(employer?.contact)}
+          onPress={() => callHR(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >

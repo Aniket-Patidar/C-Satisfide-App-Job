@@ -16,7 +16,7 @@ import UploadAvatar from "../component/UploadAvatar";
 
 const Profile = () => {
   const { employee, error, loading } = useSelector((e) => e.employee);
-  
+
   const [editMode, setEditMode] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ const Profile = () => {
     contact: "",
     organisationname: "",
   });
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,18 +57,18 @@ const Profile = () => {
     }
   }, [error]);
 
-
   return (
     <View style={styles.container}>
-      {loading && <Text>Loading..</Text>}
-      {employee && (
+      {loading ? (
+        <Text>Loading..</Text>
+      ) : (
         <>
           <UploadAvatar
             upload={avatarEmployee}
             data={
               <>
                 <Image
-                  source={{ uri: employee.organisationlogo.url }}
+                  source={{ uri: employee?.organisationlogo?.url }}
                   style={{
                     height: 100,
                     width: 100,
@@ -80,7 +80,7 @@ const Profile = () => {
             }
           ></UploadAvatar>
 
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles?.title}>Profile</Text>
           {editMode ? (
             <View class="">
               <TextInput
@@ -93,7 +93,7 @@ const Profile = () => {
               />
               <TextInput
                 style={styles.input}
-                value={formData.lastname}
+                value={formData?.lastname}
                 onChangeText={(text) =>
                   setFormData({ ...formData, lastname: text })
                 }

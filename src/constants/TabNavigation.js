@@ -54,8 +54,8 @@ const TabNavigator = () => {
                         backgroundColor: '#4080ED',
                         elevation: 0, // Remove shadow on Android
                         shadowOpacity: 0, // Remove shadow on iOS
-                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
-                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                        // borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        // borderBottomRightRadius: 15, // Rounded bottom-right corner
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
@@ -85,8 +85,8 @@ const TabNavigator = () => {
                         backgroundColor: '#4080ED',
                         elevation: 0, // Remove shadow on Android
                         shadowOpacity: 0, // Remove shadow on iOS
-                        borderBottomLeftRadius: 15, // Rounded bottom-left corner
-                        borderBottomRightRadius: 15, // Rounded bottom-right corner
+                        // borderBottomLeftRadius: 15, // Rounded bottom-left corner
+                        // borderBottomRightRadius: 15, // Rounded bottom-right corner
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
@@ -158,7 +158,7 @@ const TabNavigator = () => {
                             <Text style={styles.headerTitle}>Profile</Text>
                         </View>
                     ),
-                    
+
                 }}
             />
         </Tab.Navigator>

@@ -44,7 +44,14 @@ const AllJobs = ({ navigate }) => {
 
   return (
     <ScrollView className="relative">
+      
       <View className="flex items-center px-3 py-3">
+
+      <Image
+          source={require("../../assets/banner/1.png")}
+          className="w-[100vw] h-[150px] "
+        ></Image>
+
         {loading && (
           <View className="my-auto flex items-center justify-center w-screen h-screen">
           <ActivityIndicator size="large" className="-mt-[100px]" color="#007AFF" />

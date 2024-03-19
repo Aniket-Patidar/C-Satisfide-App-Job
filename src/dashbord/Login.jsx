@@ -45,7 +45,10 @@ const Login = ({ navigation, route }) => {
 
   const handleSignIn = () => {
     if (!userData.email || !userData.password) {
-      ToastAndroid.show("Please fill out all required fields.", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        "Please fill out all required fields.",
+        ToastAndroid.SHORT
+      );
 
       return;
     }
@@ -297,11 +300,11 @@ const Login = ({ navigation, route }) => {
           <Text style={{ fontSize: 16, color: COLORS.black }}>
             Don't have an account ?{" "}
           </Text>
-          <Pressable onPress={() => navigation.navigate("Register")}>
+          <Pressable onPress={() => navigation.navigate("Register Employee")}>
             <Text
               style={{
                 fontSize: 16,
-                color: COLORS.primary,
+                color: "#008BDC",
                 fontWeight: "bold",
                 marginLeft: 6,
               }}

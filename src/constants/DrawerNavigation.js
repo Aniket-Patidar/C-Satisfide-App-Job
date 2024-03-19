@@ -28,6 +28,7 @@ function MyDrawer() {
                     headerStyle
                 }}
             />
+            
             <Drawer.Screen
                 name="Create Job"
                 component={CreateJobScreen}

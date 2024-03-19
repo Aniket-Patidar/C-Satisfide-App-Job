@@ -10,9 +10,9 @@ import {
   StatusBar,
   ActivityIndicator,
   ToastAndroid,
-  Alert
+  Alert,
 } from "react-native";
-import * as DocumentPicker from 'expo-document-picker';
+
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setError } from "../redux/sclice/studentSclice";
@@ -24,7 +24,6 @@ import { avatarStudent, updateStudent } from "../redux/action/studentAction";
 import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
-
   const navigation = useNavigation();
   const { student, loading, error } = useSelector((e) => e.student);
   const dispatch = useDispatch();
@@ -89,40 +88,17 @@ const Profile = () => {
       type: result.assets[0].mimeType,
     };
 
+    dispatch(avatarStudent(avatarFile));
+    
     if (!result.cancelled) {
       setImage(result.uri);
     }
+    
     if (image) {
-      dispatch(avatarStudent(avatarFile));
     }
   };
 
   /* Resuma */
-  const [pdf, setPdf] = useState(null);
-  const pickPDF = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: 'application/pdf',
-        copyToCacheDirectory: false,
-      });
-
-      if (result.type === 'success') {
-        const resumeFile = {
-          uri: result.uri,
-          name: "resume.pdf",
-          type: 'application/pdf',
-        };
-        dispatch(avatarStudent(resumeFile));
-        setPdf(result.uri);
-      } else {
-        Alert.alert('No PDF selected');
-      }
-    } catch (error) {
-      console.error('Error picking PDF:', error);
-      Alert.alert('An error occurred while picking PDF');
-    }
-  };
-
 
   return (
     <View>
@@ -152,9 +128,9 @@ const Profile = () => {
 
           <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
             <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
-              {student.avatar ? (
+              {student?.avatar ? (
                 <Image
-                  source={{ uri: student.avatar.url }}
+                  source={{ uri: student?.avatar?.url }}
                   className="w-[80px] h-[80px] rounded-full"
                 ></Image>
               ) : (
@@ -250,7 +226,7 @@ const Profile = () => {
               )}
             </View>
 
-            <TouchableOpacity  onPress={pickPDF} className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+            <TouchableOpacity className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
               <Entypo
                 name="plus"
                 size={18}

@@ -51,7 +51,7 @@ export default function App() {
                 }}
               />
             )}
-            
+
             {employeeLoggedIn && (
               <Stack.Screen
                 name="DrawerNavigator"
@@ -70,7 +70,6 @@ export default function App() {
                 <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
               </>
             )}
-
             <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
             <Stack.Screen name="Setting" component={SettingScreen}
               options={{
@@ -85,9 +84,8 @@ export default function App() {
               }} />
 
             <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: false }} />
-
             <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
-            
+
           </Stack.Navigator>
         </SafeAreaView>
       </Provider>

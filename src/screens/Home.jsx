@@ -26,7 +26,12 @@ const Home = ({ navigation }) => {
   return (
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
+        <Image
+          source={require("../../assets/banner/1.png")}
+          className="w-[100vw] h-[150px] "
+        ></Image>
         <View className="w-[100%]  min-h-[100vh] px-[13px] py-4 bg-white">
+        
           <View className="flex mt-[1px] flex-row items-center justify-between">
             <View>
               <Text
@@ -39,13 +44,6 @@ const Home = ({ navigation }) => {
                 Discover Jobs 👋
               </Text>
             </View>
-
-            {/* TODO */}
-            {/* <Image
-              source={{ uri: student?.avatar.url }}
-              className="h-[30px] w-[30px] rounded-md"
-            ></Image> */}
-
             <Image
               source={require("../../assets/hero1.jpg")}
               className="h-[31px] w-[31px] rounded-md"
@@ -53,7 +51,7 @@ const Home = ({ navigation }) => {
           </View>
 
           <View
-            className={`h-[30px] my-[20px]  mt-[20px] rounded-md flex flex-row  space-x-1 items-center justify-start`}
+            className={`h-[30px] my-[20px]  mt-[20px] rounded-md flex flex-row  space-x-1 items-center justify-start flex-row-reverse space-x-1`}
           >
             <View className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-gray-100">
               <EvilIcons
@@ -69,8 +67,8 @@ const Home = ({ navigation }) => {
             </View>
 
             <View
-              className="w-[30px] flex items-center justify-center
-             h-[50px] bg-gray-100  opacity-[0.5] rounded-md"
+              className="w-[30px] max-h-[30px] bg-gray-200  mr-1 flex items-center justify-center
+             h-[50px]  opacity-[0.5] rounded-md"
             >
               <MaterialCommunityIcons
                 name="menu-open"
@@ -80,7 +78,6 @@ const Home = ({ navigation }) => {
             </View>
           </View>
 
-          {/* <Image source={require("../../assets/banner/Banner1.png")} className="w-[100vw] h-[70px] "></Image> */}
           <View className="mt-1 font-semibold">
             <View className="flex flex-row py-1 justify-between">
               <Text className="text-[13px] font-[500]">Top Jobs</Text>
@@ -165,7 +162,7 @@ const Home = ({ navigation }) => {
 
           <View className="mt-1  font-semibold">
             <View className="flex flex-row justify-between py-1 mb-2">
-              <Text className="text-[13px] font-[500]">Recommendations</Text>
+              <Text className="text-[13px] font-[500]">Top Company</Text>
               <Text className="text-[11px] opacity-[0.7]">Show more</Text>
             </View>
             <ScrollView horizontal={true} className="gap-2">

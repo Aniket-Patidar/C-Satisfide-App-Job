@@ -9,27 +9,27 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { useUserLoggedIn } from "../constants/auth";
+import { logoutStudent } from "../redux/action/studentAction";
 
 const Setting = () => {
-  const options = [
-    { label: "Change Number", icon: "ios-call", onPress: () => {} },
-    { label: "Language", icon: "ios-globe", onPress: () => {} },
-    { label: "Notifications", icon: "ios-notifications", onPress: () => {} },
-    { label: "Contact Support", icon: "ios-help-circle", onPress: () => {} },
-    { label: "Rate Us", icon: "ios-star", onPress: () => {} },
-    { label: "Terms & Conditions", icon: "ios-document", onPress: () => {} },
-    { label: "Privacy Policy", icon: "ios-lock", onPress: () => {} },
-    { label: "Delete Account", icon: "ios-trash", onPress: () => {} },
-    { label: "Logout", icon: "ios-log-out", onPress: () => {} },
-  ];
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const { userLoggedIn, setUserLoggedIn } = useUserLoggedIn();
 
   React.useEffect(() => {
     StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
+  const handleLogout = () => {
+    console.log("Logging out...");
+    dispatch(logoutStudent());
+    setUserLoggedIn(false);
+  };
   return (
     <View style={styles.container} className="space-y-4 flex flex-col">
-    
       <TouchableOpacity>
         <View
           style={styles.option}
@@ -110,7 +110,6 @@ const Setting = () => {
         </View>
       </TouchableOpacity>
 
-      
       <TouchableOpacity>
         <View
           style={styles.option}
@@ -125,7 +124,6 @@ const Setting = () => {
           </View>
         </View>
       </TouchableOpacity>
-      
 
       <TouchableOpacity>
         <View
@@ -142,7 +140,7 @@ const Setting = () => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleLogout}>
         <View
           style={styles.option}
           className="bg-white py-[12px] rounded-lg px-1 justify-between"
@@ -152,11 +150,12 @@ const Setting = () => {
               source={require("../../assets/settings/logout.png")}
               className="w-[23px] h-[23px]"
             ></Image>
-            <Text style={styles.optionText}>Logout</Text>
+            <TouchableOpacity style={styles.optionText}>
+              <Text>Logout</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableOpacity>
-
     </View>
   );
 };

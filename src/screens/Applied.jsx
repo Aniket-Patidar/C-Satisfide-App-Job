@@ -76,8 +76,8 @@ const JobCard = ({ application }) => {
           style={styles.logo}
         />
         <View>
-          <Text style={styles.jobTitle}>{jobId.title}</Text>
-          <Text style={styles.employer}>{jobId.employer.name}</Text>
+          <Text style={styles.jobTitle}>{jobId?.title}</Text>
+          <Text style={styles.employer}>{jobId?.employer?.name}</Text>
         </View>
       </View>
       <View style={styles.detailsContainer}>
@@ -88,16 +88,16 @@ const JobCard = ({ application }) => {
             color="#555"
           />
           <Text style={styles.detail} className="capitalize">
-            {jobId.location}
+            {jobId?.location}
           </Text>
         </View>
-        <Text style={styles.detail}>{jobId.salary}</Text>
+        <Text style={styles.detail}>{jobId?.salary}</Text>
       </View>
       <View style={styles.statusContainer}>
         <Text style={[styles.detail, getStatusStyle(status)]}>{status}</Text>
         <View style={styles.jobTypeContainer}>
           <MaterialIcons name="work" size={windowWidth * 0.04} color="#555" />
-          <Text style={styles.detail}>{jobId.jobType}</Text>
+          <Text style={styles.detail}>{jobId?.jobType}</Text>
         </View>
       </View>
     </TouchableOpacity>
