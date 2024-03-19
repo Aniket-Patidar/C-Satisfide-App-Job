@@ -9,7 +9,10 @@ import {
   Image,
   StatusBar,
   ActivityIndicator,
+  ToastAndroid,
+  Alert
 } from "react-native";
+import * as DocumentPicker from 'expo-document-picker';
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setError } from "../redux/sclice/studentSclice";
@@ -17,11 +20,11 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { avatarStudent, updateStudent } from "../redux/action/studentAction";
-import UploadAvatar from "../component/UploadAvatar";
 
 import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
+
   const navigation = useNavigation();
   const { student, loading, error } = useSelector((e) => e.student);
   const dispatch = useDispatch();
@@ -46,7 +49,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       dispatch(setError(null));
     }
   }, [error]);
@@ -80,13 +83,46 @@ const Profile = () => {
       aspect: [1, 1],
       quality: 1,
     });
-    dispatch(avatarStudent(result.uri));
+    const avatarFile = {
+      uri: result.assets[0].uri,
+      name: "avatar.jpg",
+      type: result.assets[0].mimeType,
+    };
+
     if (!result.cancelled) {
       setImage(result.uri);
     }
     if (image) {
+      dispatch(avatarStudent(avatarFile));
     }
   };
+
+  /* Resuma */
+  const [pdf, setPdf] = useState(null);
+  const pickPDF = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf',
+        copyToCacheDirectory: false,
+      });
+
+      if (result.type === 'success') {
+        const resumeFile = {
+          uri: result.uri,
+          name: "resume.pdf",
+          type: 'application/pdf',
+        };
+        dispatch(avatarStudent(resumeFile));
+        setPdf(result.uri);
+      } else {
+        Alert.alert('No PDF selected');
+      }
+    } catch (error) {
+      console.error('Error picking PDF:', error);
+      Alert.alert('An error occurred while picking PDF');
+    }
+  };
+
 
   return (
     <View>
@@ -116,10 +152,17 @@ const Profile = () => {
 
           <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
             <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
-              <Image
-                source={require("../../assets/Images/profile.webp")}
-                className="w-[80px] h-[80px] rounded-full"
-              ></Image>
+              {student.avatar ? (
+                <Image
+                  source={{ uri: student.avatar.url }}
+                  className="w-[80px] h-[80px] rounded-full"
+                ></Image>
+              ) : (
+                <Image
+                  source={require("../../assets/Images/profile.webp")}
+                  className="w-[80px] h-[80px] rounded-full"
+                ></Image>
+              )}
             </TouchableOpacity>
 
             <View className="flex w-fit">
@@ -207,7 +250,7 @@ const Profile = () => {
               )}
             </View>
 
-            <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
+            <TouchableOpacity  onPress={pickPDF} className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
               <Entypo
                 name="plus"
                 size={18}
@@ -217,7 +260,7 @@ const Profile = () => {
               <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
                 Upload Resume
               </Text>
-            </View>
+            </TouchableOpacity>
             <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
               <Ionicons name="create" size={18} color="black" />
               <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">

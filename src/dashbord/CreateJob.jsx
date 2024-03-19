@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, ScrollView } from "react-native";
+import { View, Text, TextInput, Button, ScrollView, ToastAndroid } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createJobs } from "../redux/action/jobAction";
 import { setError, setJobCreated } from "../redux/sclice/JobSclice";
@@ -24,15 +24,10 @@ const JobForm = () => {
     location: "",
   });
 
-  // useEffect(() => {
-  //   if (job) {
-  //     alert("Job created successfully");
-  //   }
-  // }, [job]);
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       dispatch(setError(null));
     }
   }, [error]);
@@ -66,7 +61,7 @@ const JobForm = () => {
       formData.location.trim() === "" ||
       skills.length === 0
     ) {
-      alert("Please fill in all fields and add at least one skill.");
+      ToastAndroid.show("Please fill in all fields and add at least one skill.", ToastAndroid.SHORT);
       return;
     }
 

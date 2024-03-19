@@ -171,8 +171,6 @@ export const avatarStudent = (fileData) => async (dispatch) => {
     }
 }
 
-
-/* ------------- */
 export const uploadResuma = (fileData) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -194,6 +192,10 @@ export const uploadResuma = (fileData) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "get current user failed"));
     }
 }
+
+
+/* ------------- */
+
 
 export const sendMail = (email) => async (dispatch) => {
     try {

@@ -1,90 +1,93 @@
 import {
-    View,
-    Text,
-    Image,
-    Pressable,
-    TextInput,
-    TouchableOpacity,
-  } from "react-native";
-  import React, { useEffect, useState } from "react";
-  import { SafeAreaView } from "react-native-safe-area-context";
-  import COLORS from "../constants/colors";
-  import { Ionicons } from "@expo/vector-icons";
-  import Checkbox from "expo-checkbox";
-  import Button from "../component/Button";
-  import { useNavigation, useRoute } from "@react-navigation/native";
-  import { ScrollView } from "react-native-gesture-handler";
-  import { registerEmployee } from "../redux/action/employeeAction";
-  import { useDispatch, useSelector } from "react-redux";
-  import { setError } from "../redux/sclice/employeeSclice";
-  
-  const Register = ({ route }) => {
-    const navigation = useNavigation();
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
-    const dispatch = useDispatch();
-  
-    const { setUserLoggedIn, setEmployeeLoggedIn } = route.params;
-  
-    const { employee, error, loading } = useSelector((e) => e.employee);
-  
-    const [userData, setUserData] = useState({
-      contact: "",
-      email: "",
-      organisationname: "",
-      password: "",
-      firstname: "",
+  View,
+  Text,
+  Image,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import COLORS from "../constants/colors";
+import { Ionicons } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
+import Button from "../component/Button";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
+import { registerEmployee } from "../redux/action/employeeAction";
+import { useDispatch, useSelector } from "react-redux";
+import { setError } from "../redux/sclice/employeeSclice";
+
+const Register = ({ route }) => {
+  const navigation = useNavigation();
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
+
+  const { setUserLoggedIn, setEmployeeLoggedIn } = route.params;
+
+  const { employee, error, loading } = useSelector((e) => e.employee);
+
+  const [userData, setUserData] = useState({
+    contact: "",
+    email: "",
+    organisationname: "",
+    password: "",
+    firstname: "",
+  });
+
+  const handleInputChange = (field, value) => {
+    setUserData({
+      ...userData,
+      [field]: value,
     });
-  
-    const handleInputChange = (field, value) => {
-      setUserData({
-        ...userData,
-        [field]: value,
-      });
-    };
-  
-    const handleSignUp = () => {
-      if (
-        !userData.firstname ||
-        !userData.email ||
-        !userData.contact ||
-        !userData.password ||
-        !userData.organisationname
-      ) {
-        alert("Please fill out all required fields.");
-        return;
-      }
-      dispatch(registerEmployee(userData));
-    };
-  
-    useEffect(() => {
-      if (employee) {
-        setEmployeeLoggedIn(true);
-      }
-    }, [employee]);
-  
-    useEffect(() => {
-      if (error) {
-        alert(error);
-        dispatch(setError(null));
-      }
-    }, [error]);
-  
-    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-        <View style={{ flex: 1, marginHorizontal: 22 }}>
-          <View style={{ marginVertical: 2 }}>
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: "bold",
-                marginVertical: 12,
-                color: COLORS.black,
-              }}
-            >
-              Create Account
-            </Text>
-            {/* 
+  };
+
+  const handleSignUp = () => {
+    if (
+      !userData.firstname ||
+      !userData.email ||
+      !userData.contact ||
+      !userData.password ||
+      !userData.organisationname
+    ) {
+      ToastAndroid.show(
+        "Please fill out all required fields.",
+        ToastAndroid.SHORT
+      );
+      return;
+    }
+    dispatch(registerEmployee(userData));
+  };
+
+  useEffect(() => {
+    if (employee) {
+      setEmployeeLoggedIn(true);
+    }
+  }, [employee]);
+
+  useEffect(() => {
+    if (error) {
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+      dispatch(setError(null));
+    }
+  }, [error]);
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+      <View style={{ flex: 1, marginHorizontal: 22 }}>
+        <View style={{ marginVertical: 2 }}>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: "bold",
+              marginVertical: 12,
+              color: COLORS.black,
+            }}
+          >
+            Create Account
+          </Text>
+          {/* 
             <Text
               style={{
                 fontSize: 16,
@@ -93,244 +96,244 @@ import {
             >
               Connect with your friend today!
             </Text> */}
-          </View>
-  
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              First Name
-            </Text>
-  
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your first name"
-                placeholderTextColor={COLORS.black}
-                keyboardType="text"
-                onChangeText={(text) => handleInputChange("firstname", text)}
-                style={{
-                  width: "100%",
-                }}
-              />
-            </View>
-          </View>
-  
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              organization Name
-            </Text>
-  
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your first name"
-                placeholderTextColor={COLORS.black}
-                keyboardType="text"
-                onChangeText={(text) =>
-                  handleInputChange("organisationname", text)
-                }
-                style={{
-                  width: "100%",
-                }}
-              />
-            </View>
-          </View>
-  
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              Email address
-            </Text>
-  
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your email address"
-                placeholderTextColor={COLORS.black}
-                keyboardType="email-address"
-                onChangeText={(text) => handleInputChange("email", text)}
-                style={{
-                  width: "100%",
-                }}
-              />
-            </View>
-          </View>
-  
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              contact
-            </Text>
-  
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your contact"
-                placeholderTextColor={COLORS.black}
-                keyboardType="numeric"
-                onChangeText={(text) => handleInputChange("contact", text)}
-                style={{
-                  width: "100%",
-                }}
-              />
-            </View>
-          </View>
-  
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-            >
-              Password
-            </Text>
-  
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your password"
-                placeholderTextColor={COLORS.black}
-                secureTextEntry={isPasswordShown}
-                onChangeText={(text) => handleInputChange("password", text)}
-                style={{
-                  width: "100%",
-                }}
-              />
-  
-              <TouchableOpacity
-                onPress={() => setIsPasswordShown(!isPasswordShown)}
-                style={{
-                  position: "absolute",
-                  right: 12,
-                }}
-              >
-                {isPasswordShown == true ? (
-                  <Ionicons name="eye-off" size={24} color={COLORS.black} />
-                ) : (
-                  <Ionicons name="eye" size={24} color={COLORS.black} />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-  
-          <View>
-            <Button
-              title="Sign Up"
-              filled
-              style={{
-                marginTop: 18,
-                marginBottom: 4,
-              }}
-              onPress={handleSignUp}
-            />
-          </View>
-          <View
+        </View>
+
+        <View style={{ marginBottom: 3 }}>
+          <Text
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 20,
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
             }}
           >
-            <View
+            First Name
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your first name"
+              placeholderTextColor={COLORS.black}
+              keyboardType="text"
+              onChangeText={(text) => handleInputChange("firstname", text)}
               style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: COLORS.grey,
-                marginHorizontal: 10,
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Login Employee")}
-              className="flex flex-row gap-1"
-              style={{ fontSize: 14 }}
-            >
-              <Text>Already have an Account</Text>
-              <Text className="text-[#008BDC]">Login</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: COLORS.grey,
-                marginHorizontal: 10,
+                width: "100%",
               }}
             />
           </View>
-  
-          {/* <View
+        </View>
+
+        <View style={{ marginBottom: 3 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            organization Name
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your first name"
+              placeholderTextColor={COLORS.black}
+              keyboardType="text"
+              onChangeText={(text) =>
+                handleInputChange("organisationname", text)
+              }
+              style={{
+                width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 3 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Email address
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your email address"
+              placeholderTextColor={COLORS.black}
+              keyboardType="email-address"
+              onChangeText={(text) => handleInputChange("email", text)}
+              style={{
+                width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 3 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            contact
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your contact"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              onChangeText={(text) => handleInputChange("contact", text)}
+              style={{
+                width: "100%",
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 3 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Password
+          </Text>
+
+          <View
+            style={{
+              width: "100%",
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your password"
+              placeholderTextColor={COLORS.black}
+              secureTextEntry={isPasswordShown}
+              onChangeText={(text) => handleInputChange("password", text)}
+              style={{
+                width: "100%",
+              }}
+            />
+
+            <TouchableOpacity
+              onPress={() => setIsPasswordShown(!isPasswordShown)}
+              style={{
+                position: "absolute",
+                right: 12,
+              }}
+            >
+              {isPasswordShown == true ? (
+                <Ionicons name="eye-off" size={24} color={COLORS.black} />
+              ) : (
+                <Ionicons name="eye" size={24} color={COLORS.black} />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View>
+          <Button
+            title="Sign Up"
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+            }}
+            onPress={handleSignUp}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 20,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.grey,
+              marginHorizontal: 10,
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login Employee")}
+            className="flex flex-row gap-1"
+            style={{ fontSize: 14 }}
+          >
+            <Text>Already have an Account</Text>
+            <Text className="text-[#008BDC]">Login</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              backgroundColor: COLORS.grey,
+              marginHorizontal: 10,
+            }}
+          />
+        </View>
+
+        {/* <View
             style={{
               flexDirection: "row",
               marginVertical: 6,
@@ -478,10 +481,9 @@ import {
               </Text>
             </Pressable>
           </View> */}
-        </View>
-      </SafeAreaView>
-    );
-  };
-  
-  export default Register;
-  
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default Register;

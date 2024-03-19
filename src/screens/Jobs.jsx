@@ -10,7 +10,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import Onboarding from 'react-native-onboarding-swiper';
+import Onboarding from "react-native-onboarding-swiper";
 
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -55,17 +55,18 @@ const Jobs = ({ navigation }) => {
   const handelSubmit = () => {
     dispatch(AllJobs(formData));
     toggleDrawer();
-    setFormData({
-      
-    })
-    console.log("Handel Submit");
+    setFormData({});
   };
 
   return (
     <ScrollView className="relative">
       {loading ? (
         <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicator size="large" className="-mt-[100px]" color="#007AFF" />
+          <ActivityIndicator
+            size="large"
+            className="-mt-[100px]"
+            color="#007AFF"
+          />
         </View>
       ) : (
         <>
@@ -124,6 +125,8 @@ const Jobs = ({ navigation }) => {
 
 export default Jobs;
 
+import * as Linking from "expo-linking";
+
 const JobCard = ({
   _id,
   title,
@@ -135,6 +138,7 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
+  applications,
 }) => {
   const navigation = useNavigation();
 
@@ -156,8 +160,8 @@ const JobCard = ({
     }).start();
   };
 
-  const callHR = () => {
-    console.log("call hr");
+  const callHR = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
@@ -179,30 +183,40 @@ const JobCard = ({
         transform: [{ scale: scaleAnimation }],
       }}
     >
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
-      >
-        <Image
-          source={require("../../assets/Icons/logo.jpg")}
-          style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
-        />
-        <View>
-          <Text
-            style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}
-            className="capitalize"
-          >
-            {title}
-          </Text>
-          <Text
-            style={{
-              fontSize: 11,
-              color: "#666666",
-              textTransform: "capitalize",
-            }}
-          >
-            {employer.organisationname}
-          </Text>
+      <View className="flex flex-row justify-between">
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Image
+            source={require("../../assets/Icons/logo.jpg")}
+            style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
+          />
+          <View>
+            <Text
+              style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}
+              className="capitalize"
+            >
+              {title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                color: "#666666",
+                textTransform: "capitalize",
+              }}
+            >
+              {employer.organisationname}
+            </Text>
+          </View>
         </View>
+
+        {applications.length > 0 && (
+          <Text className="text-[#4080ED]">+{applications.length}</Text>
+        )}
       </View>
 
       <View style={{ marginBottom: 10 }}>
@@ -214,7 +228,7 @@ const JobCard = ({
           }}
         >
           <Ionicons name="location-outline" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }} className='capitalize'>
             {location}
           </Text>
         </View>
@@ -264,7 +278,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={callHR}
+          onPress={()=>callHR(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >

@@ -52,7 +52,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       dispatch(setError(null));
     }
   }, [error]);

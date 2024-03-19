@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -54,7 +55,10 @@ const Register = ({ route }) => {
       !userData.password ||
       !userData.lastname
     ) {
-      alert("Please fill out all required fields.");
+      ToastAndroid.show(
+        "Please fill out all required fields.",
+        ToastAndroid.SHORT
+      );
       return;
     }
     dispatch(registerStudent(userData));
@@ -68,7 +72,7 @@ const Register = ({ route }) => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       dispatch(setError(null));
     }
   }, [error]);

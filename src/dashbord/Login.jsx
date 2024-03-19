@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,12 +16,17 @@ import Button from "../component/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { loginEmployee } from "../redux/action/employeeAction";
 import { setError } from "../redux/sclice/employeeSclice";
-import { getToken, config, setToken, clearToken } from '../constants/handelToken'
+import {
+  getToken,
+  config,
+  setToken,
+  clearToken,
+} from "../constants/handelToken";
 
 const Login = ({ navigation, route }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { setUserLoggedIn, setEmployeeLoggedIn } = route.params;
 
   const { employee, error, loading } = useSelector((e) => e.employee);
@@ -39,7 +45,8 @@ const Login = ({ navigation, route }) => {
 
   const handleSignIn = () => {
     if (!userData.email || !userData.password) {
-      alert("Please fill out all required fields.");
+      ToastAndroid.show("Please fill out all required fields.", ToastAndroid.SHORT);
+
       return;
     }
     dispatch(loginEmployee(userData));
@@ -53,11 +60,10 @@ const Login = ({ navigation, route }) => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       dispatch(setError(null));
     }
   }, [error]);
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
