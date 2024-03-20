@@ -30,36 +30,27 @@ const AllJobs = ({ navigate }) => {
     dispatch(allJobs());
   }, []);
 
-  const jobData = {
-    title: "Software Engineer",
-    skills: ["JavaScript", "React", "Node.js"],
-    employer: { organisationlogo: { url: "../../assets/facbook.webp" } },
-    location: "New York",
-    jobType: "Full-time",
-    salary: 100000,
-    openings: 5,
-    isAlreadyApplied: false,
-    jobId: 1,
-  };
-
   return (
     <ScrollView className="relative">
-      
-      <View className="flex items-center px-3 py-3">
-
       <Image
-          source={require("../../assets/banner/1.png")}
-          className="w-[100vw] h-[150px] "
-        ></Image>
+        source={require("../../assets/banner/b3.jpg")}
+        className="w-[90vw] h-[130px] mx-auto mt-2 "
+      ></Image>
 
-        {loading && (
+      <View className="flex items-center  py-3">
+        {loading ? (
           <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicator size="large" className="-mt-[100px]" color="#007AFF" />
-        </View>
+            <ActivityIndicator
+              size="large"
+              className="-mt-[100px]"
+              color="#007AFF"
+            />
+          </View>
+        ) : (
+          jobs?.map((e, i) => {
+            return <JobCard {...e}></JobCard>;
+          })
         )}
-        {jobs?.map((e, i) => {
-          return <JobCard {...e}></JobCard>;
-        })}
       </View>
     </ScrollView>
   );
@@ -67,7 +58,10 @@ const AllJobs = ({ navigate }) => {
 
 export default AllJobs;
 
+import * as Linking from "expo-linking";
+
 const JobCard = ({
+  _id,
   title,
   skills,
   employer,
@@ -77,141 +71,169 @@ const JobCard = ({
   openings,
   isAlreadyApplied,
   jobId,
-  _id,
+  applications,
 }) => {
   const navigation = useNavigation();
+
+  const scaleAnimation = new Animated.Value(1);
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 1,
+      friction: 4,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const callHR = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   return (
-    <View
+    <Animated.View
       style={{
         backgroundColor: "#FFFFFF",
-        width: "100%",
-        padding: 20,
-        borderRadius: 2,
-        marginBottom: 10,
+        width: "90%",
+        padding: 15,
+        borderRadius: 8,
+        marginBottom: 15,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        transform: [{ scale: scaleAnimation }],
       }}
-      className="rounded-lg shadow-lg"
     >
-      <View
-        style={{
-          flexDirection: "col",
-          alignItems: "start",
-          justifyContent: "start",
-          marginBottom: 10,
-        }}
-      >
-        <View className="flex flex-row justify-between items-center">
+      <View className="flex flex-row justify-between">
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Image
+            source={require("../../assets/Icons/logo.jpg")}
+            style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
+          />
           <View>
             <Text
-              style={{ fontSize: 14, fontWeight: "bold" }}
-              className="my-1 text-[#484848]"
+              style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}
+              className="capitalize"
             >
               {title}
             </Text>
-            {/* {employee && (
-              <Text className="text-[12px] text-black">
-                {employee?.organisationname}
-              </Text>
-            )} */}
-          </View>
-          <Image
-            source={require("../../assets/google.png")}
-            style={{ width: "40px", height: "40px" }}
-          />
-        </View>
-      </View>
-
-      <View style={{ marginBottom: 0 }}>
-        <View
-          style={{
-            flexDirection: "col",
-            justifyContent: "",
-            marginBottom: 0,
-          }}
-          className="flex gap-2 justify-start items-start"
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-          >
-            <Ionicons name="location-outline" size={16} color="#8A8A8A" />
             <Text
               style={{
+                fontSize: 11,
+                color: "#666666",
                 textTransform: "capitalize",
-                color: "#8A8A8A",
-                marginLeft: 5,
               }}
             >
-              {location}
+              {employer.organisationname}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
+        </View>
+
+        {applications.length > 0 && (
+          <Text className="text-[#4080ED]">+{applications.length}</Text>
+        )}
+      </View>
+
+      <View style={{ marginBottom: 10 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <Text
+            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize"
           >
-            <MaterialCommunityIcons
-              name="progress-clock"
-              size={16}
-              color="#8A8A8A"
-            />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{jobType}</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-            className=""
-          >
-            <MaterialIcons name="currency-rupee" size={16} color="#8A8A8A" />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
-              {salary} / Per Year
-            </Text>
-          </View>
-          <View
-            className=""
-            style={{ flexDirection: "row", alignItems: "center" }}
-          >
-            <SimpleLineIcons name="people" size={16} color="#8A8A8A" />
-            <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
-              {openings} Openings
-            </Text>
-          </View>
+            {location}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+            {salary} / Per Year
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <FontAwesome name="briefcase" size={14} color="#8A8A8A" />
+          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+            {jobType}
+          </Text>
         </View>
       </View>
 
       <View
         style={{
           flexDirection: "row",
+          justifyContent: "space-between",
           alignItems: "center",
-          justifyContent: "flex-end",
         }}
       >
         <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: "#5794FF",
-            paddingVertical: 4,
-            paddingHorizontal: 8,
-            borderRadius: 4,
-            marginLeft: 10,
-          }}
-          className="bg-[#008BDC]"
+          onPress={() => navigation.navigate("Job Details", { id: _id })}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
         >
-          <Text
-            style={{ color: "white", fontSize: 12 }}
-            onPress={() => navigation.navigate("Job Details", { id: _id })}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={{ fontSize: 12, color: "#4080ED", marginRight: 5 }}>
+              View Details
+            </Text>
+            <AntDesign name="arrowright" size={12} color="#4080ED" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => callHR(employer?.contact)}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
+          <View
+            style={{
+              backgroundColor: "#2cc57b",
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 5,
+            }}
           >
-            Details
-          </Text>
+            <Text
+              style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+            >
+              Call HR
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 };

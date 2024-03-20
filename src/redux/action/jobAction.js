@@ -17,7 +17,7 @@ export const createJobs = (userData) => async (dispatch) => {
         });
         dispatch(setLoading(false));
         dispatch(setJobs(data.student))
-     
+
     } catch (error) {
         dispatch(setLoading(false));
         console.error(error);
@@ -34,6 +34,8 @@ export const allJobs = (filters = {}) => async (dispatch) => {
             },
             withCredentials: true
         });
+
+
         dispatch(setLoading(false));
         dispatch(setJobs(data.jobs));
     } catch (error) {

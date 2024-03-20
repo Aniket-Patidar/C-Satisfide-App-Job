@@ -23,8 +23,6 @@ const ProductTable = ({ navigation }) => {
         <Text className="text-blue-900">506</Text> jobs Aniket Patidar
       </Text>
 
-      <Filter />
-
       <View className="flex flex-row justify-between px-3 py-3">
         <Text className="font-semibold text-md">Application</Text>
         <Text className="border-[.2px] px-2 rounded-full items-center justify-center  text-[12px] opacity-[.5]">

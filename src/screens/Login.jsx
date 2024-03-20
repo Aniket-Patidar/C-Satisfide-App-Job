@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ToastAndroid,
+  ActivityIndicatorBase,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -43,7 +44,10 @@ const Login = ({ navigation, route }) => {
 
   const handleSignIn = () => {
     if (!userData.email || !userData.password) {
-      ToastAndroid.show("Please fill out all required fields.", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        "Please fill out all required fields.",
+        ToastAndroid.SHORT
+      );
       return;
     }
     dispatch(loginStudent(userData));
@@ -65,8 +69,12 @@ const Login = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View className="h-screen  flex items-center justify-center">
-          <ActivityIndicator size="large" color="#007AFF" />
+        <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <ActivityIndicatorBase
+            size="large"
+            className="-mt-[100px]"
+            color="#007AFF"
+          />
         </View>
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>

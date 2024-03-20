@@ -26,10 +26,7 @@ const Home = ({ navigation }) => {
   return (
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
-        <Image
-          source={require("../../assets/banner/1.png")}
-          className="w-[100vw] h-[150px] "
-        ></Image>
+    
         <View className="w-[100%]  min-h-[100vh] px-[13px] py-4 bg-white">
         
           <View className="flex mt-[1px] flex-row items-center justify-between">
@@ -77,6 +74,12 @@ const Home = ({ navigation }) => {
               />
             </View>
           </View>
+
+
+          <Image
+          source={require("../../assets/banner/1.png")}
+          className="w-[92vw] h-[150px] "
+        ></Image>
 
           <View className="mt-1 font-semibold">
             <View className="flex flex-row py-1 justify-between">

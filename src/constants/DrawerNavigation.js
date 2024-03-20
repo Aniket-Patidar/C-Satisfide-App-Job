@@ -14,6 +14,7 @@ function MyDrawer() {
 
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
+
             <Drawer.Screen
                 name="Dashboard"
                 component={DashScreen}
@@ -25,24 +26,15 @@ function MyDrawer() {
                             color={focused ? 'blue' : 'black'}
                         />
                     ),
-                    headerStyle
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                    },
+                    headerTintColor: 'white',
                 }}
             />
-            
-            <Drawer.Screen
-                name="Create Job"
-                component={CreateJobScreen}
-                options={{
-                    drawerIcon: ({ focused, size }) => (
-                        <Icon
-                            name={focused ? 'create' : 'create-outline'}
-                            size={size}
-                            color={focused ? 'blue' : 'black'}
-                        />
-                    ),
-                    headerStyle
-                }}
-            />
+
             <Drawer.Screen
                 name="Jobs"
                 component={AllJobsScreen}
@@ -54,9 +46,35 @@ function MyDrawer() {
                             color={focused ? 'blue' : 'black'}
                         />
                     ),
-                    headerStyle
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                    },
+                    headerTintColor: 'white',
                 }}
             />
+
+            <Drawer.Screen
+                name="Create Job"
+                component={CreateJobScreen}
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Icon
+                            name={focused ? 'create' : 'create-outline'}
+                            size={size}
+                            color={focused ? 'blue' : 'black'}
+                        />
+                    ),
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                    },
+                    headerTintColor: 'white',
+                }}
+
+            />
+
+
             <Drawer.Screen
                 name="Profile"
                 component={Profile}
@@ -68,9 +86,15 @@ function MyDrawer() {
                             color={focused ? 'blue' : 'black'}
                         />
                     ),
-                    headerStyle
+                    headerStyle: {
+                        backgroundColor: '#4080ED',
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                    },
+                    headerTintColor: 'white',
                 }}
             />
+
         </Drawer.Navigator>
     );
 }

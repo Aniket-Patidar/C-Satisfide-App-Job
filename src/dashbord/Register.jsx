@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ToastAndroid,
+  ActivityIndicatorBase,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -77,8 +78,9 @@ const Register = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View>
-          <Text>Loading....</Text>
+        <View className="my-auto flex items-center justify-center w-screen h-screen">
+          <Text>Loading...</Text>
+        
         </View>
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>

@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, ScrollView, ToastAndroid } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  ScrollView,
+  ToastAndroid,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createJobs } from "../redux/action/jobAction";
 import { setError, setJobCreated } from "../redux/sclice/JobSclice";
 import CustomInput from "../component/Dropdowns";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const JobForm = () => {
   const dispatch = useDispatch();
-
   const { error, job } = useSelector((e) => e.Jobs);
-
   const [formData, setFormData] = useState({
     title: "",
     skills: [],
-    jobType: "", //'In Office', 'Remote'
-    category: "", //'Internship', 'job'
+    jobType: "",
+    category: "",
     graduation: "",
     openings: "",
     description: "",
@@ -23,7 +28,6 @@ const JobForm = () => {
     salary: "",
     location: "",
   });
-
 
   useEffect(() => {
     if (error) {
@@ -61,60 +65,71 @@ const JobForm = () => {
       formData.location.trim() === "" ||
       skills.length === 0
     ) {
-      ToastAndroid.show("Please fill in all fields and add at least one skill.", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        "Please fill in all fields and add at least one skill.",
+        ToastAndroid.SHORT
+      );
       return;
     }
+    console.log({ ...formData, skills });
 
-    dispatch(createJobs({ ...formData, skills }));
-    setFormData({
-      title: "",
-      skills: [],
-      jobType: "", //'In Office', 'Remote'
-      category: "", //'Internship', 'job'
-      graduation: "",
-      openings: "",
-      description: "",
-      preferences: "",
-      salary: "",
-      location: "",
-    });
+    // dispatch(createJobs({ ...formData, skills }));
+    // setFormData({
+    //   title: "",
+    //   skills: [],
+    //   jobType: "",
+    //   category: "",
+    //   graduation: "",
+    //   openings: "",
+    //   description: "",
+    //   preferences: "",
+    //   salary: "",
+    //   location: "",
+    // });
   };
 
   return (
-    <ScrollView className="bg-white" contentContainerStyle={{ padding: 20 }}>
-      <View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Title:</Text>
         <TextInput
           style={styles.input}
           value={formData.title}
           onChangeText={(text) => setFormData({ ...formData, title: text })}
-          placeholder="Title"
+          placeholder="Enter job title"
         />
       </View>
-      <View style={styles.container}>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Skills:</Text>
-        <TextInput
-          style={styles.input}
-          value={skillInput}
-          onChangeText={setSkillInput}
-          placeholder="Enter a skill and press Enter"
-          onSubmitEditing={handleAddSkill}
-        />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {skills?.map((skill, index) => (
-            <View
+        <View style={styles.skillInputContainer}>
+          <TextInput
+            style={[styles.input, styles.skillInput]}
+            value={skillInput}
+            onChangeText={setSkillInput}
+            placeholder="Enter a skill"
+          />
+          <TouchableOpacity onPress={handleAddSkill} style={styles.addButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.skillList}
+        >
+          {skills.map((skill, index) => (
+            <TouchableOpacity
               key={index}
-              className="flex flex-row gap-1 bg-[#dadada] text-sm px-1 py-1 mb-2 ml-1"
-              style={styles.skillTab}
+              onPress={() => handleRemoveSkill(index)}
+              style={styles.skillItem}
             >
-              <Text>{skill}</Text>
-              <TouchableOpacity onPress={() => handleRemoveSkill(index)}>
-                <Text>x</Text>
-              </TouchableOpacity>
-            </View>
+              <Text style={styles.skillText}>{skill}</Text>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
+
       <CustomInput
         label="Job Type"
         options={["In Office", "Remote"]}
@@ -123,10 +138,11 @@ const JobForm = () => {
 
       <CustomInput
         label="Category"
-        options={["Internship", "job"]}
+        options={["Internship", "Job"]}
         onSelect={(option) => setFormData({ ...formData, category: option })}
       />
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Graduation:</Text>
         <TextInput
           style={styles.input}
@@ -134,19 +150,21 @@ const JobForm = () => {
           onChangeText={(text) =>
             setFormData({ ...formData, graduation: text })
           }
-          placeholder="Graduation"
+          placeholder="Enter graduation requirements"
         />
       </View>
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Openings:</Text>
         <TextInput
           style={styles.input}
           value={formData.openings}
           onChangeText={(text) => setFormData({ ...formData, openings: text })}
-          placeholder="Openings"
+          placeholder="Enter number of openings"
         />
       </View>
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Description:</Text>
         <TextInput
           style={styles.input}
@@ -154,10 +172,13 @@ const JobForm = () => {
           onChangeText={(text) =>
             setFormData({ ...formData, description: text })
           }
-          placeholder="Description"
+          placeholder="Enter job description"
+          multiline={true}
+          numberOfLines={4}
         />
       </View>
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Preferences:</Text>
         <TextInput
           style={styles.input}
@@ -165,51 +186,89 @@ const JobForm = () => {
           onChangeText={(text) =>
             setFormData({ ...formData, preferences: text })
           }
-          placeholder="Preferences"
+          placeholder="Enter job preferences"
+          multiline={true}
+          numberOfLines={4}
         />
       </View>
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Salary:</Text>
         <TextInput
           style={styles.input}
           value={formData.salary}
           onChangeText={(text) => setFormData({ ...formData, salary: text })}
-          placeholder="Salary"
+          placeholder="Enter salary"
         />
       </View>
-      <View>
+
+      <View style={styles.formGroup}>
         <Text style={styles.label}>Location:</Text>
         <TextInput
           style={styles.input}
           value={formData.location}
           onChangeText={(text) => setFormData({ ...formData, location: text })}
-          placeholder="Location"
+          placeholder="Enter job location"
         />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleSubmit} />
+
+      <View style={styles.submitButtonContainer}>
+        <Button title="Submit" onPress={handleSubmit} color="#4080ED" />
       </View>
     </ScrollView>
   );
 };
 
 const styles = {
+  container: {
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
+  formGroup: {
+    marginBottom: 20,
+  },
   label: {
-    fontSize: 15,
+    fontSize: 16,
     marginBottom: 5,
     color: "#333",
-    fontWeight: 500,
   },
-
   input: {
-    borderWidth: 0.5,
-    borderColor: "#000",
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10,
-    marginTop: 4,
   },
-  buttonContainer: {
+  skillInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  skillInput: {
+    flex: 1,
+  },
+  addButton: {
+    backgroundColor: "#4080ED",
+    padding: 10,
+    borderRadius: 5,
+    marginLeft: 10,
+  },
+  addButtonText: {
+    color: "white",
+    fontSize: 20,
+  },
+  skillList: {
+    marginTop: 5,
+  },
+  skillItem: {
+    backgroundColor: "#4080ED",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  skillText: {
+    color: "white",
+  },
+  submitButtonContainer: {
     marginTop: 20,
   },
 };
