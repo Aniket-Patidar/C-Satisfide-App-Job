@@ -7,6 +7,7 @@ import {
   ScrollView,
   ToastAndroid,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createJobs } from "../redux/action/jobAction";
@@ -23,8 +24,8 @@ const JobForm = () => {
     category: "",
     graduation: "",
     openings: "",
-    description: "",
-    preferences: "",
+    descriptions: [],
+    preferences: [],
     salary: "",
     location: "",
   });
@@ -37,33 +38,92 @@ const JobForm = () => {
   }, [error]);
 
   const [skillInput, setSkillInput] = useState("");
-  const [skills, setSkills] = useState([]);
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [preferenceInput, setPreferenceInput] = useState("");
 
   const handleAddSkill = () => {
     if (skillInput.trim() !== "") {
-      setSkills([...skills, skillInput]);
+      setFormData((prevState) => ({
+        ...prevState,
+        skills: [...prevState.skills, skillInput],
+      }));
       setSkillInput("");
     }
   };
 
   const handleRemoveSkill = (index) => {
-    const updatedSkills = [...skills];
+    const updatedSkills = [...formData.skills];
     updatedSkills.splice(index, 1);
-    setSkills(updatedSkills);
+    setFormData((prevState) => ({
+      ...prevState,
+      skills: updatedSkills,
+    }));
+  };
+
+  const handleAddDescription = () => {
+    if (descriptionInput.trim() !== "") {
+      setFormData((prevState) => ({
+        ...prevState,
+        descriptions: [...prevState.descriptions, descriptionInput],
+      }));
+      setDescriptionInput("");
+    }
+  };
+
+  const handleAddPreference = () => {
+    if (preferenceInput.trim() !== "") {
+      setFormData((prevState) => ({
+        ...prevState,
+        preferences: [...prevState.preferences, preferenceInput],
+      }));
+      setPreferenceInput("");
+    }
+  };
+
+  const handleRemoveDescription = (index) => {
+    const updatedDescriptions = [...formData.descriptions];
+    updatedDescriptions.splice(index, 1);
+    setFormData((prevState) => ({
+      ...prevState,
+      descriptions: updatedDescriptions,
+    }));
+  };
+
+  const handleRemovePreference = (index) => {
+    const updatedPreferences = [...formData.preferences];
+    updatedPreferences.splice(index, 1);
+    setFormData((prevState) => ({
+      ...prevState,
+      preferences: updatedPreferences,
+    }));
   };
 
   const handleSubmit = () => {
+    // Destructure formData
+    const {
+      title,
+      jobType,
+      category,
+      graduation,
+      openings,
+      description,
+      preferences,
+      salary,
+      location,
+      skills,
+    } = formData;
+
+    console.log(formData, "===");
+
+    // Perform validation
     if (
-      formData.title.trim() === "" ||
-      formData.jobType.trim() === "" ||
-      formData.category.trim() === "" ||
-      formData.graduation.trim() === "" ||
-      formData.openings.trim() === "" ||
-      formData.description.trim() === "" ||
-      formData.preferences.trim() === "" ||
-      formData.salary.trim() === "" ||
-      formData.location.trim() === "" ||
-      skills.length === 0
+      !title.trim() ||
+      !jobType.trim() ||
+      !category.trim() ||
+      !graduation.trim() ||
+      !openings.trim() ||
+      !salary.trim() ||
+      !location.trim()
     ) {
       ToastAndroid.show(
         "Please fill in all fields and add at least one skill.",
@@ -71,21 +131,26 @@ const JobForm = () => {
       );
       return;
     }
-    console.log({ ...formData, skills });
 
-    // dispatch(createJobs({ ...formData, skills }));
-    // setFormData({
-    //   title: "",
-    //   skills: [],
-    //   jobType: "",
-    //   category: "",
-    //   graduation: "",
-    //   openings: "",
-    //   description: "",
-    //   preferences: "",
-    //   salary: "",
-    //   location: "",
-    // });
+    // Dispatch an action to handle the form submission
+    dispatch(createJobs(formData));
+
+    // Reset the form data after submission
+    setFormData({
+      title: "",
+      jobType: "",
+      category: "",
+      graduation: "",
+      openings: "",
+      salary: "",
+      location: "",
+      skills: [],
+      description: [],
+      preferences: [],
+    });
+
+    // Show a success message
+    ToastAndroid.show("Job created successfully!", ToastAndroid.SHORT);
   };
 
   return (
@@ -101,30 +166,98 @@ const JobForm = () => {
       </View>
 
       <View style={styles.formGroup}>
-        <Text style={styles.label}>Skills:</Text>
-        <View style={styles.skillInputContainer}>
-          <TextInput
-            style={[styles.input, styles.skillInput]}
-            value={skillInput}
-            onChangeText={setSkillInput}
-            placeholder="Enter a skill"
-          />
+        <View className="flex flex-row items-center justify-between ">
+          <Text style={styles.label}>Skills:</Text>
           <TouchableOpacity onPress={handleAddSkill} style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
+        </View>
+
+        <View style={styles.skillInputContainer}>
+          <View className="mb-2">
+            <TextInput
+              style={[styles.input, styles.skillInput]}
+              value={skillInput}
+              onChangeText={setSkillInput}
+              placeholder="Enter a skill"
+            />
+          </View>
         </View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.skillList}
         >
-          {skills.map((skill, index) => (
+          {formData?.skills?.map((skill, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => handleRemoveSkill(index)}
               style={styles.skillItem}
             >
               <Text style={styles.skillText}>{skill}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={styles.formGroup}>
+        <View className="flex flex-row items-center justify-between ">
+          <Text style={styles.label}>Description:</Text>
+          <TouchableOpacity
+            onPress={handleAddDescription}
+            style={styles.addButton}
+          >
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          value={descriptionInput}
+          onChangeText={setDescriptionInput}
+          placeholder="Enter job description"
+          className="mb-2"
+        />
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {formData?.descriptions?.map((description, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleRemoveDescription(index)}
+              style={styles.skillItem}
+            >
+              <Text style={styles.skillText}>{description}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={styles.formGroup}>
+        <View className="flex flex-row items-center justify-between ">
+          <Text style={styles.label}>Preferences:</Text>
+          <TouchableOpacity
+            onPress={handleAddPreference}
+            style={styles.addButton}
+          >
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <TextInput
+          style={styles.input}
+          value={preferenceInput}
+          onChangeText={setPreferenceInput}
+          placeholder="Enter job preferences"
+          className="mb-2"
+        />
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {formData?.preferences?.map((preference, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleRemovePreference(index)}
+              style={styles.skillItem}
+            >
+              <Text style={styles.skillText}>{preference}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -138,7 +271,7 @@ const JobForm = () => {
 
       <CustomInput
         label="Category"
-        options={["Internship", "Job"]}
+        options={["Internship", "job"]}
         onSelect={(option) => setFormData({ ...formData, category: option })}
       />
 
@@ -165,34 +298,6 @@ const JobForm = () => {
       </View>
 
       <View style={styles.formGroup}>
-        <Text style={styles.label}>Description:</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.description}
-          onChangeText={(text) =>
-            setFormData({ ...formData, description: text })
-          }
-          placeholder="Enter job description"
-          multiline={true}
-          numberOfLines={4}
-        />
-      </View>
-
-      <View style={styles.formGroup}>
-        <Text style={styles.label}>Preferences:</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.preferences}
-          onChangeText={(text) =>
-            setFormData({ ...formData, preferences: text })
-          }
-          placeholder="Enter job preferences"
-          multiline={true}
-          numberOfLines={4}
-        />
-      </View>
-
-      <View style={styles.formGroup}>
         <Text style={styles.label}>Salary:</Text>
         <TextInput
           style={styles.input}
@@ -212,14 +317,14 @@ const JobForm = () => {
         />
       </View>
 
-      <View style={styles.submitButtonContainer}>
-        <Button title="Submit" onPress={handleSubmit} color="#4080ED" />
-      </View>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text style={styles.submitButtonText}>Submit</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingVertical: 30,
@@ -238,26 +343,21 @@ const styles = {
     borderRadius: 5,
     padding: 10,
   },
-  skillInputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  skillInput: {
-    flex: 1,
-  },
+
   addButton: {
     backgroundColor: "#4080ED",
-    padding: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
     borderRadius: 5,
     marginLeft: 10,
+    marginBottom: 10,
   },
+
   addButtonText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 15,
   },
-  skillList: {
-    marginTop: 5,
-  },
+
   skillItem: {
     backgroundColor: "#4080ED",
     borderRadius: 5,
@@ -271,6 +371,18 @@ const styles = {
   submitButtonContainer: {
     marginTop: 20,
   },
-};
+  submitButton: {
+    backgroundColor: "#4080ED",
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 
 export default JobForm;

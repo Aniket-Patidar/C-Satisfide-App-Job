@@ -22,13 +22,13 @@ const CustomInput = ({ label, options, onSelect }) => {
       </TouchableOpacity>
       {showOptions && (
         <View style={styles.optionsContainer}>
-          {options.map((option, index) => (
+          {options?.map((option, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => handleOptionSelect(option)}
               style={styles.option}
             >
-              <Text>{option}</Text>
+              <Text className="capitalize">{option}</Text>
             </TouchableOpacity>
           ))}
         </View>

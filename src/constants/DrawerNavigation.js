@@ -48,6 +48,8 @@ function MyDrawer() {
                     ),
                     headerStyle: {
                         backgroundColor: '#4080ED',
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
                     },
                     headerTintColor: 'white',
                 }}

@@ -75,7 +75,7 @@ const Details = ({}) => {
                   {job?.employer.organisationname}
                 </Text>
                 <View className="flex flex-row  justify-center w-full gap-3">
-                  {job?.skills.slice(0, 3).map((e) => {
+                  {job?.skills.slice(0, 3)?.map((e) => {
                     return (
                       <Text className="bg-[#ffffff61] uppercase  text-[12px] px-[10px] py-[3px] rounded-md text-white">
                         {e}
@@ -317,7 +317,7 @@ function About({
         {/* skills */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text className="font-semibold mb-[1px]">Skills:</Text>
-          {skills.map((e) => {
+          {skills?.map((e) => {
             return (
               <Text
                 style={{ color: "#8A8A8A", marginLeft: 5 }}

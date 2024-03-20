@@ -39,7 +39,7 @@ const ApplicationPage = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.jobCardsContainer}
         >
-          {applications.map((application, index) => {
+          {applications?.map((application, index) => {
             return <JobCard key={index} application={application} />;
           })}
         </ScrollView>

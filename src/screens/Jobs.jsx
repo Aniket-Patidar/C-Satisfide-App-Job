@@ -120,7 +120,7 @@ const Jobs = ({ navigation }) => {
 
           <View className="flex items-center my-[12px]">
             {allJobs &&
-              allJobs.map((e) => {
+              allJobs?.map((e) => {
                 return <JobCard {...e}></JobCard>;
               })}
           </View>
