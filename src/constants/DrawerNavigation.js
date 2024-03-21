@@ -23,7 +23,7 @@ function MyDrawer() {
                         <Icon
                             name={focused ? 'home' : 'home-outline'}
                             size={size}
-                            color={focused ? 'blue' : 'black'}
+                            color={focused ? '#4080ED' : 'black'}
                         />
                     ),
                     headerStyle: {
@@ -43,7 +43,7 @@ function MyDrawer() {
                         <Icon
                             name={focused ? 'briefcase' : 'briefcase-outline'}
                             size={size}
-                            color={focused ? 'blue' : 'black'}
+                            color={focused ? '#4080ED' : 'black'}
                         />
                     ),
                     headerStyle: {
@@ -63,7 +63,7 @@ function MyDrawer() {
                         <Icon
                             name={focused ? 'create' : 'create-outline'}
                             size={size}
-                            color={focused ? 'blue' : 'black'}
+                            color={focused ? '#4080ED' : 'black'}
                         />
                     ),
                     headerStyle: {
@@ -85,7 +85,7 @@ function MyDrawer() {
                         <Icon
                             name={focused ? 'person' : 'person-outline'}
                             size={size}
-                            color={focused ? 'blue' : 'black'}
+                            color={focused ? '#4080ED' : 'black'}
                         />
                     ),
                     headerStyle: {
@@ -93,6 +93,7 @@ function MyDrawer() {
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20,
                     },
+                    headerShown: false,
                     headerTintColor: 'white',
                 }}
             />

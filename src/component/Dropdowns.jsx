@@ -46,11 +46,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
   },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: "#333",
+    fontWeight: "bold",
+    fontStyle: "capital",
+  },
   input: {
-    padding: 13,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     borderRadius: 5,
+    paddingVertical: 12,
+    padding: 10,
   },
   optionsContainer: {
     position: "absolute",

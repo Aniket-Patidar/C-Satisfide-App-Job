@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   TouchableOpacity,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { createJobs } from "../redux/action/jobAction";
@@ -154,6 +155,12 @@ const JobForm = () => {
   };
 
   return (
+    // <ImageBackground
+    //   source={require("../../assets/Images/bg1.png")} // Change this to the path of your image
+    //   style={styles.backgroundImage}
+    // >
+    //  </ImageBackground>
+
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formGroup}>
         <Text style={styles.label}>Title:</Text>
@@ -336,10 +343,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: "#333",
+    fontWeight: "bold",
+    fontStyle: "capital",
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     borderRadius: 5,
     padding: 10,
   },

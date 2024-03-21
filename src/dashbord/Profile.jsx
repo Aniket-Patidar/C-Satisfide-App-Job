@@ -1,256 +1,311 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import {
+  StyleSheet,
+  SafeAreaView,
   View,
+  ScrollView,
   Text,
   TouchableOpacity,
-  TextInput,
+  Switch,
   Image,
-  StatusBar,
-  ActivityIndicator,
-  ToastAndroid,
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
-import { useDispatch, useSelector } from "react-redux";
-import { updateEmployee, avatarEmployee } from "../redux/action/employeeAction";
-import { ScrollView } from "react-native-web";
+} from 'react-native';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
-const Profile = () => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const { employee, loading, error } = useSelector((state) => state.employee);
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    contact: "",
-    organisationname: "",
-    organisationlogo: "",
-    isAdmin: false,
-    resetpasswordToken: "",
+export default function Example() {
+  const [form, setForm] = useState({
+    darkMode: false,
+    emailNotifications: true,
+    pushNotifications: false,
   });
-  const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    setFormData({
-      firstname: employee.firstname,
-      lastname: employee.lastname,
-      email: employee.email,
-      contact: employee.contact,
-      organisationname: employee.organisationname,
-      organisationlogo: employee.organisationlogo,
-      isAdmin: employee.isAdmin,
-      resetpasswordToken: employee.resetpasswordToken,
-    });
-  }, [employee]);
-
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  const handleSave = () => {
-    if (
-      formData.firstname.trim() === "" ||
-      formData.lastname.trim() === "" ||
-      formData.email.trim() === "" ||
-      formData.contact.trim() === "" ||
-      formData.organisationname.trim() === ""
-    ) {
-      ToastAndroid.show("All fields are required", ToastAndroid.SHORT);
-      return;
-    }
-
-    setEditMode(false);
-    dispatch(updateEmployee(formData));
-  };
-
-  const handleChange = (name, value) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-      dispatch(avatarEmployee(result));
-    }
-  };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <StatusBar backgroundColor="#4080ED" />
-      {loading ? (
-        <View>
-          <Text>Loading....</Text>
-        </View>
-      ) : (
-        <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-          <View style={{ alignItems: "center", marginBottom: 20 }}>
-            <TouchableOpacity
-              onPress={pickImage}
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                overflow: "hidden",
-              }}
-            >
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              ) : (
-                <Image
-                  source={{ uri: employee.organisationlogo.url }}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }} className="capitalize">
-              {formData.firstname} {formData.lastname}
-            </Text>
-            <Text style={{ fontSize: 14, color: "#666" }}>
-              {employee.position} - {employee.department}
-            </Text>
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>
-              First Name
-            </Text>
-            {editMode ? (
-              <TextInput
-                value={formData.firstname}
-                onChangeText={(text) => handleChange("firstname", text)}
-                style={{
-                  backgroundColor: "white",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 5,
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={styles.container}>
+        <View style={styles.profile}>
+          <TouchableOpacity
+            onPress={() => {
+              // handle onPress
+            }}>
+            <View style={styles.profileAvatarWrapper}>
+              <Image
+                alt=""
+                source={{
+                  uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
                 }}
-              />
-            ) : (
-              <Text className="capitalize">{formData.firstname}</Text>
-            )}
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>
-              Last Name
-            </Text>
-            {editMode ? (
-              <TextInput
-                value={formData.lastname}
-                onChangeText={(text) => handleChange("lastname", text)}
-                style={{
-                  backgroundColor: "white",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 5,
-                }}
-              />
-            ) : (
-              <Text className="capitalize">{formData.lastname}</Text>
-            )}
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>
-              Email
-            </Text>
-            {editMode ? (
-              <TextInput
-                value={formData.email}
-                onChangeText={(text) => handleChange("email", text)}
-                style={{
-                  backgroundColor: "white",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 5,
-                }}
-              />
-            ) : (
-              <Text >{formData.email}</Text>
-            )}
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>
-              Phone
-            </Text>
-            {editMode ? (
-              <TextInput
-                value={formData.contact}
-                onChangeText={(text) => handleChange("contact", text)}
-                style={{
-                  backgroundColor: "white",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 5,
-                }}
-              />
-            ) : (
-              <Text>{formData.contact}</Text>
-            )}
-          </View>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>
-              Organisation Name
-            </Text>
-            {editMode ? (
-              <TextInput
-                value={formData.organisationname}
-                onChangeText={(text) => handleChange("organisationname", text)}
-                style={{
-                  backgroundColor: "white",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 5,
-                }}
-              />
-            ) : (
-              <Text className="capitalize">{formData.organisationname}</Text>
-            )}
-          </View>
-          {editMode ? (
-            <TouchableOpacity
-              onPress={handleSave}
-              style={{
-                backgroundColor: "#4080ED",
-                padding: 10,
-                borderRadius: 5,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 16 }}>Save Changes</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={handleEdit}
-              style={{
-                backgroundColor: "#4080ED",
-                padding: 10,
-                borderRadius: 5,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 16 }}>Edit Profile</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
-    </ScrollView>
-  );
-};
+                style={styles.profileAvatar} />
 
-export default Profile;
+              <TouchableOpacity
+                onPress={() => {
+                  // handle onPress
+                }}>
+                <View style={styles.profileAction}>
+                  <FeatherIcon
+                    color="#fff"
+                    name="edit-3"
+                    size={15} />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+
+          <View>
+            <Text style={styles.profileName}>John Doe</Text>
+
+            <Text style={styles.profileAddress}>
+              123 Maple Street. Anytown, PA 17101
+            </Text>
+          </View>
+        </View>
+
+        <ScrollView>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Preferences</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#fe9400' }]}>
+                <FeatherIcon color="#fff" name="globe" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Language</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon
+                color="#C6C6C6"
+                name="chevron-right"
+                size={20} />
+            </TouchableOpacity>
+
+            <View style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#007afe' }]}>
+                <FeatherIcon color="#fff" name="moon" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Dark Mode</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <Switch
+                onValueChange={darkMode => setForm({ ...form, darkMode })}
+                value={form.darkMode} />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#32c759' }]}>
+                <FeatherIcon
+                  color="#fff"
+                  name="navigation"
+                  size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Location</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon
+                color="#C6C6C6"
+                name="chevron-right"
+                size={20} />
+            </TouchableOpacity>
+
+            <View style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#38C959' }]}>
+                <FeatherIcon
+                  color="#fff"
+                  name="at-sign"
+                  size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Email Notifications</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <Switch
+                onValueChange={emailNotifications =>
+                  setForm({ ...form, emailNotifications })
+                }
+                value={form.emailNotifications} />
+            </View>
+
+            <View style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#38C959' }]}>
+                <FeatherIcon color="#fff" name="bell" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Push Notifications</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <Switch
+                onValueChange={pushNotifications =>
+                  setForm({ ...form, pushNotifications })
+                }
+                value={form.pushNotifications} />
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Resources</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#8e8d91' }]}>
+                <FeatherIcon color="#fff" name="flag" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Report Bug</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon
+                color="#C6C6C6"
+                name="chevron-right"
+                size={20} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#007afe' }]}>
+                <FeatherIcon color="#fff" name="mail" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Contact Us</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon
+                color="#C6C6C6"
+                name="chevron-right"
+                size={20} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: '#32c759' }]}>
+                <FeatherIcon color="#fff" name="star" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Rate in App Store</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon
+                color="#C6C6C6"
+                name="chevron-right"
+                size={20} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  /** Profile */
+  profile: {
+    padding: 24,
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileAvatarWrapper: {
+    position: 'relative',
+  },
+  profileAvatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 9999,
+  },
+  profileAction: {
+    position: 'absolute',
+    right: -4,
+    bottom: -10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 28,
+    height: 28,
+    borderRadius: 9999,
+    backgroundColor: '#007bff',
+  },
+  profileName: {
+    marginTop: 20,
+    fontSize: 19,
+    fontWeight: '600',
+    color: '#414d63',
+    textAlign: 'center',
+  },
+  profileAddress: {
+    marginTop: 5,
+    fontSize: 16,
+    color: '#989898',
+    textAlign: 'center',
+  },
+  /** Section */
+  section: {
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    paddingVertical: 12,
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#9e9e9e',
+    textTransform: 'uppercase',
+    letterSpacing: 1.1,
+  },
+  /** Row */
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    height: 50,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 8,
+    marginBottom: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  rowIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 9999,
+    marginRight: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rowLabel: {
+    fontSize: 17,
+    fontWeight: '400',
+    color: '#0c0c0c',
+  },
+  rowSpacer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+});

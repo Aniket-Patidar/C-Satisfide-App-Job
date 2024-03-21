@@ -37,9 +37,11 @@ const CustomDrawer = (props) => {
           </View>
         )}
         {employee && (
-          <ImageBackground
-            source={require("../../assets/menu-bg.jpg")}
+         
+         <ImageBackground
+            source={require("../../assets/Images/bg1.jpeg")}
             style={{ padding: 20 }}
+            className="-mt-2"
           >
             <Image
               source={{ uri: employee?.organisationlogo?.url }}
@@ -54,10 +56,11 @@ const CustomDrawer = (props) => {
               style={{
                 color: "#fff",
                 fontSize: 18,
-                marginBottom: 5,
+                marginBottom: 1,
               }}
+              className="capitalize"
             >
-              {employee?.firstname}
+              {employee?.firstname} {employee?.lastname}
             </Text>
             <View style={{ flexDirection: "row" }}>
               <Text
@@ -65,6 +68,7 @@ const CustomDrawer = (props) => {
                   color: "#fff",
                   marginRight: 5,
                 }}
+                className="text-[12px] opacity-[0.8]"
               >
                 {employee?.email}
               </Text>
@@ -75,8 +79,9 @@ const CustomDrawer = (props) => {
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
+
       <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-        <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+        {/* <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name="share-social-outline" size={22} />
             <Text
@@ -88,7 +93,7 @@ const CustomDrawer = (props) => {
               Share
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             setEmployeeLoggedIn(false);
