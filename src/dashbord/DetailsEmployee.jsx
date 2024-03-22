@@ -23,9 +23,12 @@ import { applicationSend } from "../redux/action/studentAction";
 const Details = ({}) => {
   const { jobs, job, loading } = useSelector((e) => e.Jobs);
   const { student, loading: loading2, error } = useSelector((e) => e.student);
+  const { employee } = useSelector((e) => e.employee);
   const [isApplied, setApplied] = useState(false);
 
   const [Tab, setTab] = useState("About");
+
+  console.log(job);
 
   const dispatch = useDispatch();
   const route = useRoute();
@@ -145,6 +148,11 @@ const Details = ({}) => {
                       )}
                     </View>
                   )}
+                </TouchableOpacity>
+              )}
+              {employee && (
+                <TouchableOpacity className="w-[90vw] mx-auto mb-5 h-[50px] flex items-center justify-center rounded-xl bg-[#4080ED] fixed">
+                  <Text className="text-white font-semibold">Apply</Text>
                 </TouchableOpacity>
               )}
             </>
@@ -340,15 +348,13 @@ function Description({ description, preferences }) {
         <View>
           <Text className="text-md font-semibold text-md">Description</Text>
           <View style={{ marginLeft: 15 }} className="space-y-1">
-            <Text style={{ marginLeft: 5 }} className="text-[13px]">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
-            <Text style={{ marginLeft: 5 }} className="text-[13px]">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
-            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
+            {preferences.map((e) => {
+              return (
+                <Text style={{ marginLeft: 5 }} className="text-[13px]">
+                  • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                </Text>
+              );
+            })}
           </View>
         </View>
         <View>

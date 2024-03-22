@@ -26,7 +26,7 @@ const CustomDrawer = (props) => {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView {...props} className="relative">
         {loading && (
           <View className="my-auto flex items-center justify-center w-screen h-screen">
             <ActivityIndicator
@@ -36,15 +36,16 @@ const CustomDrawer = (props) => {
             />
           </View>
         )}
+
         {employee && (
-         
-         <ImageBackground
-            source={require("../../assets/Images/bg1.jpeg")}
+          <View
+            source={require("../../assets/banner/profileBg.jpg")}
             style={{ padding: 20 }}
-            className="-mt-2"
+            className="-mt-2 flex items-center justify-center bg-[#4080ED]"
           >
             <Image
-              source={{ uri: employee?.organisationlogo?.url }}
+              // source={{ uri: employee?.organisationlogo?.url }}
+              source={require("../../assets/Images/profile.webp")}
               style={{
                 height: 80,
                 width: 80,
@@ -73,47 +74,108 @@ const CustomDrawer = (props) => {
                 {employee?.email}
               </Text>
             </View>
-          </ImageBackground>
+          </View>
         )}
+
         <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10 }}>
           <DrawerItemList {...props} />
         </View>
-      </DrawerContentScrollView>
 
-      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-        {/* <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="share-social-outline" size={22} />
-            <Text
-              style={{
-                fontSize: 15,
-                marginLeft: 5,
-              }}
+        <View style={{ padding: 20, paddingTop: 0 }}>
+          <TouchableOpacity
+            onPress={() => {}}
+            style={{ paddingVertical: 15 }}
+            className=""
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center" }}
+              className="space-x-[30px]"
             >
-              Share
-            </Text>
-          </View>
-        </TouchableOpacity> */}
-        <TouchableOpacity
-          onPress={() => {
-            setEmployeeLoggedIn(false);
-            dispatch(logoutEmployee());
-          }}
-          style={{ paddingVertical: 15 }}
+              <Ionicons name="share-social-outline" size={22} />
+              <Text
+                className="capitalize opacity-[0.5] font-semibold"
+                style={{
+                  fontSize: 14,
+                  marginLeft: 5,
+                }}
+              >
+                Share
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setEmployeeLoggedIn(false);
+              dispatch(logoutEmployee());
+            }}
+            style={{ paddingVertical: 15 }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center" }}
+              className="space-x-[30px]"
+            >
+              <Ionicons name="exit-outline" size={22} />
+              <Text
+                style={{
+                  fontSize: 14,
+                  marginLeft: 5,
+                }}
+                className="capitalize opacity-[0.5] font-semibold"
+              >
+                Sign Out
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
+          className="mt-[10vh]"
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="exit-outline" size={22} />
-            <Text
-              style={{
-                fontSize: 15,
-                marginLeft: 5,
-              }}
-            >
-              Sign Out
-            </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "",
+              paddingBottom: 20,
+            }}
+            className="flex flex-row justify-center mx-auto"
+          >
+            <TouchableOpacity onPress={() => {}}>
+              <Ionicons
+                name="logo-facebook"
+                size={22}
+                color={"#4080ED"}
+                style={{ marginHorizontal: 10 }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Ionicons
+                name="logo-twitter"
+                size={22}
+                color={"#4080ED"}
+                style={{ marginHorizontal: 10 }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Ionicons
+                name="logo-instagram"
+                size={22}
+                color={"#4080ED"}
+                style={{ marginHorizontal: 10 }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Ionicons
+                name="logo-linkedin"
+                size={22}
+                color={"#4080ED"}
+                style={{ marginHorizontal: 10 }}
+              />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </DrawerContentScrollView>
     </View>
   );
 };
