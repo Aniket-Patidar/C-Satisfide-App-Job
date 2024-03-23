@@ -22,8 +22,13 @@ import SettingScreen from './src/screens/Setting.jsx';
 
 import OnboardingScreen from './src/component/Onboarding.jsx'
 
-const Stack = createNativeStackNavigator();
 
+
+import EditScreen from './src/dashbord/EditJob.jsx'
+
+
+
+const Stack = createNativeStackNavigator();
 
 
 export default function App() {
@@ -83,9 +88,20 @@ export default function App() {
                 },
               }} />
 
+
             <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: false }} />
             <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
-
+            <Stack.Screen name="EditEmployeeJob"
+              component={EditScreen}
+              options={{
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: '#4080ED',
+                },
+                headerTintColor: 'white',
+                headerTitle: 'Edit Job',
+              }}
+            />
           </Stack.Navigator>
         </SafeAreaView>
       </Provider>
@@ -96,13 +112,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: '#000',
   },
   image: {
-    width: '100%', // Take up the entire width of the container
-    height: '100%', // Automatically calculate the height based on the aspect ratio
-    // aspectRatio: 1, // Ensure the image maintains its aspect ratio
+    width: '100%',
+    height: '100%',
   },
 });
 

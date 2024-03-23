@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const CustomInput = ({ label, options, onSelect }) => {
+const CustomInput = ({ label, options, onSelect, selectedValue }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+
+  useEffect(() => {
+    setSelectedOption(selectedValue);
+  }, []);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);

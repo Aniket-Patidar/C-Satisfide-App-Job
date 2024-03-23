@@ -133,10 +133,8 @@ const JobForm = () => {
       return;
     }
 
-    // Dispatch an action to handle the form submission
     dispatch(createJobs(formData));
 
-    // Reset the form data after submission
     setFormData({
       title: "",
       jobType: "",
@@ -150,17 +148,10 @@ const JobForm = () => {
       preferences: [],
     });
 
-    // Show a success message
     ToastAndroid.show("Job created successfully!", ToastAndroid.SHORT);
   };
 
   return (
-    // <ImageBackground
-    //   source={require("../../assets/Images/bg1.png")} // Change this to the path of your image
-    //   style={styles.backgroundImage}
-    // >
-    //  </ImageBackground>
-
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formGroup}>
         <Text style={styles.label}>Title:</Text>

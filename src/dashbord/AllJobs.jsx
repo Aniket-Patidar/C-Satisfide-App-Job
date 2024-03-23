@@ -214,9 +214,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => callHR(employer?.contact)}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}
+          onPress={() => navigation.navigate("EditEmployeeJob", { id: _id })}
         >
           <View
             style={{
@@ -229,7 +227,7 @@ const JobCard = ({
             <Text
               style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
             >
-              Call HR
+              Edit
             </Text>
           </View>
         </TouchableOpacity>

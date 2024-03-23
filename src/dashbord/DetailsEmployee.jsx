@@ -28,8 +28,6 @@ const Details = ({}) => {
 
   const [Tab, setTab] = useState("About");
 
-  console.log(job);
-
   const dispatch = useDispatch();
   const route = useRoute();
   const { id } = route.params;
@@ -348,10 +346,10 @@ function Description({ description, preferences }) {
         <View>
           <Text className="text-md font-semibold text-md">Description</Text>
           <View style={{ marginLeft: 15 }} className="space-y-1">
-            {preferences.map((e) => {
+            {description.map((e) => {
               return (
                 <Text style={{ marginLeft: 5 }} className="text-[13px]">
-                  • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  • {e}
                 </Text>
               );
             })}
@@ -360,15 +358,13 @@ function Description({ description, preferences }) {
         <View>
           <Text className="text-md font-semibold text-md">Preference</Text>
           <View style={{ marginLeft: 15 }} className="space-y-1">
-            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
-            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
-            <Text style={{ marginLeft: 5 }} className="text-[13px] ">
-              • Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </Text>
+            {preferences.map((e) => {
+              return (
+                <Text style={{ marginLeft: 5 }} className="text-[13px]">
+                  • {e}
+                </Text>
+              );
+            })}
           </View>
         </View>
       </View>
@@ -394,7 +390,7 @@ const Company = ({ employer }) => {
         </Text>
         <View className="space-y-[0.5]">
           <Text style={styles.text}>Industry: {employer.organisationname}</Text>
-          <Text style={styles.text}>Location: {companyData.location}</Text>
+          <Text style={styles.text}>Location: {employer.location} Bhopal</Text>
           <Text style={styles.text}>Employees: {companyData.employees}</Text>
         </View>
       </View>
@@ -402,7 +398,13 @@ const Company = ({ employer }) => {
         <Text style={styles.title} className="my-1">
           Details:
         </Text>
+
         <View className="space-y-[0.5]">
+          <Text style={styles.text}>
+            Total Active job posts:
+            {employer.jobs.length}
+          </Text>
+
           <Text style={styles.text}>
             Manager: {employer.firstname}
             {employer.lastname}
