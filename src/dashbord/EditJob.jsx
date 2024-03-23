@@ -54,7 +54,7 @@ const EditJob = () => {
   }, [error, dispatch]);
 
   const handleUpdate = () => {
-    dispatch(updateJob(id, formData));
+    dispatch(getJobById(id, formData));
     ToastAndroid.show("Job updated successfully!", ToastAndroid.SHORT);
   };
 
@@ -85,7 +85,7 @@ const EditJob = () => {
     if (descriptionInput.trim() !== "") {
       setFormData((prevState) => ({
         ...prevState,
-        descriptions: [...prevState.descriptions, descriptionInput],
+        description: [...prevState.description, descriptionInput],
       }));
       setDescriptionInput("");
     }
@@ -102,11 +102,11 @@ const EditJob = () => {
   };
 
   const handleRemoveDescription = (index) => {
-    const updatedDescriptions = [...formData.descriptions];
+    const updatedDescriptions = [...formData.description];
     updatedDescriptions.splice(index, 1);
     setFormData((prevState) => ({
       ...prevState,
-      descriptions: updatedDescriptions,
+      description: updatedDescriptions,
     }));
   };
 
@@ -121,170 +121,181 @@ const EditJob = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-     {loading ? <View>
-        <Text>Loanding..</Text>
-     </View> : <>
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Title:</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.title}
-            onChangeText={(text) => setFormData({ ...formData, title: text })}
-            placeholder="Enter job title"
-          />
+      {loading ? (
+        <View>
+          <Text>Loanding..</Text>
         </View>
-
-        <CustomInput
-          label="Job Type"
-          options={["In Office", "Remote"]}
-          onSelect={(option) => setFormData({ ...formData, jobType: option })}
-          selectedValue={formData.jobType}
-        />
-
-        <CustomInput
-          label="Category"
-          options={["Internship", "Job"]}
-          onSelect={(option) => setFormData({ ...formData, category: option })}
-          selectedValue={formData.category}
-        />
-
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Openings:</Text>
-          <TextInput
-            style={styles.input}
-            value={String(job?.openings)}
-            onChangeText={(text) =>
-              setFormData({ ...formData, openings: text })
-            }
-            placeholder="Enter number of openings"
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Salary:</Text>
-          <TextInput
-            style={styles.input}
-            value={String(job.salary)}
-            onChangeText={(text) => setFormData({ ...formData, salary: text })}
-            placeholder="Enter salary"
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={styles.label}>Location:</Text>
-          <TextInput
-            style={styles.input}
-            value={formData.location}
-            className="capitalize"
-            onChangeText={(text) =>
-              setFormData({ ...formData, location: text })
-            }
-            placeholder="Enter job location"
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <View className="flex flex-row items-center justify-between ">
-            <Text style={styles.label}>Skills:</Text>
-            <TouchableOpacity onPress={handleAddSkill} style={styles.addButton}>
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
+      ) : (
+        <>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Title:</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.title}
+              onChangeText={(text) => setFormData({ ...formData, title: text })}
+              placeholder="Enter job title"
+            />
           </View>
 
-          <View style={styles.skillInputContainer}>
-            <View className="mb-2">
-              <TextInput
-                style={[styles.input, styles.skillInput]}
-                value={skillInput}
-                onChangeText={setSkillInput}
-                placeholder="Enter a skill"
-              />
+          <CustomInput
+            label="Job Type"
+            options={["In Office", "Remote"]}
+            onSelect={(option) => setFormData({ ...formData, jobType: option })}
+            selectedValue={formData.jobType}
+          />
+
+          <CustomInput
+            label="Category"
+            options={["Internship", "Job"]}
+            onSelect={(option) =>
+              setFormData({ ...formData, category: option })
+            }
+            selectedValue={formData.category}
+          />
+
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Openings:</Text>
+            <TextInput
+              style={styles.input}
+              value={String(job?.openings)}
+              onChangeText={(text) =>
+                setFormData({ ...formData, openings: text })
+              }
+              placeholder="Enter number of openings"
+            />
+          </View>
+
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Salary:</Text>
+            <TextInput
+              style={styles.input}
+              value={String(job?.salary)}
+              onChangeText={(text) =>
+                setFormData({ ...formData, salary: text })
+              }
+              placeholder="Enter salary"
+            />
+          </View>
+
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Location:</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.location}
+              className="capitalize"
+              onChangeText={(text) =>
+                setFormData({ ...formData, location: text })
+              }
+              placeholder="Enter job location"
+            />
+          </View>
+
+          <View style={styles.formGroup}>
+            <View className="flex flex-row items-center justify-between ">
+              <Text style={styles.label}>Skills:</Text>
+              <TouchableOpacity
+                onPress={handleAddSkill}
+                style={styles.addButton}
+              >
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.skillList}
-          >
-            {formData?.skills?.map((skill, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => handleRemoveSkill(index)}
-                style={styles.skillItem}
-              >
-                <Text style={styles.skillText}>{skill}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
 
-        <View style={styles.formGroup}>
-          <View className="flex flex-row items-center justify-between ">
-            <Text style={styles.label}>Description:</Text>
-            <TouchableOpacity
-              onPress={handleAddDescription}
-              style={styles.addButton}
+            <View style={styles.skillInputContainer}>
+              <View className="mb-2">
+                <TextInput
+                  style={[styles.input, styles.skillInput]}
+                  value={skillInput}
+                  onChangeText={setSkillInput}
+                  placeholder="Enter a skill"
+                />
+              </View>
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.skillList}
             >
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
+              {formData?.skills?.map((skill, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleRemoveSkill(index)}
+                  style={styles.skillItem}
+                >
+                  <Text style={styles.skillText}>{skill}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
 
-          <TextInput
-            style={styles.input}
-            value={descriptionInput}
-            onChangeText={setDescriptionInput}
-            placeholder="Enter job description"
-            className="mb-2"
-          />
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {formData?.descriptions?.map((description, index) => (
+          <View style={styles.formGroup}>
+            <View className="flex flex-row items-center justify-between ">
+              <Text style={styles.label}>Description:</Text>
               <TouchableOpacity
-                key={index}
-                onPress={() => handleRemoveDescription(index)}
-                style={styles.skillItem}
+                onPress={handleAddDescription}
+                style={styles.addButton}
               >
-                <Text style={styles.skillText}>{description}</Text>
+                <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+            </View>
 
-        <View style={styles.formGroup}>
-          <View className="flex flex-row items-center justify-between ">
-            <Text style={styles.label}>Preferences:</Text>
-            <TouchableOpacity
-              onPress={handleAddPreference}
-              style={styles.addButton}
-            >
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
+            <TextInput
+              style={styles.input}
+              value={descriptionInput}
+              onChangeText={setDescriptionInput}
+              placeholder="Enter job description"
+              className="mb-2"
+            />
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {formData?.description?.map((description, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleRemoveDescription(index)}
+                  style={styles.skillItem}
+                >
+                  <Text style={styles.skillText}>{description}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
-          <TextInput
-            style={styles.input}
-            value={preferenceInput}
-            onChangeText={setPreferenceInput}
-            placeholder="Enter job preferences"
-            className="mb-2"
-          />
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {formData?.preferences?.map((preference, index) => (
+          <View style={styles.formGroup}>
+            <View className="flex flex-row items-center justify-between ">
+              <Text style={styles.label}>Preferences:</Text>
               <TouchableOpacity
-                key={index}
-                onPress={() => handleRemovePreference(index)}
-                style={styles.skillItem}
+                onPress={handleAddPreference}
+                style={styles.addButton}
               >
-                <Text style={styles.skillText}>{preference}</Text>
+                <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+            </View>
+            <TextInput
+              style={styles.input}
+              value={preferenceInput}
+              onChangeText={setPreferenceInput}
+              placeholder="Enter job preferences"
+              className="mb-2"
+            />
 
-        <TouchableOpacity style={styles.submitButton} onPress={handleUpdate}>
-          <Text style={styles.submitButtonText}>Update</Text>
-        </TouchableOpacity>
-      </>}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {formData?.preferences?.map((preference, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleRemovePreference(index)}
+                  style={styles.skillItem}
+                >
+                  <Text style={styles.skillText}>{preference}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          <TouchableOpacity style={styles.submitButton} onPress={handleUpdate}>
+            <Text style={styles.submitButtonText}>Update</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </ScrollView>
   );
 };

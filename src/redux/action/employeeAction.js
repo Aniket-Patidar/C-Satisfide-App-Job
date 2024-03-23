@@ -106,6 +106,42 @@ export const logoutEmployee = (userData) => async (dispatch) => {
     }
 }
 
+export const allApplications = (filters = {}) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const { data } = await axios.post(`${basePath}/allApplications`, filters, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(setAllApplications(data.applications));
+        dispatch(setLoading(false));
+        console.log(data, "==");
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(setError(error?.response?.data?.message || "Request failed"));
+    }
+}
+
+export const updateStatus = (requestData) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const response = await axios.post(`${basePath}/job/applicationstatus`, requestData, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(setError(error?.response?.data?.message || "Update status failed"));
+    }
+};
+
 /*TODO  */
 export const avatarEmployee = (fileData) => async (dispatch) => {
     try {
@@ -128,30 +164,6 @@ export const avatarEmployee = (fileData) => async (dispatch) => {
     }
 }
 
-export const allApplications = (filters = {}) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const { data } = await axios.post(`${basePath}/allApplications`, filters, config());
-        dispatch(setAllApplications(data.applications));
-        dispatch(setLoading(false));
-    } catch (error) {
-        dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "Request failed"));
-    }
-};
-
-export const updateStatus = (requestData) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const response = await axios.post(`${basePath}/job/applicationstatus`, requestData, config());
-        dispatch(setLoading(false));
-    } catch (error) {
-        dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "Update status failed"));
-    }
-};
 
 export const sendMail = (email) => async (dispatch) => {
     try {
@@ -176,4 +188,5 @@ export const resetPassword = (password, id) => async (dispatch) => {
         console.error(error);
         dispatch(setError(error?.response?.data?.message || "get current user failed"));
     }
+
 }
