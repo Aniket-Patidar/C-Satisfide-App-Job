@@ -117,7 +117,6 @@ export const allApplications = (filters = {}) => async (dispatch) => {
         });
         dispatch(setAllApplications(data.applications));
         dispatch(setLoading(false));
-        console.log(data, "==");
     } catch (error) {
         dispatch(setLoading(false));
         console.error(error);
@@ -125,24 +124,6 @@ export const allApplications = (filters = {}) => async (dispatch) => {
     }
 }
 
-export const updateStatus = (requestData) => async (dispatch) => {
-    try {
-        dispatch(setLoading(true));
-        const response = await axios.post(`${basePath}/job/applicationstatus`, requestData, {
-            headers: {
-                'authorization': await AsyncStorage.getItem('token')
-            },
-            withCredentials: true
-        });
-        dispatch(setLoading(false));
-    } catch (error) {
-        dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "Update status failed"));
-    }
-};
-
-/*TODO  */
 export const avatarEmployee = (fileData) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -164,7 +145,25 @@ export const avatarEmployee = (fileData) => async (dispatch) => {
     }
 }
 
+export const updateStatus = (requestData) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const response = await axios.post(`${basePath}/job/applicationstatus`, requestData, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        });
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(setError(error?.response?.data?.message || "Update status failed"));
+    }
+};
 
+
+/*TODO  */
 export const sendMail = (email) => async (dispatch) => {
     try {
         dispatch(setLoading(true));

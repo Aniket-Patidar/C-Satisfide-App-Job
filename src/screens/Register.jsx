@@ -20,6 +20,7 @@ import { registerEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../redux/sclice/studentSclice";
 import { registerStudent } from "../redux/action/studentAction";
+import Loading from "../component/Loading";
 
 const Register = ({ route }) => {
   //student
@@ -80,9 +81,7 @@ const Register = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View className="h-screen  flex items-center justify-center">
-          <ActivityIndicator size="large" color="#007AFF" />
-        </View>
+        <Loading />
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 2 }}>

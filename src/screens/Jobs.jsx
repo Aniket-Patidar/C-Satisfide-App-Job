@@ -61,13 +61,7 @@ const Jobs = ({ navigation }) => {
   return (
     <ScrollView className="relative">
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicator
-            size="large"
-            className="-mt-[100px]"
-            color="#007AFF"
-          />
-        </View>
+        <Loading />
       ) : (
         <>
           <View>
@@ -115,7 +109,7 @@ const Jobs = ({ navigation }) => {
             <Image
               source={require("../../assets/banner/b2.jpg")}
               className="w-[94vw] h-[100px] "
-              ></Image>
+            ></Image>
           </View>
 
           <View className="flex items-center my-[12px]">
@@ -133,6 +127,7 @@ const Jobs = ({ navigation }) => {
 export default Jobs;
 
 import * as Linking from "expo-linking";
+import Loading from "../component/Loading";
 
 const JobCard = ({
   _id,

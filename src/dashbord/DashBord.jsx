@@ -9,6 +9,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { LineChart } from "react-native-chart-kit";
@@ -18,6 +19,7 @@ import { allApplications } from "../redux/action/employeeAction";
 import StudentCard from "../component/Applications";
 import StudentDetailsCard from "../component/Applications";
 import ResponsiveTable from "../component/Applications";
+import Loading from "../component/Loading";
 
 const Dashboard = () => {
   const scaleValue = useRef(new Animated.Value(0)).current;
@@ -80,7 +82,7 @@ const Dashboard = () => {
   return (
     <ScrollView style={styles.container}>
       {loading ? (
-        <Text>Loading</Text>
+        <Loading />
       ) : (
         <>
           <View style={styles.header}>

@@ -18,6 +18,7 @@ import { useEmployeeLoggedIn } from "../constants/auth";
 import { logoutEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "./Loading";
 
 const CustomDrawer = (props) => {
   const dispatch = useDispatch();
@@ -27,16 +28,7 @@ const CustomDrawer = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} className="relative">
-        {loading && (
-          <View className="my-auto flex items-center justify-center w-screen h-screen">
-            <ActivityIndicator
-              size="large"
-              className="-mt-[100px]"
-              color="#007AFF"
-            />
-          </View>
-        )}
-
+        {loading && <Loading />}
         {employee && (
           <View
             source={require("../../assets/banner/profileBg.jpg")}

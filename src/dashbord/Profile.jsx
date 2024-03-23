@@ -10,8 +10,11 @@ import {
   Image,
 } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import { useSelector } from "react-redux";
 
-export default function Example() {
+export default function Example({ navigation }) {
+  const { employee, error, loading } = useSelector((e) => e.employee);
+
   const [form, setForm] = useState({
     darkMode: false,
     emailNotifications: true,
@@ -22,16 +25,12 @@ export default function Example() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <View style={styles.profile}>
-          <TouchableOpacity
-            onPress={() => {
-              // handle onPress
-            }}
-          >
+          <TouchableOpacity onPress={() => {}}>
             <View style={styles.profileAvatarWrapper}>
               <Image
                 alt=""
                 source={{
-                  uri: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80",
+                  uri: employee?.organisationlogo?.url,
                 }}
                 style={styles.profileAvatar}
               />
@@ -49,10 +48,12 @@ export default function Example() {
           </TouchableOpacity>
 
           <View>
-            <Text style={styles.profileName}>John Doe</Text>
+            <Text style={styles.profileName} className="capitalize">
+              {employee.firstname + " " + employee.lastname}
+            </Text>
 
             <Text style={styles.profileAddress}>
-              123 Maple Street. Anytown, PA 17101
+              {employee.organisationname}
             </Text>
           </View>
         </View>
@@ -62,52 +63,14 @@ export default function Example() {
             <Text style={styles.sectionTitle}>Preferences</Text>
 
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
+              onPress={() => navigation.navigate("ProfileEmployee")}
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#fe9400" }]}>
                 <FeatherIcon color="#fff" name="globe" size={20} />
               </View>
-
-              <Text style={styles.rowLabel}>Language</Text>
-
+              <Text style={styles.rowLabel}>Profile</Text>
               <View style={styles.rowSpacer} />
-
-              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
-            </TouchableOpacity>
-
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <FeatherIcon color="#fff" name="moon" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Dark Mode</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={(darkMode) => setForm({ ...form, darkMode })}
-                value={form.darkMode}
-              />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
-              style={styles.row}
-            >
-              <View style={[styles.rowIcon, { backgroundColor: "#32c759" }]}>
-                <FeatherIcon color="#fff" name="navigation" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Location</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
             </TouchableOpacity>
 
             <View style={styles.row}>
@@ -154,11 +117,11 @@ export default function Example() {
               }}
               style={styles.row}
             >
-              <View style={[styles.rowIcon, { backgroundColor: "#8e8d91" }]}>
-                <FeatherIcon color="#fff" name="flag" size={20} />
+              <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
+                <FeatherIcon color="#fff" name="mail" size={20} />
               </View>
 
-              <Text style={styles.rowLabel}>Report Bug</Text>
+              <Text style={styles.rowLabel}>Contact Us</Text>
 
               <View style={styles.rowSpacer} />
 
@@ -175,7 +138,7 @@ export default function Example() {
                 <FeatherIcon color="#fff" name="mail" size={20} />
               </View>
 
-              <Text style={styles.rowLabel}>Contact Us</Text>
+              <Text style={styles.rowLabel}>About Us</Text>
 
               <View style={styles.rowSpacer} />
 

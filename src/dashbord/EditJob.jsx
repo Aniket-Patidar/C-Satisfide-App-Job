@@ -13,6 +13,7 @@ import { getJobById, updateJob } from "../redux/action/jobAction";
 import { setError } from "../redux/sclice/JobSclice";
 import CustomInput from "../component/Dropdowns";
 import { useRoute } from "@react-navigation/native";
+import Loading from "../component/Loading";
 
 const EditJob = () => {
   const route = useRoute();
@@ -122,9 +123,7 @@ const EditJob = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {loading ? (
-        <View>
-          <Text>Loanding..</Text>
-        </View>
+        <Loading />
       ) : (
         <>
           <View style={styles.formGroup}>

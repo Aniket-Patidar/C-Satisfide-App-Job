@@ -20,6 +20,7 @@ import COLORS from "../constants/colors";
 import { EvilIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Loading from "../component/Loading";
 
 const Home = ({ navigation }) => {
   const { student, loading } = useSelector((e) => e.student);
@@ -27,9 +28,7 @@ const Home = ({ navigation }) => {
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
         {loading ? (
-          <View>
-            <Text>Loading...</Text>
-          </View>
+          <Loading />
         ) : (
           <View className="w-[100%]  min-h-[100vh] px-[13px] py-4 bg-white">
             <View className="flex mt-[1px] flex-row items-center justify-between">
@@ -68,7 +67,8 @@ const Home = ({ navigation }) => {
 
               <View
                 className="w-[30px] max-h-[30px] bg-gray-200  mr-1 flex items-center justify-center
-             h-[50px]  opacity-[0.5] rounded-md">
+             h-[50px]  opacity-[0.5] rounded-md"
+              >
                 <MaterialCommunityIcons
                   name="menu-open"
                   size={24}

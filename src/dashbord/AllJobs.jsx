@@ -39,13 +39,7 @@ const AllJobs = ({ navigate }) => {
 
       <View className="flex items-center  py-3">
         {loading ? (
-          <View className="my-auto flex items-center justify-center w-screen h-screen">
-            <ActivityIndicator
-              size="large"
-              className="-mt-[100px]"
-              color="#007AFF"
-            />
-          </View>
+          <Loading />
         ) : (
           jobs?.map((e, i) => {
             return <JobCard {...e}></JobCard>;
@@ -59,6 +53,7 @@ const AllJobs = ({ navigate }) => {
 export default AllJobs;
 
 import * as Linking from "expo-linking";
+import Loading from "../component/Loading";
 
 const JobCard = ({
   _id,

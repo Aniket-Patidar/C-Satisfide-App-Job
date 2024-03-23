@@ -23,6 +23,7 @@ import {
   setToken,
   clearToken,
 } from "../constants/handelToken";
+import Loading from "../component/Loading";
 
 const Login = ({ navigation, route }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -72,9 +73,7 @@ const Login = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-         <Text>Loading...</Text>
-        </View>
+        <Loading />
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>

@@ -21,15 +21,12 @@ import DetailsEmployee from './src/dashbord/DetailsEmployee.jsx';
 import SettingScreen from './src/screens/Setting.jsx';
 
 import OnboardingScreen from './src/component/Onboarding.jsx'
-
-
-
 import EditScreen from './src/dashbord/EditJob.jsx'
 
 
+import ProfileEmployee from './src/dashbord/ProfileEmployee.jsx';
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
 
@@ -75,22 +72,29 @@ export default function App() {
                 <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
               </>
             )}
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
-            <Stack.Screen name="Setting" component={SettingScreen}
-              options={{
-                title: 'Settings',
-                headerStyle: {
-                  backgroundColor: '#4080ED',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }} />
 
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
+            <Stack.Screen name="Setting" component={SettingScreen} options={{
+              title: 'Settings',
+              headerStyle: {
+                backgroundColor: '#4080ED',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }} />
 
             <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: false }} />
             <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
+            <Stack.Screen name="ProfileEmployee" component={ProfileEmployee} options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: '#4080ED',
+              },
+              headerTintColor: 'white',
+              headerTitle: 'Profile',
+            }} />
             <Stack.Screen name="EditEmployeeJob"
               component={EditScreen}
               options={{
@@ -102,6 +106,8 @@ export default function App() {
                 headerTitle: 'Edit Job',
               }}
             />
+
+
           </Stack.Navigator>
         </SafeAreaView>
       </Provider>

@@ -12,6 +12,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getApplication } from "../redux/action/studentAction";
+import Loading from "../component/Loading";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -27,13 +28,7 @@ const ApplicationPage = () => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicator
-            size="large"
-            className="-mt-[100px]"
-            color="#007AFF"
-          />
-        </View>
+        <Loading />
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}

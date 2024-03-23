@@ -15,18 +15,18 @@ import {
 
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { setError } from "../redux/sclice/studentSclice";
+import { setError } from "../redux/sclice/employeeSclice";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { avatarStudent, updateStudent } from "../redux/action/studentAction";
+import { avatarEmployee, updateEmployee } from "../redux/action/employeeAction";
 
 import * as ImagePicker from "expo-image-picker";
 import Loading from "../component/Loading";
 
 const Profile = () => {
   const navigation = useNavigation();
-  const { student, loading, error } = useSelector((e) => e.student);
+  const { employee, loading, error } = useSelector((e) => e.employee);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,18 +34,20 @@ const Profile = () => {
     lastname: "Doe",
     email: "john.doe@example.com",
     contact: "1234567890",
+    organisationname: "sss",
   });
 
   useEffect(() => {
-    if (student) {
+    if (employee) {
       setFormData({
-        firstname: student.firstname,
-        lastname: student.lastname,
-        email: student.email,
-        contact: student.contact,
+        firstname: employee.firstname,
+        lastname: employee.lastname,
+        email: employee.email,
+        contact: employee.contact,
+        organisationname: employee.organisationname,
       });
     }
-  }, [student]);
+  }, [employee]);
 
   useEffect(() => {
     if (error) {
@@ -60,7 +62,9 @@ const Profile = () => {
 
   const handleSave = () => {
     setEditMode(false);
-    dispatch(updateStudent(formData));
+    /*  todo */
+    console.log(formData);
+    // dispatch(updateEmployee(formData));
   };
 
   const handleChange = (name, value) => {
@@ -76,6 +80,8 @@ const Profile = () => {
 
   const [image, setImage] = useState(null);
 
+  console.log(employee);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -89,47 +95,35 @@ const Profile = () => {
       type: result.assets[0].mimeType,
     };
 
-    dispatch(avatarStudent(avatarFile));
+    dispatch(avatarEmployee(avatarFile));
 
     if (!result.cancelled) {
       setImage(result.uri);
     }
-
-    if (image) {
-    }
   };
-
-  /* Resuma */
-
   return (
     <View>
       {loading ? (
         <Loading />
       ) : (
         <View className="bg-white min-h-[100vh] relative">
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Setting")}
-            className="absolute z-10 right-2 top-2"
-          >
-            <Ionicons name="settings" size={20} color="black" />
-          </TouchableOpacity>
-
           <Image
             source={require("../../assets/banner/profile.jpg")}
             className="w-full h-[90px] mt-0"
           ></Image>
 
-          <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
+          <View className=" w-full flex-col  flex items-center  -mt-[40px] ">
             <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
-              {student?.avatar ? (
+              {/* TODO */}
+              {employee.organisationlogo.ur ? (
                 <Image
-                  source={{ uri: student?.avatar?.url }}
-                  className="w-[80px] h-[80px] rounded-full"
+                  source={{ uri: employee?.orgainzation?.url }}
+                  className="w-[85px] h-[85px] rounded-full"
                 ></Image>
               ) : (
                 <Image
                   source={require("../../assets/Images/profile.webp")}
-                  className="w-[80px] h-[80px] rounded-full"
+                  className="w-[85px] h-[85px] rounded-full"
                 ></Image>
               )}
             </TouchableOpacity>
@@ -146,15 +140,11 @@ const Profile = () => {
                   {formData.firstname} {formData.lastname}
                 </Text>
               )}
-              <Text className="text-sm font-[400] opacity-[0.3]">
-                UX Designer
-              </Text>
             </View>
           </View>
 
           <View className="mt-[16px] space-y-4 px-[20px]">
             <View className="flex flex-row items-center gap-1 mb-0">
-              {/* <FontAwesome6 name="user-large" size={13} color="black" /> */}
               <Text className="font-semibold text-[16px]">Profile Details</Text>
               {editMode ? (
                 <TouchableOpacity onPress={handleSave}>
@@ -208,7 +198,6 @@ const Profile = () => {
             </View>
             <View>
               <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
-
               {editMode ? (
                 <TextInput
                   value={formData.contact}
@@ -219,22 +208,20 @@ const Profile = () => {
               )}
             </View>
 
-            <TouchableOpacity className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-              <Entypo
-                name="plus"
-                size={18}
-                color="black"
-                className="font-[400]"
-              />
-              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-                Upload Resume
+            <View>
+              <Text className="font-[500] text-[15px] my-[0.8px]">
+                Organisation Name
               </Text>
-            </TouchableOpacity>
-            <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-              <Ionicons name="create" size={18} color="black" />
-              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-                Create Resume
-              </Text>
+              {editMode ? (
+                <TextInput
+                  value={formData.organisationname}
+                  onChangeText={(text) =>
+                    handleChange("organisationname", text)
+                  }
+                />
+              ) : (
+                <Text>{formData.organisationname}</Text>
+              )}
             </View>
           </View>
         </View>

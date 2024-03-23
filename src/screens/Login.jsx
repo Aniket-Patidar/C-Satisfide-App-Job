@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginEmployee } from "../redux/action/employeeAction";
 import { setError } from "../redux/sclice/employeeSclice";
 import { loginStudent } from "../redux/action/studentAction";
+import Loading from "../component/Loading";
 
 const Login = ({ navigation, route }) => {
   //student
@@ -69,13 +70,7 @@ const Login = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicatorBase
-            size="large"
-            className="-mt-[100px]"
-            color="#007AFF"
-          />
-        </View>
+        <Loading />
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>

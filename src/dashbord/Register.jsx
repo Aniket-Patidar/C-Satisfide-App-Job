@@ -19,6 +19,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { registerEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../redux/sclice/employeeSclice";
+import Loading from "../component/Loading";
 
 const Register = ({ route }) => {
   const navigation = useNavigation();
@@ -78,10 +79,7 @@ const Register = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <Text>Loading...</Text>
-        
-        </View>
+        <Loading />
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 2 }}>

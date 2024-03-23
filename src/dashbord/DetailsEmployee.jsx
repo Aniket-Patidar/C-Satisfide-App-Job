@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getJobById } from "../redux/action/jobAction";
 import { useRoute } from "@react-navigation/native";
 import { applicationSend } from "../redux/action/studentAction";
+import Loading from "../component/Loading";
 
 const Details = ({}) => {
   const { jobs, job, loading } = useSelector((e) => e.Jobs);
@@ -53,13 +54,7 @@ const Details = ({}) => {
   return (
     <View className="bg-white">
       {loading ? (
-        <View className="my-auto flex items-center justify-center w-screen h-screen">
-          <ActivityIndicator
-            size="large"
-            className="-mt-[100px]"
-            color="#007AFF"
-          />
-        </View>
+        <Loading />
       ) : (
         <>
           {job && (
