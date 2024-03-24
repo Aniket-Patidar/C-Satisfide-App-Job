@@ -20,6 +20,8 @@ import { useEmployeeLoggedIn, useUserLoggedIn } from './src/constants/auth.js';
 import DetailsEmployee from './src/dashbord/DetailsEmployee.jsx';
 import SettingScreen from './src/screens/Setting.jsx';
 
+import Forget from './src/screens/Forget.jsx'
+
 import OnboardingScreen from './src/component/Onboarding.jsx'
 import EditScreen from './src/dashbord/EditJob.jsx'
 
@@ -73,6 +75,7 @@ export default function App() {
                 <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />
                 <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{ headerShown: false }} />
                 <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
+                <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
               </>
             )}
 
