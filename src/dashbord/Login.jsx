@@ -187,16 +187,7 @@ const Login = ({ navigation, route }) => {
               flexDirection: "row",
               marginVertical: 6,
             }}
-          >
-            {/* <Checkbox
-                        style={{ marginRight: 8 }}
-                        value={isChecked}
-                        onValueChange={setIsChecked}
-                        color={isChecked ? COLORS.primary : undefined}
-                    /> */}
-            {/* 
-          <Text>Remenber Me</Text> */}
-          </View>
+          ></View>
 
           <Button
             title="Login"

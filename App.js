@@ -26,6 +26,9 @@ import EditScreen from './src/dashbord/EditJob.jsx'
 
 import ProfileEmployee from './src/dashbord/ProfileEmployee.jsx';
 
+import PrivacyPolicy from './src/dashbord/PrivacyPolicy.jsx';
+import AboutUs from './src/dashbord/AboutUs.jsx';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -95,6 +98,25 @@ export default function App() {
               headerTintColor: 'white',
               headerTitle: 'Profile',
             }} />
+
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: '#4080ED',
+              },
+              headerTintColor: 'white',
+              headerTitle: 'Privacy Policy',
+            }} />
+
+            <Stack.Screen name="About" component={AboutUs} options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: '#4080ED',
+              },
+              headerTintColor: 'white',
+              headerTitle: 'About Us',
+            }} />
+
             <Stack.Screen name="EditEmployeeJob"
               component={EditScreen}
               options={{
@@ -106,7 +128,6 @@ export default function App() {
                 headerTitle: 'Edit Job',
               }}
             />
-
 
           </Stack.Navigator>
         </SafeAreaView>

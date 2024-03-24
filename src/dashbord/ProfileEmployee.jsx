@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   ToastAndroid,
   Alert,
+  ScrollViewBase,
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
@@ -23,6 +24,8 @@ import { avatarEmployee, updateEmployee } from "../redux/action/employeeAction";
 
 import * as ImagePicker from "expo-image-picker";
 import Loading from "../component/Loading";
+import PrivacyPolicy from "./PrivacyPolicy";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -35,6 +38,11 @@ const Profile = () => {
     email: "john.doe@example.com",
     contact: "1234567890",
     organisationname: "sss",
+    website: "",
+    socialMedia: "",
+    companyLocation: "",
+    companyType: "",
+    companySize: "",
   });
 
   useEffect(() => {
@@ -45,6 +53,11 @@ const Profile = () => {
         email: employee.email,
         contact: employee.contact,
         organisationname: employee.organisationname,
+        website: employee.website || "",
+        socialMedia: employee.socialMedia || "",
+        companyLocation: employee.companyLocation || "",
+        companyType: employee.companyType || "",
+        companySize: employee.companySize || "",
       });
     }
   }, [employee]);
@@ -106,125 +119,202 @@ const Profile = () => {
       {loading ? (
         <Loading />
       ) : (
-        <View className="bg-white min-h-[100vh] relative">
-          <Image
-            source={require("../../assets/banner/profile.jpg")}
-            className="w-full h-[90px] mt-0"
-          ></Image>
+        <>
+          <View className="bg-white min-h-[150vh] relative">
+            <Image
+              source={require("../../assets/banner/profile.png")}
+              className="w-full h-[90px] mt-0"
+            ></Image>
 
-          <View className=" w-full flex-col  flex items-center  -mt-[40px] ">
-            <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
-              {/* TODO */}
-              {employee.organisationlogo.ur ? (
-                <Image
-                  source={{ uri: employee?.orgainzation?.url }}
-                  className="w-[85px] h-[85px] rounded-full"
-                ></Image>
-              ) : (
-                <Image
-                  source={require("../../assets/Images/profile.webp")}
-                  className="w-[85px] h-[85px] rounded-full"
-                ></Image>
-              )}
-            </TouchableOpacity>
+            <View className=" w-full flex-col  flex items-center  -mt-[40px] ">
+              <TouchableOpacity
+                onPress={pickImage}
+                className="w-[80px] h-[80px]"
+              >
+                {/* TODO */}
+                {employee.organisationlogo.ur ? (
+                  <Image
+                    source={{ uri: employee?.orgainzation?.url }}
+                    className="w-[85px] h-[85px] rounded-full"
+                  ></Image>
+                ) : (
+                  <Image
+                    source={require("../../assets/Images/profile.webp")}
+                    className="w-[85px] h-[85px] rounded-full"
+                  ></Image>
+                )}
+              </TouchableOpacity>
 
-            <View className="flex w-fit">
-              {editMode ? (
-                <TextInput
-                  value={formData.firstname}
-                  onChangeText={(text) => handleChange("firstname", text)}
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                />
-              ) : (
-                <Text className="font-semibold text-lg capitalize">
-                  {formData.firstname} {formData.lastname}
+              <View className="flex w-fit">
+                {editMode ? (
+                  <TextInput
+                    value={formData.firstname}
+                    onChangeText={(text) => handleChange("firstname", text)}
+                    style={{ fontSize: 20, fontWeight: "bold" }}
+                  />
+                ) : (
+                  <Text className="font-semibold text-lg capitalize">
+                    {formData.firstname} {formData.lastname}
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View className="mt-[16px] space-y-4 px-[20px]">
+              <View className="flex flex-row items-center gap-1 mb-0">
+                <Text className="font-semibold text-[16px]">
+                  Profile Details
                 </Text>
-              )}
+                {editMode ? (
+                  <TouchableOpacity onPress={handleSave}>
+                    <Feather name="check" size={20} color="black" />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={handleEdit}>
+                    <Feather name="edit" size={13} color="black" />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[16px] my-[0.8px] ">
+                  First Name
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.firstname}
+                    onChangeText={(text) => handleChange("firstname", text)}
+                  />
+                ) : (
+                  <Text>{formData.firstname}</Text>
+                )}
+              </View>
+
+              <View>
+                <Text className="font-[500] text-[16px] my-[0.8px] ">
+                  Last Name
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.lastname}
+                    onChangeText={(text) => handleChange("lastname", text)}
+                  />
+                ) : (
+                  <Text>{formData.lastname}</Text>
+                )}
+              </View>
+
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
+
+                {editMode ? (
+                  <TextInput
+                    value={formData.email}
+                    onChangeText={(text) => handleChange("email", text)}
+                  />
+                ) : (
+                  <Text>{formData.email}</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.contact}
+                    onChangeText={(text) => handleChange("contact", text)}
+                  />
+                ) : (
+                  <Text>{formData.contact}</Text>
+                )}
+              </View>
+
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Organisation Name
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.organisationname}
+                    onChangeText={(text) =>
+                      handleChange("organisationname", text)
+                    }
+                  />
+                ) : (
+                  <Text>{formData.organisationname}</Text>
+                )}
+              </View>
+
+              {/* New fields */}
+
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Website
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.website}
+                    onChangeText={(text) => handleChange("website", text)}
+                  />
+                ) : (
+                  <Text>{formData.website}</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Social Media
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.socialMedia}
+                    onChangeText={(text) => handleChange("socialMedia", text)}
+                  />
+                ) : (
+                  <Text>{formData.socialMedia}</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Company Location
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.companyLocation}
+                    onChangeText={(text) =>
+                      handleChange("companyLocation", text)
+                    }
+                  />
+                ) : (
+                  <Text>{formData.companyLocation}</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Company Type
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.companyType}
+                    onChangeText={(text) => handleChange("companyType", text)}
+                  />
+                ) : (
+                  <Text>{formData.companyType}</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-[500] text-[15px] my-[0.8px]">
+                  Company Size
+                </Text>
+                {editMode ? (
+                  <TextInput
+                    value={formData.companySize}
+                    onChangeText={(text) => handleChange("companySize", text)}
+                  />
+                ) : (
+                  <Text>{formData.companySize}</Text>
+                )}
+              </View>
             </View>
           </View>
-
-          <View className="mt-[16px] space-y-4 px-[20px]">
-            <View className="flex flex-row items-center gap-1 mb-0">
-              <Text className="font-semibold text-[16px]">Profile Details</Text>
-              {editMode ? (
-                <TouchableOpacity onPress={handleSave}>
-                  <Feather name="check" size={20} color="black" />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={handleEdit}>
-                  <Feather name="edit" size={13} color="black" />
-                </TouchableOpacity>
-              )}
-            </View>
-            <View>
-              <Text className="font-[500] text-[16px] my-[0.8px] ">
-                First Name
-              </Text>
-              {editMode ? (
-                <TextInput
-                  value={formData.firstname}
-                  onChangeText={(text) => handleChange("firstname", text)}
-                />
-              ) : (
-                <Text>{formData.firstname}</Text>
-              )}
-            </View>
-
-            <View>
-              <Text className="font-[500] text-[16px] my-[0.8px] ">
-                Last Name
-              </Text>
-              {editMode ? (
-                <TextInput
-                  value={formData.lastname}
-                  onChangeText={(text) => handleChange("lastname", text)}
-                />
-              ) : (
-                <Text>{formData.lastname}</Text>
-              )}
-            </View>
-
-            <View>
-              <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
-
-              {editMode ? (
-                <TextInput
-                  value={formData.email}
-                  onChangeText={(text) => handleChange("email", text)}
-                />
-              ) : (
-                <Text>{formData.email}</Text>
-              )}
-            </View>
-            <View>
-              <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
-              {editMode ? (
-                <TextInput
-                  value={formData.contact}
-                  onChangeText={(text) => handleChange("contact", text)}
-                />
-              ) : (
-                <Text>{formData.contact}</Text>
-              )}
-            </View>
-
-            <View>
-              <Text className="font-[500] text-[15px] my-[0.8px]">
-                Organisation Name
-              </Text>
-              {editMode ? (
-                <TextInput
-                  value={formData.organisationname}
-                  onChangeText={(text) =>
-                    handleChange("organisationname", text)
-                  }
-                />
-              ) : (
-                <Text>{formData.organisationname}</Text>
-              )}
-            </View>
-          </View>
-        </View>
+        </>
       )}
     </View>
   );

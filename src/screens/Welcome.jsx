@@ -85,7 +85,7 @@ const Welcome = ({ navigation }) => {
         </View> */}
 
         {/* content  */}
-      
+
         <View
           style={{
             paddingHorizontal: 22,
@@ -135,7 +135,7 @@ const Welcome = ({ navigation }) => {
 
           <View className="flex flex-row">
             <Button
-              title="Student"
+              title="Find Job"
               onPress={() =>
                 navigation.navigate("Register Student", { role: "Student" })
               }
@@ -145,7 +145,7 @@ const Welcome = ({ navigation }) => {
               }}
             />
             <Button
-              title="Employee"
+              title="Company"
               onPress={() =>
                 navigation.navigate("Register Employee", { role: "Employee" })
               }

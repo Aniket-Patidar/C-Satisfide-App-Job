@@ -113,7 +113,7 @@ export default function Example({ navigation }) {
 
             <TouchableOpacity
               onPress={() => {
-                // handle onPress
+                navigation.navigate("PrivacyPolicy");
               }}
               style={styles.row}
             >
@@ -121,7 +121,7 @@ export default function Example({ navigation }) {
                 <FeatherIcon color="#fff" name="mail" size={20} />
               </View>
 
-              <Text style={styles.rowLabel}>Contact Us</Text>
+              <Text style={styles.rowLabel}>Polices</Text>
 
               <View style={styles.rowSpacer} />
 
@@ -130,7 +130,7 @@ export default function Example({ navigation }) {
 
             <TouchableOpacity
               onPress={() => {
-                // handle onPress
+                navigation.navigate("About");
               }}
               style={styles.row}
             >
