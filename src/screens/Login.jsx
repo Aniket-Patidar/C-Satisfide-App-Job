@@ -131,7 +131,7 @@ const Login = ({ navigation, route }) => {
           </View>
 
           <View style={{ marginBottom: 12 }}>
-            <View className="flex flex-row justify-between ">
+            <View className="flex flex-row justify-between items-center">
               <Text
                 style={{
                   fontSize: 16,
@@ -141,20 +141,15 @@ const Login = ({ navigation, route }) => {
               >
                 Password
               </Text>
-
               <TouchableOpacity
                 onPress={() => navigation.navigate("forgot Password")}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 400,
+                  marginVertical: 8,
+                }}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 400,
-                    marginVertical: 8,
-                  }}
-                  className="text-blue-500"
-                >
-                  Forgot
-                </Text>
+                <Text>Forget</Text>
               </TouchableOpacity>
             </View>
 

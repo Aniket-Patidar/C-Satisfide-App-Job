@@ -7,6 +7,7 @@ module.exports = {
     "./src/component/**/*.{js,jsx,ts,tsx}",
     "./src/dashbord/**/*.{js,jsx,ts,tsx}",
     "./src/constants/**/*.{js,jsx,ts,tsx}",
+    "./src/Admin/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {},
