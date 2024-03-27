@@ -118,7 +118,7 @@ const ViewAllEmploye = () => {
           <View className="flex flex-row items-center justify-center">
             <Image
               source={require("../../assets/banner/Banner2.png")}
-              className="w-[100%] my-1 h-[120px] "
+              className="w-[100%] mb-3 h-[120px] "
             ></Image>
           </View>
           {employes.reverse()?.map((e) => {

@@ -21,7 +21,7 @@ import CreateJobScreen from "../dashbord/CreateJob";
 import AllStudent from "../Admin/AllStudent.jsx"
 import AllEmployee from "../Admin/AllEmployee.jsx"
 import AllJobs from "../Admin/AllJobs.jsx"
-import DashBoard from "../Admin/AllJobs.jsx"
+import DashBoard from "../Admin/Dashboard.jsx"
 
 const Drawer = createDrawerNavigator();
 

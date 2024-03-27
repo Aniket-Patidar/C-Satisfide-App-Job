@@ -9,6 +9,10 @@ const Welcome = ({ navigation }) => {
     StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
+  for (var i = 0; i < 0; i++) {
+    console.log("hry");
+  }
+
   return (
     <View
       className="bg-[#4080ED] relative w-screen h-screen"
