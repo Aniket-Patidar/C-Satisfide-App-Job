@@ -12,6 +12,8 @@ import {
 
 import { EvilIcons } from "@expo/vector-icons";
 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { FontAwesome } from "@expo/vector-icons"; // Importing FontAwesome icons from Expo
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,14 +23,16 @@ import { useNavigation } from "@react-navigation/native";
 import { Linking } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import { Feather } from '@expo/vector-icons';
+
+
+const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
 
 const ViewAllEmploye = () => {
   const { employee, error } = useSelector((e) => e.employee);
   const [searchTerm, setSearchTerm] = useState("");
   const [employes, setEmployes] = useState([]);
   const dispatch = useDispatch();
-
-  const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
 
   useEffect(() => {
     const searchUsers = async () => {
@@ -72,24 +76,6 @@ const ViewAllEmploye = () => {
     }
   };
 
-  const DeleteEmployer = async (id) => {
-    try {
-      const response = await axios.post(
-        `${basePath}/admin/delete/employer/${id}`,
-        null,
-        {
-          headers: {
-            authorization: await AsyncStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      setEmployes(response.data.user);
-    } catch (error) {
-      console.error("Error deleting employer:", error);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View
@@ -124,7 +110,7 @@ const ViewAllEmploye = () => {
           {employes.reverse()?.map((e) => {
             return (
               <View className="flex items-center">
-                <EmployeeCard {...e}></EmployeeCard>
+                <EmployeeCard {...e} setEmployes={setEmployes}></EmployeeCard>
               </View>
             );
           })}
@@ -211,7 +197,6 @@ const EmployeeCard = ({
   jobs,
   location,
   companySize,
-
   employer,
   jobType,
   salary,
@@ -219,8 +204,27 @@ const EmployeeCard = ({
   isAlreadyApplied,
   jobId,
   applications,
+  setEmployes,
 }) => {
   const navigation = useNavigation();
+
+  const DeleteEmployer = async (id) => {
+    try {
+      const response = await axios.post(
+        `https://final-satisfied-backend-2.onrender.com/employer/admin/delete/employer/${id}`,
+        null,
+        {
+          headers: {
+            authorization: await AsyncStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setEmployes(response.data.user);
+    } catch (error) {
+      console.error("Error deleting employer:", JSON.stringify(error));
+    }
+  };
 
   const scaleAnimation = new Animated.Value(1);
 
@@ -292,7 +296,7 @@ const EmployeeCard = ({
         )}
       </View>
 
-      <View style={{ marginBottom: 10 }}>
+      <View className="flex items-start">
         <View
           style={{
             flexDirection: "row",
@@ -316,9 +320,9 @@ const EmployeeCard = ({
             marginBottom: 8,
           }}
         >
-          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
+          <MaterialIcons name="post-add" size={16} color="#8A8A8A" />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
-            {jobs.length} Jobs
+            Jobs {jobs.length}
           </Text>
         </View>
         <View
@@ -328,7 +332,7 @@ const EmployeeCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="briefcase" size={14} color="#8A8A8A" />
+          <Feather name="users" size={16} color="#8A8A8A" />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {companySize}
           </Text>
@@ -343,7 +347,11 @@ const EmployeeCard = ({
         }}
         className="space-x-2"
       >
-        <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut}>
+        <TouchableOpacity
+          onPress={() => DeleteEmployer(_id)}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
           <View
             style={{
               backgroundColor: "#2cc57b",

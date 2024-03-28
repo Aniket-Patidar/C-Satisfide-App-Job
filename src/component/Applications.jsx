@@ -43,21 +43,21 @@ const TableItem = ({ item, onUpdateStatus }) => {
     <View style={styles.row}>
       <Text style={styles.cell}>
         {item.studentId
-          ? `${item.studentId.firstname} ${item.studentId.lastname}`
+          ? `${item?.studentId?.firstname} ${item.studentId.lastname}`
           : "N/A"}
       </Text>
       <Text style={styles.cell}>
-        {item.studentId ? item.studentId.email : "N/A"}
+        {item.studentId ? item?.studentId?.email : "N/A"}
       </Text>
       <Text style={styles.cell}>
-        {item.studentId ? item.studentId.contact : "N/A"}
+        {item.studentId ? item?.studentId?.contact : "N/A"}
       </Text>
-      <Text style={styles.cell}>{item.jobId ? item.jobId.title : "N/A"}</Text>
+      <Text style={styles.cell}>{item?.jobId ? item?.jobId?.title : "N/A"}</Text>
       <TouchableOpacity
         style={styles.statusCell}
         onPress={() => setShowDropdown(true)}
       >
-        <Text style={[styles.cell, { color: getStatusColor(item.status) }]}>
+        <Text style={[styles.cell, { color: getStatusColor(item?.status) }]}>
           {selectedStatus}
         </Text>
       </TouchableOpacity>

@@ -8,13 +8,11 @@ import { headerStyle } from '../constants/colors';
 /* login */
 import { useEmployeeLoggedIn } from "./auth.js";
 
-
 /* employee */
 import DashScreen from "../dashbord/DashBord.jsx";
 import Profile from "../dashbord/Profile";
 import AllJobsScreen from "../dashbord/AllJobs";
 import CreateJobScreen from "../dashbord/CreateJob";
-
 
 
 /* Admin */
@@ -23,16 +21,22 @@ import AllEmployee from "../Admin/AllEmployee.jsx"
 import AllJobs from "../Admin/AllJobs.jsx"
 import DashBoard from "../Admin/Dashboard.jsx"
 
+/* icons */
+import { MaterialIcons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+
+
 const Drawer = createDrawerNavigator();
 
 function MyDrawer() {
-    const { employee } = useSelector((e) => e.employee);
+    const { employee, loading } = useSelector((e) => e.employee);
 
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
-
-
-            {!employee.isAdmin ?
+            {!employee?.isAdmin ?
                 <>
                     <Drawer.Screen
                         name="Dashboard"
@@ -42,7 +46,7 @@ function MyDrawer() {
                                 <Icon
                                     name={focused ? 'home' : 'home-outline'}
                                     size={size}
-                                    color={focused ? '#4080ED' : 'black'}
+                                    color={focused ? '#4080ED' : '#5F5F5F'}
                                 />
                             ),
                             headerStyle: {
@@ -124,11 +128,7 @@ function MyDrawer() {
                         options={{
                             drawerLabel: 'Dashboard',
                             drawerIcon: ({ focused, size }) => (
-                                <Icon
-                                    name={focused ? 'person' : 'person-outline'}
-                                    size={size}
-                                    color={focused ? '#4080ED' : 'black'}
-                                />
+                                <MaterialIcons name="dashboard" size={24} color={`${focused ? "#4080ED" : "#5F5F5F"}`} />
                             ),
                             headerStyle: {
 
@@ -146,11 +146,7 @@ function MyDrawer() {
                         component={Profile}
                         options={{
                             drawerIcon: ({ focused, size }) => (
-                                <Icon
-                                    name={focused ? 'person' : 'person-outline'}
-                                    size={size}
-                                    color={focused ? '#4080ED' : 'black'}
-                                />
+                                <Octicons name="person-fill" size={24} color={focused ? '#4080ED' : '#5F5F5F'} />
                             ),
                             headerStyle: {
                                 backgroundColor: '#4080ED',
@@ -161,42 +157,16 @@ function MyDrawer() {
                             headerTintColor: 'white',
                         }}
                     />
-
-                    <Drawer.Screen
-                        name="All Student"
-                        component={AllStudent}
-                        options={{
-                            drawerIcon: ({ focused, size }) => (
-                                <Icon
-                                    name={focused ? 'person' : 'person-outline'}
-                                    size={size}
-                                    color={focused ? '#4080ED' : 'black'}
-                                />
-                            ),
-                            headerStyle: {
-                                backgroundColor: '#4080ED',
-                                borderBottomLeftRadius: 20,
-                                borderBottomRightRadius: 20,
-                            },
-                            headerShown: true,
-                            headerTintColor: 'white',
-                        }}
-                    />
-
                     <Drawer.Screen
                         name="All Employee"
                         component={AllEmployee}
                         options={{
                             drawerLabel: 'Employees',
                             drawerIcon: ({ focused, size }) => (
-                                <Icon
-                                    name={focused ? 'person' : 'person-outline'}
-                                    size={size}
-                                    color={focused ? '#4080ED' : 'black'}
+                                <FontAwesome name="user-circle-o" size={24} color={focused ? '#4080ED' : '#5F5F5F'}
                                 />
                             ),
                             headerStyle: {
-
                                 backgroundColor: '#4080ED',
                                 borderBottomLeftRadius: 20,
                                 borderBottomRightRadius: 20,
@@ -205,6 +175,25 @@ function MyDrawer() {
                             headerTintColor: 'white',
                         }}
                     />
+
+                    <Drawer.Screen
+                        name="All Student"
+                        component={AllStudent}
+                        options={{
+                            drawerIcon: ({ focused, size }) => (
+                                <Entypo name="book" size={24} color={focused ? '#4080ED' : '#5F5F5F'} />
+                            ),
+                            headerStyle: {
+                                backgroundColor: '#4080ED',
+                                borderBottomLeftRadius: 20,
+                                borderBottomRightRadius: 20,
+                            },
+                            headerShown: true,
+                            headerTintColor: 'white',
+                        }}
+                    />
+
+
 
                     <Drawer.Screen
                         name="All Jobs"
@@ -212,11 +201,7 @@ function MyDrawer() {
                         options={{
                             drawerLabel: 'All Jobs',
                             drawerIcon: ({ focused, size }) => (
-                                <Icon
-                                    name={focused ? 'person' : 'person-outline'}
-                                    size={size}
-                                    color={focused ? '#4080ED' : 'black'}
-                                />
+                                <MaterialIcons name="work-history" size={24} color={focused ? '#4080ED' : '#5F5F5F'} />
                             ),
                             headerStyle: {
 

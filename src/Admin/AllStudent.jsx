@@ -14,12 +14,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Linking } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+/* icons */
 import { EvilIcons } from "@expo/vector-icons";
-
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import { FontAwesome } from "@expo/vector-icons";
+
+/*  */
 
 const ViewAllUsers = () => {
+ 
+
+  const downloadPDF = (url) => {
+    Linking.openURL(url);
+  };
+
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
 
@@ -29,6 +38,7 @@ const ViewAllUsers = () => {
   const basePath = `https://final-satisfied-backend-2.onrender.com/employer`;
 
   const deleteUser = async (id) => {
+    return;
     const response = await axios.post(
       `${basePath}/admin/delete/user/${id}`,
       null,
@@ -94,7 +104,11 @@ const ViewAllUsers = () => {
             return (
               <>
                 <View className="flex items-center ">
-                  <StudentCard {...e}></StudentCard>
+                  <StudentCard
+                    {...e}
+                    downloadPDF={downloadPDF}
+                    deleteUser={deleteUser}
+                  ></StudentCard>
                 </View>
               </>
             );
@@ -108,6 +122,7 @@ const ViewAllUsers = () => {
 export default ViewAllUsers;
 
 const StudentCard = ({
+  _id,
   name,
   email,
   applications,
@@ -117,6 +132,8 @@ const StudentCard = ({
   gender,
   resumePdf,
   jobapplications,
+  deleteUser,
+  downloadPDF,
 }) => {
   const navigation = useNavigation();
 
@@ -216,21 +233,9 @@ const StudentCard = ({
             marginBottom: 8,
           }}
         >
-          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
+          <AntDesign name="phone" size={14} color="#8A8A8A" />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {contact}
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 8,
-          }}
-        >
-          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
-            {gender}
           </Text>
         </View>
       </View>
@@ -242,24 +247,34 @@ const StudentCard = ({
         }}
         className="space-x-2"
       >
-        <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut}>
-          <View
-            style={{
-              backgroundColor: "#2cc57b",
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderRadius: 5,
-            }}
+        {resumePdf?.fileId && (
+          <TouchableOpacity
+            onPress={() => downloadPDF(resumePdf.url)}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
           >
-            <Text
-              style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+            <View
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
             >
-              Resume
-            </Text>
-          </View>
-        </TouchableOpacity>
+              <Text
+                style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+              >
+                Resume
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut}>
+        <TouchableOpacity
+          onPress={() => deleteUser(_id)}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
           <View
             style={{
               backgroundColor: "#2cc57b",

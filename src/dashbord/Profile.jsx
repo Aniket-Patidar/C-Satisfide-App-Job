@@ -49,16 +49,16 @@ export default function Example({ navigation }) {
 
           <View>
             <Text style={styles.profileName} className="capitalize">
-              {employee.firstname + " " + employee.lastname}
+              {employee?.firstname + " " + employee?.lastname}
             </Text>
 
             <Text style={styles.profileAddress}>
-              {employee.organisationname}
+              {employee?.organisationname}
             </Text>
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView className="">
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Preferences</Text>
 
@@ -86,7 +86,7 @@ export default function Example({ navigation }) {
                 onValueChange={(emailNotifications) =>
                   setForm({ ...form, emailNotifications })
                 }
-                value={form.emailNotifications}
+                value={form?.emailNotifications}
               />
             </View>
 
@@ -103,7 +103,7 @@ export default function Example({ navigation }) {
                 onValueChange={(pushNotifications) =>
                   setForm({ ...form, pushNotifications })
                 }
-                value={form.pushNotifications}
+                value={form?.pushNotifications}
               />
             </View>
           </View>

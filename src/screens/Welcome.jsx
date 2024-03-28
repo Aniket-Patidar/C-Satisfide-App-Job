@@ -9,9 +9,6 @@ const Welcome = ({ navigation }) => {
     StatusBar.setBackgroundColor("#4080ED");
   }, []);
 
-  for (var i = 0; i < 0; i++) {
-    console.log("hry");
-  }
 
   return (
     <View
@@ -141,7 +138,7 @@ const Welcome = ({ navigation }) => {
             <Button
               title="Find Job"
               onPress={() =>
-                navigation.navigate("Register Student", { role: "Student" })
+                navigation.navigate("Login Student", { role: "Student" })
               }
               style={{
                 marginTop: 5,
@@ -151,7 +148,7 @@ const Welcome = ({ navigation }) => {
             <Button
               title="Company"
               onPress={() =>
-                navigation.navigate("Register Employee", { role: "Employee" })
+                navigation.navigate("Login Employee", { role: "Employee" })
               }
               style={{
                 marginTop: 5,

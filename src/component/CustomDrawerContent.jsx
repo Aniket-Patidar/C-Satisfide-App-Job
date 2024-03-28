@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
+  BackHandler,
+  AppState,
 } from "react-native";
 import {
   DrawerContentScrollView,
@@ -19,12 +22,55 @@ import { logoutEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "./Loading";
+import { Share } from "react-native";
 
 const CustomDrawer = (props) => {
   const dispatch = useDispatch();
   const { employeeLoggedIn, setEmployeeLoggedIn } = useEmployeeLoggedIn();
+
   const { employee, error, loading } = useSelector((e) => e.employee);
   const navigation = useNavigation();
+
+  const logout = async () => {
+    try {
+      await dispatch(logoutEmployee());
+      setEmployeeLoggedIn(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+  useEffect(async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token !== null) {
+      setEmployeeLoggedIn(false);
+    }
+  }, []);
+
+  const shareApp = async () => {
+    try {
+      const result = await Share.share({
+        message: "Check out our awesome app!",
+        // You can also include URL or any other information you want to share about your app
+        // url: 'https://example.com',
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // Shared with activity type of result.activityType
+          console.log("Shared with activity type:", result.activityType);
+        } else {
+          // Shared
+          console.log("Shared");
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // Dismissed
+        console.log("Dismissed");
+      }
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} className="relative">
@@ -36,8 +82,7 @@ const CustomDrawer = (props) => {
             className="-mt-2 flex items-center justify-center bg-[#4080ED]"
           >
             <Image
-              // source={{ uri: employee?.organisationlogo?.url }}
-              source={require("../../assets/Images/profile.webp")}
+              source={{ uri: employee?.organisationlogo?.url }}
               style={{
                 height: 80,
                 width: 80,
@@ -75,7 +120,7 @@ const CustomDrawer = (props) => {
 
         <View style={{ padding: 20, paddingTop: 0 }}>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={shareApp}
             style={{ paddingVertical: 15 }}
             className=""
           >
@@ -96,13 +141,7 @@ const CustomDrawer = (props) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              setEmployeeLoggedIn(false);
-              dispatch(logoutEmployee());
-            }}
-            style={{ paddingVertical: 15 }}
-          >
+          <TouchableOpacity onPress={logout} style={{ paddingVertical: 15 }}>
             <View
               style={{ flexDirection: "row", alignItems: "center" }}
               className="space-x-[30px]"

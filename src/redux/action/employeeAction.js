@@ -44,7 +44,7 @@ export const loginEmployee = (userData) => async (dispatch) => {
         await AsyncStorage.setItem('token', data.token);
         dispatch(currentEmployee())
     } catch (error) {
-        dispatch(setLoading(false));
+        dispatch(setLoading(true));
         console.error(error);
         dispatch(setError(error?.response?.data?.message || "login failed"));
     }
@@ -87,7 +87,6 @@ export const updateEmployee = (details) => async (dispatch) => {
 }
 
 export const logoutEmployee = (userData) => async (dispatch) => {
-    return;
     try {
         dispatch(setLoading(true));
         const data = await axios.get(`${basePath}/signout`, {

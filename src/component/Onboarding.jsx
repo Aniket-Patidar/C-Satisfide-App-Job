@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Main Onboarding component
+
 export default function OnboardingScreen({ navigation }) {
   const handleDone = () => {
     navigation.navigate("Welcome"); // Navigate to "Welcome" screen

@@ -401,11 +401,11 @@ const Company = ({ employer }) => {
           </Text>
 
           <Text style={styles.text}>
-            Manager: {employer.firstname}
-            {employer.lastname}
+            Manager: {employer?.firstname}
+            {employer?.lastname}
           </Text>
-          <Text style={styles.text}>Contact: {employer.contact}</Text>
-          <Text style={styles.text}>Email: {employer.email}</Text>
+          <Text style={styles.text}>Contact: {employer?.contact}</Text>
+          <Text style={styles.text}>Email: {employer?.email}</Text>
         </View>
       </View>
       <View>

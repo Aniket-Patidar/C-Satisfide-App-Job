@@ -39,10 +39,10 @@ const Profile = () => {
   useEffect(() => {
     if (student) {
       setFormData({
-        firstname: student.firstname,
-        lastname: student.lastname,
-        email: student.email,
-        contact: student.contact,
+        firstname: student?.firstname,
+        lastname: student?.lastname,
+        email: student?.email,
+        contact: student?.contact,
       });
     }
   }, [student]);
@@ -137,13 +137,13 @@ const Profile = () => {
             <View className="flex w-fit">
               {editMode ? (
                 <TextInput
-                  value={formData.firstname}
+                  value={formData?.firstname}
                   onChangeText={(text) => handleChange("firstname", text)}
                   style={{ fontSize: 20, fontWeight: "bold" }}
                 />
               ) : (
                 <Text className="font-semibold text-lg capitalize">
-                  {formData.firstname} {formData.lastname}
+                  {formData?.firstname} {formData?.lastname}
                 </Text>
               )}
               <Text className="text-sm font-[400] opacity-[0.3]">
@@ -172,11 +172,11 @@ const Profile = () => {
               </Text>
               {editMode ? (
                 <TextInput
-                  value={formData.firstname}
+                  value={formData?.firstname}
                   onChangeText={(text) => handleChange("firstname", text)}
                 />
               ) : (
-                <Text>{formData.firstname}</Text>
+                <Text>{formData?.firstname}</Text>
               )}
             </View>
 
@@ -186,11 +186,11 @@ const Profile = () => {
               </Text>
               {editMode ? (
                 <TextInput
-                  value={formData.lastname}
+                  value={formData?.lastname}
                   onChangeText={(text) => handleChange("lastname", text)}
                 />
               ) : (
-                <Text>{formData.lastname}</Text>
+                <Text>{formData?.lastname}</Text>
               )}
             </View>
 
@@ -199,11 +199,11 @@ const Profile = () => {
 
               {editMode ? (
                 <TextInput
-                  value={formData.email}
+                  value={formData?.email}
                   onChangeText={(text) => handleChange("email", text)}
                 />
               ) : (
-                <Text>{formData.email}</Text>
+                <Text>{formData?.email}</Text>
               )}
             </View>
             <View>
@@ -211,11 +211,11 @@ const Profile = () => {
 
               {editMode ? (
                 <TextInput
-                  value={formData.contact}
+                  value={formData?.contact}
                   onChangeText={(text) => handleChange("contact", text)}
                 />
               ) : (
-                <Text>{formData.contact}</Text>
+                <Text>{formData?.contact}</Text>
               )}
             </View>
 

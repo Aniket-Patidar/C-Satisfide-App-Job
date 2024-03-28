@@ -78,8 +78,11 @@ export default function App() {
                 <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
               </>
             )}
+            
+
 
             <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
+           
             <Stack.Screen name="Setting" component={SettingScreen} options={{
               title: 'Settings',
               headerStyle: {
@@ -92,15 +95,18 @@ export default function App() {
             }} />
 
             <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: false }} />
+           
             <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
+           
             <Stack.Screen name="ProfileEmployee" component={ProfileEmployee} options={{
-              headerShown: true,
+              headerShown: false,
               headerStyle: {
                 backgroundColor: '#4080ED',
               },
               headerTintColor: 'white',
               headerTitle: 'Profile',
             }} />
+
 
             <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{
               headerShown: true,
@@ -111,6 +117,7 @@ export default function App() {
               headerTitle: 'Privacy Policy',
             }} />
 
+
             <Stack.Screen name="About" component={AboutUs} options={{
               headerShown: true,
               headerStyle: {
@@ -119,6 +126,7 @@ export default function App() {
               headerTintColor: 'white',
               headerTitle: 'About Us',
             }} />
+
 
             <Stack.Screen name="EditEmployeeJob"
               component={EditScreen}
