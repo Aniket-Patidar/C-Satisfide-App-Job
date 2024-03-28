@@ -1,246 +1,261 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
+  StyleSheet,
+  SafeAreaView,
   View,
+  ScrollView,
   Text,
   TouchableOpacity,
-  TextInput,
-  Button,
-  StyleSheet,
+  Switch,
   Image,
-  StatusBar,
-  ActivityIndicator,
-  ToastAndroid,
-  Alert,
 } from "react-native";
+import FeatherIcon from "react-native-vector-icons/Feather";
+import { useSelector } from "react-redux";
 
-import { Feather } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { setError } from "../redux/sclice/studentSclice";
-import { Entypo } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { avatarStudent, updateStudent } from "../redux/action/studentAction";
+export default function Example({ navigation }) {
+  const { student, error, loading } = useSelector((e) => e.student);
 
-import * as ImagePicker from "expo-image-picker";
-import Loading from "../component/Loading";
-
-const Profile = () => {
-  const navigation = useNavigation();
-  const { student, loading, error } = useSelector((e) => e.student);
-  const dispatch = useDispatch();
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    firstname: "John",
-    lastname: "Doe",
-    email: "john.doe@example.com",
-    contact: "1234567890",
+  const [form, setForm] = useState({
+    darkMode: false,
+    emailNotifications: true,
+    pushNotifications: false,
   });
 
-  useEffect(() => {
-    if (student) {
-      setFormData({
-        firstname: student?.firstname,
-        lastname: student?.lastname,
-        email: student?.email,
-        contact: student?.contact,
-      });
-    }
-  }, [student]);
-
-  useEffect(() => {
-    if (error) {
-      ToastAndroid.show(error, ToastAndroid.SHORT);
-      dispatch(setError(null));
-    }
-  }, [error]);
-
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  const handleSave = () => {
-    setEditMode(false);
-    dispatch(updateStudent(formData));
-  };
-
-  const handleChange = (name, value) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  React.useEffect(() => {
-    StatusBar.setBackgroundColor("#4080ED");
-  }, []);
-
-  const [image, setImage] = useState(null);
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-    const avatarFile = {
-      uri: result.assets[0].uri,
-      name: "avatar.jpg",
-      type: result.assets[0].mimeType,
-    };
-
-    dispatch(avatarStudent(avatarFile));
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-
-    if (image) {
-    }
-  };
-
-  /* Resuma */
-
   return (
-    <View>
-      {loading ? (
-        <Loading />
-      ) : (
-        <View className="bg-white min-h-[100vh] relative">
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Setting")}
-            className="absolute z-10 right-2 top-2"
-          >
-            <Ionicons name="settings" size={20} color="black" />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={styles.container}>
+        <View style={styles.profile}>
+          <TouchableOpacity onPress={() => {}}>
+            <View style={styles.profileAvatarWrapper}>
+              <Image
+                alt=""
+                source={{
+                  uri: student?.avatar?.url,
+                }}
+                style={styles.profileAvatar}
+              />
+
+              <TouchableOpacity
+                onPress={() => {
+                  // handle onPress
+                }}
+              >
+                <View style={styles.profileAction}>
+                  <FeatherIcon color="#fff" name="edit-3" size={15} />
+                </View>
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
 
-          <Image
-            source={require("../../assets/banner/profile.jpg")}
-            className="w-full h-[90px] mt-0"
-          ></Image>
+          <View>
+            <Text style={styles.profileName} className="capitalize">
+              {student?.name}
+            </Text>
 
-          <View className=" w-full  flex-col ml-[20px] -mt-[40px]">
-            <TouchableOpacity onPress={pickImage} className="w-[80px] h-[80px]">
-              {student?.avatar ? (
-                <Image
-                  source={{ uri: student?.avatar?.url }}
-                  className="w-[80px] h-[80px] rounded-full"
-                ></Image>
-              ) : (
-                <Image
-                  source={require("../../assets/Images/profile.webp")}
-                  className="w-[80px] h-[80px] rounded-full"
-                ></Image>
-              )}
-            </TouchableOpacity>
-
-            <View className="flex w-fit">
-              {editMode ? (
-                <TextInput
-                  value={formData?.firstname}
-                  onChangeText={(text) => handleChange("firstname", text)}
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                />
-              ) : (
-                <Text className="font-semibold text-lg capitalize">
-                  {formData?.firstname} {formData?.lastname}
-                </Text>
-              )}
-              <Text className="text-sm font-[400] opacity-[0.3]">
-                UX Designer
-              </Text>
-            </View>
-          </View>
-
-          <View className="mt-[16px] space-y-4 px-[20px]">
-            <View className="flex flex-row items-center gap-1 mb-0">
-              {/* <FontAwesome6 name="user-large" size={13} color="black" /> */}
-              <Text className="font-semibold text-[16px]">Profile Details</Text>
-              {editMode ? (
-                <TouchableOpacity onPress={handleSave}>
-                  <Feather name="check" size={20} color="black" />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={handleEdit}>
-                  <Feather name="edit" size={13} color="black" />
-                </TouchableOpacity>
-              )}
-            </View>
-            <View>
-              <Text className="font-[500] text-[16px] my-[0.8px] ">
-                First Name
-              </Text>
-              {editMode ? (
-                <TextInput
-                  value={formData?.firstname}
-                  onChangeText={(text) => handleChange("firstname", text)}
-                />
-              ) : (
-                <Text>{formData?.firstname}</Text>
-              )}
-            </View>
-
-            <View>
-              <Text className="font-[500] text-[16px] my-[0.8px] ">
-                Last Name
-              </Text>
-              {editMode ? (
-                <TextInput
-                  value={formData?.lastname}
-                  onChangeText={(text) => handleChange("lastname", text)}
-                />
-              ) : (
-                <Text>{formData?.lastname}</Text>
-              )}
-            </View>
-
-            <View>
-              <Text className="font-[500] text-[15px] my-[0.8px]">Email</Text>
-
-              {editMode ? (
-                <TextInput
-                  value={formData?.email}
-                  onChangeText={(text) => handleChange("email", text)}
-                />
-              ) : (
-                <Text>{formData?.email}</Text>
-              )}
-            </View>
-            <View>
-              <Text className="font-[500] text-[15px] my-[0.8px]">Phone</Text>
-
-              {editMode ? (
-                <TextInput
-                  value={formData?.contact}
-                  onChangeText={(text) => handleChange("contact", text)}
-                />
-              ) : (
-                <Text>{formData?.contact}</Text>
-              )}
-            </View>
-
-            <TouchableOpacity className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-              <Entypo
-                name="plus"
-                size={18}
-                color="black"
-                className="font-[400]"
-              />
-              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-                Upload Resume
-              </Text>
-            </TouchableOpacity>
-            <View className="w-full border-[1px] border-[#dadada] rounded-md flex flex-row  items-center justify-center py-1">
-              <Ionicons name="create" size={18} color="black" />
-              <Text className="font-[400] text-[15px] my-[0.8px] text-center text-sm  capitalize ">
-                Create Resume
-              </Text>
-            </View>
+            <Text style={styles.profileAddress}>
+              {student?.email}
+            </Text>
           </View>
         </View>
-      )}
-    </View>
-  );
-};
 
-export default Profile;
+        <ScrollView className="">
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Preferences</Text>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ProfileStudent")}
+              style={styles.row}
+            >
+              <View style={[styles.rowIcon, { backgroundColor: "#fe9400" }]}>
+                <FeatherIcon color="#fff" name="globe" size={20} />
+              </View>
+              <Text style={styles.rowLabel}>Profile</Text>
+              <View style={styles.rowSpacer} />
+            </TouchableOpacity>
+
+            <View style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
+                <FeatherIcon color="#fff" name="at-sign" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Email Notifications</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <Switch
+                onValueChange={(emailNotifications) =>
+                  setForm({ ...form, emailNotifications })
+                }
+                value={form?.emailNotifications}
+              />
+            </View>
+
+            <View style={styles.row}>
+              <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
+                <FeatherIcon color="#fff" name="bell" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Push Notifications</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <Switch
+                onValueChange={(pushNotifications) =>
+                  setForm({ ...form, pushNotifications })
+                }
+                value={form?.pushNotifications}
+              />
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Resources</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("PrivacyPolicy");
+              }}
+              style={styles.row}
+            >
+              <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
+                <FeatherIcon color="#fff" name="mail" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Polices</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("About");
+              }}
+              style={styles.row}
+            >
+              <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
+                <FeatherIcon color="#fff" name="mail" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>About Us</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}
+              style={styles.row}
+            >
+              <View style={[styles.rowIcon, { backgroundColor: "#32c759" }]}>
+                <FeatherIcon color="#fff" name="star" size={20} />
+              </View>
+
+              <Text style={styles.rowLabel}>Rate in App Store</Text>
+
+              <View style={styles.rowSpacer} />
+
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  /** Profile */
+  profile: {
+    padding: 24,
+    backgroundColor: "#fff",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  profileAvatarWrapper: {
+    position: "relative",
+  },
+  profileAvatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 9999,
+  },
+  profileAction: {
+    position: "absolute",
+    right: -4,
+    bottom: -10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 28,
+    height: 28,
+    borderRadius: 9999,
+    backgroundColor: "#007bff",
+  },
+  profileName: {
+    marginTop: 20,
+    fontSize: 19,
+    fontWeight: "600",
+    color: "#414d63",
+    textAlign: "center",
+  },
+  profileAddress: {
+    marginTop: 5,
+    fontSize: 16,
+    color: "#989898",
+    textAlign: "center",
+  },
+  /** Section */
+  section: {
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    paddingVertical: 12,
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#9e9e9e",
+    textTransform: "uppercase",
+    letterSpacing: 1.1,
+  },
+  /** Row */
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    height: 50,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 8,
+    marginBottom: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  rowIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 9999,
+    marginRight: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowLabel: {
+    fontSize: 17,
+    fontWeight: "400",
+    color: "#0c0c0c",
+  },
+  rowSpacer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+});

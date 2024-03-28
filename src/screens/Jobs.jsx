@@ -244,7 +244,12 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
+          <MaterialCommunityIcons
+            name="currency-rupee"
+            size={14}
+            color="#8A8A8A"
+          />
+
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {salary} / Per Year
           </Text>
@@ -256,7 +261,7 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="briefcase" size={14} color="#8A8A8A" />
+          <FontAwesome name="building-o" size={14} color="#8A8A8A" />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {jobType}
           </Text>

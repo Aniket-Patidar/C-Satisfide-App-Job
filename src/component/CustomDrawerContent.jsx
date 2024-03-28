@@ -39,6 +39,7 @@ const CustomDrawer = (props) => {
       console.error("Logout failed:", error);
     }
   };
+  
   useEffect(async () => {
     const token = await AsyncStorage.getItem("token");
     if (token !== null) {
