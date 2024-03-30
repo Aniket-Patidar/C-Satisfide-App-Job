@@ -23,9 +23,6 @@ import { setError } from "../redux/sclice/studentSclice";
 import { avatarStudent, updateStudent } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
 
-
-
-
 /* image and pdf */
 import * as ImagePicker from "expo-image-picker";
 

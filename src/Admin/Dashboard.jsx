@@ -116,8 +116,8 @@ const AdminDashboard = () => {
       ) : error ? (
         <Text>Error: {error}</Text>
       ) : adminInfo ? (
-        <View>
-          <View style={[styles.infoContainer]} className="space-y-2 py-[15px]">
+        <View className="flex items-center justify-center">
+          <View style={[styles.infoContainer]} className="space-y-4 py-[15px]">
             <View className="w-[250px] h-[60px] flex  flex-row justify-between px-[20px] space-x-2 items-center bg-[#0EA5E9] rounded-md">
               <Octicons name="people" size={24} color="white" />
               <Text className="text-white text-[17px] font-semibold">
@@ -130,7 +130,6 @@ const AdminDashboard = () => {
                 Total Employers: {adminInfo.employerCount}
               </Text>
             </View>
-
             <View className="w-[250px] h-[60px] flex flex-row justify-between px-[20px] items-center bg-[#EAB308] rounded-md">
               <FontAwesome5 name="chart-line" size={24} color="white" />
               <Text className="text-white text-[17px] font-semibold">
@@ -138,7 +137,6 @@ const AdminDashboard = () => {
               </Text>
             </View>
           </View>
-
           <View
             style={{
               alignItems: "center",
@@ -165,7 +163,7 @@ const AdminDashboard = () => {
                   stroke: "blue",
                 },
               }}
-              xAxisLabelRotation={55} 
+              xAxisLabelRotation={55}
               bezier
             />
           </View>

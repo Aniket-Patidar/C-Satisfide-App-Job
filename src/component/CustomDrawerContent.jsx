@@ -25,11 +25,13 @@ import Loading from "./Loading";
 import { Share } from "react-native";
 
 const CustomDrawer = (props) => {
-  const dispatch = useDispatch();
-  const { employeeLoggedIn, setEmployeeLoggedIn } = useEmployeeLoggedIn();
+
+  const { setEmployeeLoggedIn } = props; 
+  console.log(setEmployeeLoggedIn, "===");
 
   const { employee, error, loading } = useSelector((e) => e.employee);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const logout = async () => {
     try {
@@ -39,7 +41,7 @@ const CustomDrawer = (props) => {
       console.error("Logout failed:", error);
     }
   };
-  
+
   useEffect(async () => {
     const token = await AsyncStorage.getItem("token");
     if (token !== null) {

@@ -11,8 +11,16 @@ import AppliedScreen from "../screens/Applied";
 const Tab = createBottomTabNavigator();
 const windowWidth = Dimensions.get('window').width;
 
-const TabNavigator = () => {
+import { useRoute } from '@react-navigation/native';
+
+
+const TabNavigator = ({ }) => {
     const iconSize = windowWidth * 0.06;
+
+    const route = useRoute();
+    const { userLoggedIn, setUserLoggedIn } = route.params || {};
+
+
 
     return (
         <Tab.Navigator
@@ -133,6 +141,7 @@ const TabNavigator = () => {
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
+                initialParams={{ userLoggedIn, setUserLoggedIn }}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <FontAwesome5 name="user-alt" size={iconSize} color={color} />

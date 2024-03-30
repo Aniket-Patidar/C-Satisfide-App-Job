@@ -27,6 +27,7 @@ import { Octicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { useRoute } from "@react-navigation/native";
 
 
 const Drawer = createDrawerNavigator();
@@ -34,8 +35,13 @@ const Drawer = createDrawerNavigator();
 function MyDrawer() {
     const { employee, loading } = useSelector((e) => e.employee);
 
+
+    const route = useRoute();
+    const { employeeLoggedIn, setEmployeeLoggedIn } = route.params || {};
+
+
     return (
-        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
+        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent  {...props} setEmployeeLoggedIn={setEmployeeLoggedIn} />}>
             {!employee?.isAdmin ?
                 <>
                     <Drawer.Screen

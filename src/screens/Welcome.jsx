@@ -1,181 +1,125 @@
-import { View, Text, Pressable, Image, StatusBar } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StatusBar,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "../constants/colors";
 import Button from "../component/Button";
 
 const Welcome = ({ navigation }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
     StatusBar.setBackgroundColor("#4080ED");
-  }, []);
+    const timer = setTimeout(() => {
+      const nextIndex = (currentImageIndex + 1) % data.length;
+      setCurrentImageIndex(nextIndex);
+    }, 10000);
 
+    return () => clearTimeout(timer);
+  }, [currentImageIndex]);
+
+  const renderItem = (image) => (
+    <Image
+      source={image}
+      style={{
+        width: Dimensions.get("window").width - 40,
+        height: 150,
+        borderRadius: 10,
+        marginRight: 10,
+      }}
+    />
+  );
+
+  const data = [
+    require("../../assets/Images/NA_October_10.jpg"),
+    require("../../assets/Images/w2.jpg"),
+    require("../../assets/Images/w3.jpg"),
+    // Add more images as required
+  ];
 
   return (
-    <View
-      className="bg-[#4080ED] relative w-screen h-screen"
-      style={{ flex: 1 }}
-      colors={[COLORS.secondary, COLORS.primary]}
-    >
-      <View style={{ flex: 1 }}>
-        {/* <View>
-          <Image
-            source={require("../../assets/hero1.jpg")}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              position: "absolute",
-              top: 10,
-              transform: [
-                { translateX: 20 },
-                { translateY: 50 },
-                { rotate: "-15deg" },
-              ],
-            }}
-          />
-
-          <Image
-            source={require("../../assets/hero2.jpg")}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              position: "absolute",
-              top: -30,
-              left: 100,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: "-5deg" },
-              ],
-            }}
-          />
-          <Image
-            source={require("../../assets/hero3.jpg")}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 20,
-              position: "absolute",
-              top: 130,
-              left: -50,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: "15deg" },
-              ],
-            }}
-          />
-
-          <Image
-            source={require("../../assets/hero2.jpg")}
-            style={{
-              height: 150,
-              width: 150,
-              borderRadius: 20,
-              position: "absolute",
-              top: 110,
-              left: 100,
-              transform: [
-                { translateX: 50 },
-                { translateY: 50 },
-                { rotate: "-15deg" },
-              ],
-            }}
-          />
-        </View> */}
-
-        {/* content  */}
-
+    <LinearGradient colors={["#4080ED", "#6D91F7"]} style={{ flex: 1 }}>
+      <View
+        className="flex items-start py-[20px] justify-between "
+        style={{ flex: 1 }}
+      >
+        {/* Header */}
         <View
+          className="space-x-2"
           style={{
-            paddingHorizontal: 22,
-            position: "absolute",
-            top: 320,
-            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 10,
+            marginLeft: 10,
           }}
         >
+          <Image
+            source={require("../../assets/Icons/logo.jpeg")}
+            style={{ height: 35, width: 35, borderRadius: 100 }}
+          />
           <Text
-            style={{
-              fontSize: 50,
-              fontWeight: 800,
-              color: COLORS.white,
-            }}
+            style={{ fontSize: 20, color: COLORS.white, fontWeight: "bold" }}
+          >
+            Satisfied Jobs
+          </Text>
+        </View>
+
+        {/* Image */}
+        <View style={{ marginTop: 20, paddingLeft: 20 }}>
+          {renderItem(data[currentImageIndex])}
+        </View>
+
+        {/* Content */}
+        <View style={{ paddingHorizontal: 22, marginTop: 20 }}>
+          <Text
+            style={{ fontSize: 50, fontWeight: "800", color: COLORS.white }}
           >
             Let's Get
           </Text>
           <Text
-            style={{
-              fontSize: 46,
-              fontWeight: 800,
-              color: COLORS.white,
-            }}
+            style={{ fontSize: 46, fontWeight: "800", color: COLORS.white }}
           >
             Started
           </Text>
 
           <View style={{ marginVertical: 22 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLORS.white,
-                marginVertical: 0,
-              }}
-            >
-              Connect with each other with chatting
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLORS.white,
-              }}
-            >
-              Calling, Enjoy Safe and private texting
+            <Text style={{ fontSize: 16, color: COLORS.white }}>
+              We Can Help You Succeed! Work Freely and Effectively to Achieve
+              Success
             </Text>
           </View>
 
-          <View className="flex flex-row">
+          <View style={{ flexDirection: "row", marginBottom: 12 }}>
             <Button
               title="Find Job"
               onPress={() =>
                 navigation.navigate("Login Student", { role: "Student" })
               }
-              style={{
-                marginTop: 5,
-                width: "50%",
-              }}
+              style={{ marginTop: 5, width: "50%" }}
             />
             <Button
               title="Company"
               onPress={() =>
                 navigation.navigate("Login Employee", { role: "Employee" })
               }
-              style={{
-                marginTop: 5,
-                width: "50%",
-              }}
+              style={{ marginTop: 5, width: "50%" }}
             />
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 12,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLORS.white,
-              }}
-            >
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <Text style={{ fontSize: 16, color: COLORS.white }}>
               Find your dream job on our app
             </Text>
           </View>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

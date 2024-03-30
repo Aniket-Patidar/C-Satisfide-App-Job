@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
 import LottieView from "lottie-react-native";
 import { Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -19,10 +20,15 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default function OnboardingScreen({ navigation }) {
-  const handleDone = () => {
-    navigation.navigate("Welcome"); // Navigate to "Welcome" screen
+
+  const handleDone = async () => {
+    try {
+      await AsyncStorage.setItem("onboardingCompleted", "true");
+      navigation.navigate("Welcome");
+    } catch (error) {
+      console.error("Error setting onboarding completed status:", error);
+    }
   };
 
   return (

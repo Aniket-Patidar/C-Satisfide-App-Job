@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,9 +10,13 @@ import {
   Image,
 } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useUserLoggedIn } from "../constants/auth";
+import { logoutStudent } from "../redux/action/studentAction";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute } from "@react-navigation/native";
 
-export default function Example({ navigation }) {
+export default function Example({ navigation ,route}) {
   const { student, error, loading } = useSelector((e) => e.student);
 
   const [form, setForm] = useState({
@@ -20,6 +24,18 @@ export default function Example({ navigation }) {
     emailNotifications: true,
     pushNotifications: false,
   });
+
+ 
+  const { userLoggedIn, setUserLoggedIn } = route.params || {};
+
+
+  const dispatch = useDispatch();
+
+  const Logout = async () => {
+    console.log("logout");
+    dispatch(logoutStudent());
+    setUserLoggedIn(false);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -52,9 +68,7 @@ export default function Example({ navigation }) {
               {student?.name}
             </Text>
 
-            <Text style={styles.profileAddress}>
-              {student?.email}
-            </Text>
+            <Text style={styles.profileAddress}>{student?.email}</Text>
           </View>
         </View>
 
@@ -73,22 +87,13 @@ export default function Example({ navigation }) {
               <View style={styles.rowSpacer} />
             </TouchableOpacity>
 
-            <View style={styles.row}>
+            <TouchableOpacity onPress={Logout} style={styles.row}>
               <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
                 <FeatherIcon color="#fff" name="at-sign" size={20} />
               </View>
-
-              <Text style={styles.rowLabel}>Email Notifications</Text>
-
+              <Text style={styles.rowLabel}>Logout</Text>
               <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={(emailNotifications) =>
-                  setForm({ ...form, emailNotifications })
-                }
-                value={form?.emailNotifications}
-              />
-            </View>
+            </TouchableOpacity>
 
             <View style={styles.row}>
               <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>

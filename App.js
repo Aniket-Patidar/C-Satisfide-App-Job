@@ -31,6 +31,7 @@ import ProfileStudent from './src/screens/ProfileStudent.jsx';
 
 import PrivacyPolicy from './src/dashbord/PrivacyPolicy.jsx';
 import AboutUs from './src/dashbord/AboutUs.jsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,22 @@ export default function App() {
 
   const { userLoggedIn, setUserLoggedIn } = useUserLoggedIn();
   const { employeeLoggedIn, setEmployeeLoggedIn } = useEmployeeLoggedIn();
+
+
+  const checkOnboardingStatus = async () => {
+    try {
+      const onboardingCompleted = await AsyncStorage.getItem('onboardingCompleted');
+      return onboardingCompleted !== null;
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+      return false;
+    }
+  };
+
+  const renderOnboardingScreen = async () => {
+    const onboardingCompleted = await checkOnboardingStatus();
+    return onboardingCompleted;
+  };
 
   return (
     <NavigationContainer>
@@ -57,6 +74,7 @@ export default function App() {
                 options={{
                   headerShown: false,
                 }}
+                initialParams={{ userLoggedIn, setUserLoggedIn }}
               />
             )}
 
@@ -65,18 +83,23 @@ export default function App() {
                 name="DrawerNavigator"
                 component={MyDrawer}
                 options={{ headerShown: false }}
+                initialParams={{ employeeLoggedIn, setEmployeeLoggedIn }}
               />
             )}
 
             {!employeeLoggedIn && !userLoggedIn && (
               <>
-                <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
+                {!renderOnboardingScreen() && <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
                 <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Login Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={LoginScreenUserEmployee} options={{ headerShown: false }} />
                 <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />
-                <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{ headerShown: false }} />
                 <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
                 <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
+                <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{
+                  headerShown: false,
+                  statusBarStyle: 'light-content',
+                  statusBarBackgroundColor: '#your_color_here' // Change the status bar background color to black
+                }} />
               </>
             )}
 

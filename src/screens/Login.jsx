@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ToastAndroid,
   ActivityIndicatorBase,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,10 +23,7 @@ import { loginStudent } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
 
 const Login = ({ navigation, route }) => {
-  //student
-
   const { student, error, loading } = useSelector((e) => e.student);
-
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
@@ -320,10 +318,10 @@ const Login = ({ navigation, route }) => {
               <Text
                 style={{
                   fontSize: 16,
-                  color: COLORS.primary,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   marginLeft: 6,
                 }}
+                className="text-[#4080ED]"
               >
                 Register
               </Text>
