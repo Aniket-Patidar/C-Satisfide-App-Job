@@ -1,64 +1,40 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import DocumentPicker from '@react-native-document-picker/document-picker';
-import axios from 'axios';
+import React, { useState } from "react";
+import { View, Button, Text, TouchableOpacity } from "react-native";
+import * as DocumentPicker from "expo-document-picker";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const UploadResumeComponent = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+export default function DocumentUploadScreen() {
+  const [pickedDocument, setPickedDocument] = useState(null);
 
-  const handleFileSelection = async () => {
+  const pickDocument = async () => {
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "*/*", // Accept any type of file
       });
-      setSelectedFile(res);
-    } catch (err) {
-      console.log('Document picker error:', err);
-    }
-  };
-
-  const handleUpload = async () => {
-    try {
-      if (selectedFile) {
-        const formData = new FormData();
-        formData.append('document', {
-          uri: selectedFile.uri,
-          name: selectedFile.name,
-          type: selectedFile.type,
-        });
-
-        const response = await axios.post('YOUR_REST_API_ENDPOINT', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            // Add any additional headers required by your API, e.g., authorization headers
-          },
-        });
-
-        console.log('Upload successful:', response.data);
-        Alert.alert('Upload successful');
+      if (result.type === "success") {
+        setPickedDocument(result);
       } else {
-        Alert.alert('Please select a file');
+        setPickedDocument(null); // Handle cancel or error
       }
-    } catch (err) {
-      console.error('Upload error:', err);
-      Alert.alert('Upload failed');
+    } catch (error) {
+      console.log("Error picking document: ", error);
     }
   };
 
   return (
-    <View>
-      <TouchableOpacity onPress={handleFileSelection}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#dadada', borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 15, fontWeight: '400', marginRight: 5 }}>Select Document</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleUpload}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#dadada', borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginTop: 10 }}>
-          <Text style={{ fontSize: 15, fontWeight: '400', marginRight: 5 }}>Upload Document</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={pickDocument}
+      className="flex flex-row items-start gap-1 border-b-[.4px] my-auto border-gray-300 py-2"
+    >
+      <MaterialCommunityIcons
+        name="cloud-upload-outline"
+        size={20}
+        color="black"
+      />
+      <View className="space-y-1">
+        <Text>Upload Resume</Text>
+        <Text className="text-[13px]">Make sure that you upload pdf</Text>
+      </View>
+    </TouchableOpacity>
   );
-};
-
-export default UploadResumeComponent;
+}

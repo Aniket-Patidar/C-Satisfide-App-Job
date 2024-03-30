@@ -30,12 +30,17 @@ const AllJobs = ({ navigate }) => {
     dispatch(allJobs());
   }, []);
 
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
+
   return (
     <ScrollView className="relative">
-      <Image
-        source={require("../../assets/banner/b3.jpg")}
-        className="w-[90vw] h-[130px] mx-auto mt-2 "
-      ></Image>
+      <View className="flex flex-row items-center justify-center px-[13px] mt-[10px]">
+        <Slider images={images} />
+      </View>
 
       <View className="flex items-center  py-3">
         {loading ? (
@@ -54,6 +59,7 @@ export default AllJobs;
 
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
+import Slider from "../component/Slider";
 
 const JobCard = ({
   _id,
@@ -119,10 +125,6 @@ const JobCard = ({
             marginBottom: 10,
           }}
         >
-          <Image
-            source={require("../../assets/Icons/logo.jpg")}
-            style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
-          />
           <View>
             <Text
               style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}

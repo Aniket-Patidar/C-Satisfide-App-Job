@@ -7,7 +7,6 @@ import {
   Image,
   ToastAndroid,
   StatusBar,
-  
 } from "react-native";
 
 import { EvilIcons } from "@expo/vector-icons";
@@ -25,6 +24,8 @@ import Loading from "../component/Loading";
 
 /* image and pdf */
 import * as ImagePicker from "expo-image-picker";
+import { ScrollView } from "react-native-gesture-handler";
+import DocumentUploadScreen from "../component/uploadResuma";
 
 const ProfileStudent = () => {
   const navigation = useNavigation();
@@ -119,7 +120,7 @@ const ProfileStudent = () => {
   const pickPDF = useCallback(async () => {
     try {
       const response = await DocumentPicker.pick({
-        presentationStyle: 'fullScreen',
+        presentationStyle: "fullScreen",
       });
       setFileResponse(response);
     } catch (err) {
@@ -270,28 +271,17 @@ const ProfileStudent = () => {
                 </View>
               </View>
 
-              <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
-                <AntDesign name="filetext1" size={20} color="black" />
-                <View className="space-y-1">
-                  <Text>Create Resume</Text>
-                  <Text className="text-[13px]">Best Ats friendly Resume</Text>
-                </View>
-              </View>
+              {/* <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                  <AntDesign name="filetext1" size={20} color="black" />
+                  <View className="space-y-1">
+                    <Text>Create Resume</Text>
+                    <Text className="text-[13px]">
+                      Best Ats friendly Resume
+                    </Text>
+                  </View>
+                </View> */}
 
-              <TouchableOpacity
-                onPress={pickPDF}
-                className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2"
-              >
-                <MaterialCommunityIcons
-                  name="cloud-upload-outline"
-                  size={20}
-                  color="black"
-                />
-                <View className="space-y-1">
-                  <Text>Upload Your Resume</Text>
-                  <Text className="text-[13px]"></Text>
-                </View>
-              </TouchableOpacity>
+              <DocumentUploadScreen></DocumentUploadScreen>
             </View>
           </View>
         </>

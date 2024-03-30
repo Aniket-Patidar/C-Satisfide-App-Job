@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { useSelector } from "react-redux";
+import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+
 
 export default function Example({ navigation }) {
   const { employee, error, loading } = useSelector((e) => e.employee);
@@ -118,7 +121,7 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <FeatherIcon color="#fff" name="mail" size={20} />
+                <MaterialIcons name="local-police" size={20} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>Polices</Text>
@@ -135,7 +138,8 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <FeatherIcon color="#fff" name="mail" size={20} />
+              <Feather name="info" size={20} color="#fff" />
+
               </View>
 
               <Text style={styles.rowLabel}>About Us</Text>

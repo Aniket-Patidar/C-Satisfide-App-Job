@@ -35,7 +35,23 @@ const ApplicationPage = () => {
           contentContainerStyle={styles.jobCardsContainer}
         >
           {applications?.map((application, index) => {
-            return <JobCard key={index} application={application} />;
+            if (application.jobId?.title) {
+              return (
+                <React.Fragment key={index}>
+                  <JobCard application={application} />
+                  {(index + 1) % 4 === 0 && (
+                    <React.Fragment>
+                      <Image
+                        source={require("../../assets/banner/b4.jpg")}
+                        style={styles.image}
+                        className="w-full h-[120px] rounded-md mb-5"
+                      />
+                    </React.Fragment>
+                  )}
+                </React.Fragment>
+              );
+            }
+            return null;
           })}
         </ScrollView>
       )}

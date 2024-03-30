@@ -29,6 +29,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllJobs } from "../redux/action/studentAction";
 import { useNavigation } from "@react-navigation/native";
 
+import Slider from "../component/Slider";
+
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -37,6 +39,12 @@ const Jobs = ({ navigation }) => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
 
   const [formData, setFormData] = useState({
     title: "",
@@ -59,9 +67,13 @@ const Jobs = ({ navigation }) => {
   };
 
   return (
-    <ScrollView className="relative">
+    <ScrollView className="relative" style={{ flex: 1 }}>
       {loading ? (
-        <Loading />
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Loading />
+        </View>
       ) : (
         <>
           <View>
@@ -74,7 +86,6 @@ const Jobs = ({ navigation }) => {
               handelSubmit={handelSubmit}
             />
           </View>
-
           <View
             className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
           >
@@ -104,19 +115,84 @@ const Jobs = ({ navigation }) => {
               <AntDesign name="filter" size={15} color="#008BDC" />
             </TouchableOpacity>
           </View>
-
-          <View className="flex flex-row items-center justify-center">
-            <Image
-              source={require("../../assets/banner/b2.jpg")}
-              className="w-[94vw] h-[100px] "
-            ></Image>
+          <View className="flex flex-row items-center justify-center px-[13px]">
+            <Slider images={images} />
           </View>
-
           <View className="flex items-center my-[12px]">
             {allJobs &&
-              allJobs?.map((e) => {
-                return <JobCard {...e}></JobCard>;
-              })}
+              allJobs?.map((job, index) => (
+                <>
+                  <JobCard {...job}></JobCard>
+                  {(index + 1) % 4 === 0 && (
+                    <View>
+                      <View className="font-semibold m-[13px] mb-[16px]">
+                        <View className="flex flex-row justify-between py-1 mb-2">ॉ
+                          <Text className="text-[13px] font-[500]">
+                            Top Company
+                          </Text>
+                        </View>
+                        <View className="gap-2 h-fit  overflow-scroll flex flex-row">
+                          <ScrollView horizontal className="space-x-2">
+                            <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                              <Image
+                                source={require("../../assets/Images/facebook.png")}
+                                className="w-[38px] h-[38px] rounded-md mx-auto"
+                              ></Image>
+                              <View className="text-center">
+                                <Text className="text-[12px] font-semibold">
+                                  UX Designer
+                                </Text>
+                                <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                  facebook
+                                </Text>
+                              </View>
+                              <Text className="text-[12px] font-semibold">
+                                $80,000/y
+                              </Text>
+                            </View>
+
+                            <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
+                              <Image
+                                source={require("../../assets/Images/google.png")}
+                                className="w-[36px] h-[36px] rounded-md mx-auto"
+                              ></Image>
+                              <View className="text-center">
+                                <Text className="text-[12px] font-semibold">
+                                  UX Designer
+                                </Text>
+                                <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                  Google
+                                </Text>
+                              </View>
+                              <Text className="text-[12px] font-semibold">
+                                $98,000/y
+                              </Text>
+                            </View>
+
+                            <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                              <Image
+                                source={require("../../assets/Images/facebook.png")}
+                                className="w-[38px] h-[38px] rounded-md mx-auto"
+                              ></Image>
+                              <View className="text-center">
+                                <Text className="text-[12px] font-semibold">
+                                  UX Designer
+                                </Text>
+                                <Text className="text-[10px] mx-1 opacity-[0.5]">
+                                  UX Designer
+                                </Text>
+                              </View>
+                              <Text className="text-[12px] font-semibold">
+                                $80,000/y
+                              </Text>
+                            </View>
+                          </ScrollView>
+                        </View>
+                      </View>
+                    </View>
+                  )}
+                </>
+              ))}
           </View>
         </>
       )}

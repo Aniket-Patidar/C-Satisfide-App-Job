@@ -15,8 +15,10 @@ import { useUserLoggedIn } from "../constants/auth";
 import { logoutStudent } from "../redux/action/studentAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from "@react-navigation/native";
-
-export default function Example({ navigation ,route}) {
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+export default function Example({ navigation, route }) {
   const { student, error, loading } = useSelector((e) => e.student);
 
   const [form, setForm] = useState({
@@ -25,14 +27,11 @@ export default function Example({ navigation ,route}) {
     pushNotifications: false,
   });
 
- 
   const { userLoggedIn, setUserLoggedIn } = route.params || {};
-
 
   const dispatch = useDispatch();
 
   const Logout = async () => {
-    console.log("logout");
     dispatch(logoutStudent());
     setUserLoggedIn(false);
   };
@@ -89,7 +88,7 @@ export default function Example({ navigation ,route}) {
 
             <TouchableOpacity onPress={Logout} style={styles.row}>
               <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
-                <FeatherIcon color="#fff" name="at-sign" size={20} />
+                <AntDesign name="logout" size={20} color="#fff" />
               </View>
               <Text style={styles.rowLabel}>Logout</Text>
               <View style={styles.rowSpacer} />
@@ -123,7 +122,7 @@ export default function Example({ navigation ,route}) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <FeatherIcon color="#fff" name="mail" size={20} />
+                <MaterialIcons name="local-police" size={20} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>Polices</Text>
@@ -140,7 +139,7 @@ export default function Example({ navigation ,route}) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <FeatherIcon color="#fff" name="mail" size={20} />
+                <Feather name="info" size={20} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>About Us</Text>

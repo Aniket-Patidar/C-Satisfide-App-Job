@@ -49,7 +49,7 @@ const Home = ({ navigation }) => {
               ></Image>
             </View>
 
-            <View
+            {/* <View
               className={`h-[30px] my-[20px]  mt-[20px] rounded-md flex flex-row  space-x-1 items-center justify-start flex-row-reverse space-x-1`}
             >
               <View className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-gray-100">
@@ -75,11 +75,11 @@ const Home = ({ navigation }) => {
                   color="black"
                 />
               </View>
-            </View>
+            </View> */}
 
             <Image
               source={require("../../assets/banner/1.png")}
-              className="w-[92vw] h-[150px]"
+              className="w-[92vw] h-[150px] my-2"
             ></Image>
 
             <View className="mt-1 font-semibold">
