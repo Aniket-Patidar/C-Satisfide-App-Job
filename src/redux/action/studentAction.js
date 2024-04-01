@@ -170,8 +170,6 @@ export const avatarStudent = (fileData) => async (dispatch) => {
     }
 }
 
-
-/* ------------- */
 export const uploadResuma = (fileData) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
@@ -182,17 +180,20 @@ export const uploadResuma = (fileData) => async (dispatch) => {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'authorization': await AsyncStorage.getItem('token')
-
             },
         });
         dispatch(currentStudent());
         dispatch(setLoading(false));
     } catch (error) {
         dispatch(setLoading(false));
-        console.error(error);
-        dispatch(setError(error?.response?.data?.message || "get current user failed"));
+        console.log(await AsyncStorage.getItem('token'),"===");
+        console.error(JSON.stringify(error));
+        dispatch(setError(error?.response?.data?.message || "upload resume failed"));
     }
 }
+
+
+/* ------------- */
 
 export const sendMail = (email) => async (dispatch) => {
     try {

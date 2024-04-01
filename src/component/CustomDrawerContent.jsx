@@ -27,7 +27,6 @@ import { Share } from "react-native";
 const CustomDrawer = (props) => {
 
   const { setEmployeeLoggedIn } = props; 
-  console.log(setEmployeeLoggedIn, "===");
 
   const { employee, error, loading } = useSelector((e) => e.employee);
   const navigation = useNavigation();
@@ -60,14 +59,11 @@ const CustomDrawer = (props) => {
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // Shared with activity type of result.activityType
-          console.log("Shared with activity type:", result.activityType);
         } else {
           // Shared
-          console.log("Shared");
         }
       } else if (result.action === Share.dismissedAction) {
         // Dismissed
-        console.log("Dismissed");
       }
     } catch (error) {
       console.error("Error sharing:", error.message);

@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 export default function Example({ navigation }) {
   const { employee, error, loading } = useSelector((e) => e.employee);
 
@@ -75,24 +74,6 @@ export default function Example({ navigation }) {
               <Text style={styles.rowLabel}>Profile</Text>
               <View style={styles.rowSpacer} />
             </TouchableOpacity>
-
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
-                <FeatherIcon color="#fff" name="at-sign" size={20} />
-              </View>
-
-              <Text style={styles.rowLabel}>Email Notifications</Text>
-
-              <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={(emailNotifications) =>
-                  setForm({ ...form, emailNotifications })
-                }
-                value={form?.emailNotifications}
-              />
-            </View>
-
             <View style={styles.row}>
               <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
                 <FeatherIcon color="#fff" name="bell" size={20} />
@@ -138,8 +119,7 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-              <Feather name="info" size={20} color="#fff" />
-
+                <Feather name="info" size={20} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>About Us</Text>

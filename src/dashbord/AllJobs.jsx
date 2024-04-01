@@ -38,7 +38,7 @@ const AllJobs = ({ navigate }) => {
 
   return (
     <ScrollView className="relative">
-      <View className="flex flex-row items-center justify-center px-[13px] mt-[10px]">
+      <View className="flex flex-row items-center justify-center mt-[10px]">
         <Slider images={images} />
       </View>
 
@@ -97,6 +97,8 @@ const JobCard = ({
   const callHR = (phoneNumber) => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
+
+  
 
   return (
     <Animated.View

@@ -75,7 +75,10 @@ const CoolDrawer = ({
             <View>
               <View className="flex flex-row items-start gap-2 justify-start">
                 <Text style={styles.title}>Salary</Text>
-                <Text style={styles.sliderValue}>₹ {""}{formData.salary}</Text>
+                <Text style={styles.sliderValue}>
+                  ₹ {""}
+                  {formData.salary}
+                </Text>
               </View>
 
               {/* <TextInput
@@ -90,7 +93,7 @@ const CoolDrawer = ({
                 minimumTrackTintColor="#307ecc"
                 maximumTrackTintColor="#000000"
                 step={1}
-                value={formData.salary}
+                value={formData?.salary || 0}
                 onValueChange={handleSliderChange}
                 style={styles.slider}
               />

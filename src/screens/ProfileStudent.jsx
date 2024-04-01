@@ -7,6 +7,7 @@ import {
   Image,
   ToastAndroid,
   StatusBar,
+  ScrollView,
 } from "react-native";
 
 import { EvilIcons } from "@expo/vector-icons";
@@ -22,9 +23,10 @@ import { setError } from "../redux/sclice/studentSclice";
 import { avatarStudent, updateStudent } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
 
+import { Linking } from "react-native";
+
 /* image and pdf */
 import * as ImagePicker from "expo-image-picker";
-import { ScrollView } from "react-native-gesture-handler";
 import DocumentUploadScreen from "../component/uploadResuma";
 
 const ProfileStudent = () => {
@@ -102,34 +104,14 @@ const ProfileStudent = () => {
     }
   };
 
-  const pickPDF2 = async () => {
-    // try {
-    //   const result = await DocumentPicker.pick({
-    //     type: [DocumentPicker.types.pdf], // Specify PDF selection only
-    //   });
-    //   const pdfUri = result[0].uri;
-    //   console.log("pdf");
-    // } catch (err) {
-    //   // Handle errors during selection
-    //   console.error(err);
-    // }
-  };
-
-  const [fileResponse, setFileResponse] = useState([]);
-
-  const pickPDF = useCallback(async () => {
-    try {
-      const response = await DocumentPicker.pick({
-        presentationStyle: "fullScreen",
-      });
-      setFileResponse(response);
-    } catch (err) {
-      console.warn(err);
-    }
-  }, []);
+  function resumePreview(url) {
+    Linking.openURL(url)
+      .then(() => console.log("URL opened"))
+      .catch((error) => console.error("Failed to open URL:", error));
+  }
 
   return (
-    <View className="">
+    <View style={{ flex: 1 }}>
       {loading ? (
         <Loading />
       ) : (
@@ -138,7 +120,10 @@ const ProfileStudent = () => {
             <Text className="mt-[13px] font-semibold text-[22px] text-white">
               My Profile
             </Text>
-            <View className="flex items-center justify-center ">
+            <View
+              className="flex items-center justify-center"
+              style={{ flex: 1 }}
+            >
               <View className="w-full h-[140px] bg-white rounded-lg">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
                   <View className="h-[80px] w-[80px] bg-red-100 rounded-md overflow-hidden">
@@ -202,88 +187,92 @@ const ProfileStudent = () => {
               </View>
             </View>
           </View>
-          <View className="px-[13px] mt-[13px] ">
-            <View className="flex flex-row items-center space-x-1 ">
-              <Text className="font-semibold text-[16px]">
-                Personal Details
-              </Text>
-            </View>
-            <View className="space-y-2 my-3">
-              <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
-                <Octicons name="person" size={20} color="black" />
-                <View className="space-y-1">
-                  <Text>Name</Text>
-                  {editMode ? (
-                    <TextInput
-                      value={formData.name}
-                      onChangeText={(text) => handleChange("name", text)}
-                    />
-                  ) : (
-                    <Text className="text-[13px]">{formData.name}</Text>
-                  )}
-                </View>
-              </View>
 
-              <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
-                <Feather name="phone" size={17} color="black" />
-                <View className="space-y-1">
-                  <Text>Mobile Number</Text>
-                  {editMode ? (
-                    <TextInput
-                      value={formData.contact}
-                      onChangeText={(text) => handleChange("contact", text)}
-                    />
-                  ) : (
-                    <Text className="text-[13px]">{formData.contact}</Text>
-                  )}
-                </View>
+          <ScrollView>
+            <View className="px-[13px] mt-[13px] ">
+              <View className="flex flex-row items-center space-x-1 ">
+                <Text className="font-semibold text-[16px]">
+                  Personal Details
+                </Text>
               </View>
-
-              <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
-                <AntDesign name="mail" size={20} color="black" />
-                <View className="space-y-1">
-                  <Text>Email</Text>
-                  {editMode ? (
-                    <TextInput
-                      value={formData.email}
-                      onChangeText={(text) => handleChange("email", text)}
-                    />
-                  ) : (
-                    <Text className="text-[13px]">{formData.email}</Text>
-                  )}
+              <View className="space-y-2 my-3">
+                <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                  <Octicons name="person" size={20} color="black" />
+                  <View className="space-y-1">
+                    <Text>Name</Text>
+                    {editMode ? (
+                      <TextInput
+                        value={formData.name}
+                        onChangeText={(text) => handleChange("name", text)}
+                      />
+                    ) : (
+                      <Text className="text-[13px]">{formData.name}</Text>
+                    )}
+                  </View>
                 </View>
-              </View>
 
-              <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
-                <Ionicons name="location-outline" size={20} color="black" />
-                <View className="space-y-1">
-                  <Text>Location</Text>
-                  {editMode ? (
-                    <TextInput
-                      value={formData.city}
-                      onChangeText={(text) => handleChange("city", text)}
-                    />
-                  ) : (
-                    <Text className="text-[13px] capitalize">
-                      {formData.city}
-                    </Text>
-                  )}
+                <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                  <Feather name="phone" size={17} color="black" />
+                  <View className="space-y-1">
+                    <Text>Mobile Number</Text>
+                    {editMode ? (
+                      <TextInput
+                        value={formData.contact}
+                        onChangeText={(text) => handleChange("contact", text)}
+                      />
+                    ) : (
+                      <Text className="text-[13px]">{formData.contact}</Text>
+                    )}
+                  </View>
                 </View>
-              </View>
 
-              {/* <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                  <AntDesign name="mail" size={20} color="black" />
+                  <View className="space-y-1">
+                    <Text>Email</Text>
+                    {editMode ? (
+                      <TextInput
+                        value={formData.email}
+                        onChangeText={(text) => handleChange("email", text)}
+                      />
+                    ) : (
+                      <Text className="text-[13px]">{formData.email}</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2">
+                  <Ionicons name="location-outline" size={20} color="black" />
+                  <View className="space-y-1">
+                    <Text>Location</Text>
+                    {editMode ? (
+                      <TextInput
+                        value={formData.city}
+                        onChangeText={(text) => handleChange("city", text)}
+                      />
+                    ) : (
+                      <Text className="text-[13px] capitalize">
+                        {formData.city}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => resumePreview(student?.resumePdf?.url)}
+                  className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2"
+                >
                   <AntDesign name="filetext1" size={20} color="black" />
                   <View className="space-y-1">
-                    <Text>Create Resume</Text>
-                    <Text className="text-[13px]">
-                      Best Ats friendly Resume
-                    </Text>
+                    <Text>Preview Resume</Text>
+                    <Text className="text-[13px]">See your Resume</Text>
                   </View>
-                </View> */}
+                </TouchableOpacity>
 
-              <DocumentUploadScreen></DocumentUploadScreen>
+                <DocumentUploadScreen></DocumentUploadScreen>
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </>
       )}
     </View>

@@ -147,7 +147,7 @@ const Login = ({ navigation, route }) => {
                   marginVertical: 8,
                 }}
               >
-                <Text>Forget</Text>
+                <Text className="text-[13px] ">Forget</Text>
               </TouchableOpacity>
             </View>
 
@@ -248,7 +248,6 @@ const Login = ({ navigation, route }) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => console.log("Pressed")}
               style={{
                 flex: 1,
                 alignItems: "center",
@@ -275,7 +274,6 @@ const Login = ({ navigation, route }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => console.log("Pressed")}
               style={{
                 flex: 1,
                 alignItems: "center",

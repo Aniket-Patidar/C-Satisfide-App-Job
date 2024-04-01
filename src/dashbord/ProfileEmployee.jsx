@@ -129,13 +129,13 @@ const ProfileEmployee = () => {
       ) : (
         <>
           {/* Profile header */}
-          <View className="w-full h-[210px] bg-[#4080ED] px-[13px] space-y-2">
+          <View className="w-full h-[170px] bg-[#4080ED] px-[13px] space-y-2">
             {/* Profile information */}
-            <Text className="mt-[13px] font-semibold text-[22px] text-white">
+            <Text className="mt-[13px] font-semibold text-[22px] relative text-white">
               My Profile
             </Text>
             <View className="flex items-center justify-center ">
-              <View className="w-full h-[140px] bg-white rounded-lg">
+              <View className="w-full h-[102px] bg-white rounded-lg">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
                   <View className="h-[80px] w-[80px] bg-red-100 rounded-md">
                     <TouchableOpacity
@@ -155,9 +155,10 @@ const ProfileEmployee = () => {
                       )}
                     </TouchableOpacity>
                   </View>
+
                   <View>
                     {/* Display name and organization */}
-                    <Text className="font-semibold text-[#4080ED] text-lg">
+                    <Text className="font-semibold capitalize text-[#4080ED] text-lg">
                       {editMode ? (
                         <TextInput
                           value={formData.firstname}
@@ -191,44 +192,31 @@ const ProfileEmployee = () => {
                         formData.organisationname
                       )}
                     </Text>
-                    <Text>
+                    <Text className="capitalize">
                       {editMode ? (
                         <TextInput
                           value={formData.location}
                           onChangeText={(text) =>
                             handleChange("location", text)
                           }
+                          className="capitalize"
                         />
                       ) : (
                         formData.location
                       )}
                     </Text>
                   </View>
-                </View>
 
-                {/* Edit and save buttons */}
-                <View className="flex flex-row items-center space-x-2 ">
-                  {editMode ? (
-                    <TouchableOpacity
-                      onPress={handleSave}
-                      className="flex flex-row bg-[#dde0e7de] w-[80px] ml-[11px] justify-center px-2 h-[33px] rounded-md items-center"
-                    >
-                      <EvilIcons name="pencil" size={24} color="#3A3D4F" />
-                      <Text className="text-[#3A3D4F]">Save</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      onPress={handleEdit}
-                      className="flex flex-row bg-[#dde0e7de] w-[80px] ml-[11px] justify-center px-2 h-[33px] rounded-md items-center"
-                    >
-                      <EvilIcons name="pencil" size={24} color="#3A3D4F" />
-                      <Text className="text-[#3A3D4F]">Edit</Text>
-                    </TouchableOpacity>
-                  )}
-
-                  <View className="flex flex-row border-[1px] w-[180px] border-[#01C698] space-x-2 justify-center px-2 h-[33px] rounded-md items-center">
-                    <FontAwesome name="whatsapp" size={20} color="#01C698" />
-                    <Text className="text-[#01C698]">Share Resume</Text>
+                  <View className="flex flex-row items-center space-x-2 absolute right-1 top-2 ">
+                    {editMode ? (
+                      <TouchableOpacity onPress={handleSave}>
+                        <AntDesign name="edit" size={20} color="#3A3D4F" />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity onPress={handleEdit}>
+                        <AntDesign name="edit" size={20} color="#3A3D4F" />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               </View>

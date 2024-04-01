@@ -23,8 +23,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Linking } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-import { Feather } from '@expo/vector-icons';
-
+import { Feather } from "@expo/vector-icons";
+import Slider from "../component/Slider";
 
 const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
 
@@ -76,6 +76,12 @@ const ViewAllEmploye = () => {
     }
   };
 
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
+
   return (
     <View style={styles.container}>
       <View
@@ -101,11 +107,8 @@ const ViewAllEmploye = () => {
 
       <View className="">
         <ScrollView className="w-full pb-[50px]">
-          <View className="flex flex-row items-center justify-center">
-            <Image
-              source={require("../../assets/banner/Banner2.png")}
-              className="w-[100%] mb-3 h-[120px] "
-            ></Image>
+          <View className="flex flex-row items-center justify-center mb-[20px] rounded-lg">
+            <Slider images={images} />
           </View>
           {employes.reverse()?.map((e) => {
             return (

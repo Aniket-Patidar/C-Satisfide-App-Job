@@ -10,6 +10,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
+
 import Onboarding from "react-native-onboarding-swiper";
 
 import { Entypo } from "@expo/vector-icons";
@@ -29,8 +30,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllJobs } from "../redux/action/studentAction";
 import { useNavigation } from "@react-navigation/native";
 
-
-
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -39,6 +38,12 @@ const Jobs = ({ navigation }) => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
 
   const [formData, setFormData] = useState({
     title: "",
@@ -108,10 +113,7 @@ const Jobs = ({ navigation }) => {
           </View>
 
           <View className="flex flex-row items-center justify-center">
-            <Image
-              source={require("../../assets/banner/b2.jpg")}
-              className="w-[94vw] h-[100px] "
-            ></Image>
+            <Slider images={images} />
           </View>
 
           <View className="flex items-center my-[12px]">
@@ -130,6 +132,7 @@ export default Jobs;
 
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
+import Slider from "../component/Slider";
 
 const JobCard = ({
   _id,
@@ -196,7 +199,7 @@ const JobCard = ({
           }}
         >
           <Image
-            source={{uri:employer?.organisationlogo?.url}}
+            source={{ uri: employer?.organisationlogo?.url }}
             style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
           />
           <View>
@@ -246,7 +249,11 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <MaterialCommunityIcons name="currency-rupee" size={14} color="#8A8A8A"/>
+          <MaterialCommunityIcons
+            name="currency-rupee"
+            size={14}
+            color="#8A8A8A"
+          />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {salary} / Per Year
           </Text>
@@ -258,7 +265,7 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="building-o" size={14} color="#8A8A8A"/>
+          <FontAwesome name="building-o" size={14} color="#8A8A8A" />
           <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
             {jobType}
           </Text>

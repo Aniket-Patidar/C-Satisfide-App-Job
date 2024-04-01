@@ -135,7 +135,7 @@ export const avatarEmployee = (fileData) => async (dispatch) => {
                 'authorization': await AsyncStorage.getItem('token')
             },
         });
-        // dispatch(currentEmployee());
+        dispatch(currentEmployee());
         dispatch(setLoading(false));
     } catch (error) {
         dispatch(setLoading(false));

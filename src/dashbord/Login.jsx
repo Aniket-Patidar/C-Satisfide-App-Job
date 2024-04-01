@@ -232,7 +232,6 @@ const Login = ({ navigation, route }) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => console.log("Pressed")}
               style={{
                 flex: 1,
                 alignItems: "center",
@@ -259,7 +258,6 @@ const Login = ({ navigation, route }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => console.log("Pressed")}
               style={{
                 flex: 1,
                 alignItems: "center",

@@ -19,12 +19,11 @@ import { EvilIcons } from "@expo/vector-icons";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
+import Slider from "../component/Slider";
 
 /*  */
 
 const ViewAllUsers = () => {
- 
-
   const downloadPDF = (url) => {
     Linking.openURL(url);
   };
@@ -38,7 +37,6 @@ const ViewAllUsers = () => {
   const basePath = `https://final-satisfied-backend-2.onrender.com/employer`;
 
   const deleteUser = async (id) => {
-    return;
     const response = await axios.post(
       `${basePath}/admin/delete/user/${id}`,
       null,
@@ -69,6 +67,12 @@ const ViewAllUsers = () => {
     searchUsers();
   }, [searchTerm]);
 
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
+
   return (
     <View>
       <View
@@ -94,11 +98,8 @@ const ViewAllUsers = () => {
 
       <View className="pb-[80px]  px-[15px]">
         <ScrollView className="">
-          <View className="flex flex-row items-center justify-center my-[3px] ">
-            <Image
-              source={require("../../assets/banner/Banner2.png")}
-              className="w-[100%] my-1 h-[120px] "
-            ></Image>
+          <View className="flex flex-row items-center justify-center mb-3 ">
+            <Slider images={images} />
           </View>
           {users.map((e) => {
             return (
