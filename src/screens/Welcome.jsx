@@ -60,7 +60,7 @@ const Welcome = ({ navigation }) => {
           }}
         >
           <Image
-            source={require("../../assets/Icons/logo.jpeg")}
+            source={require("../../assets/Icons/logo.jpg")}
             style={{ height: 35, width: 35, borderRadius: 100 }}
           />
           <Text
