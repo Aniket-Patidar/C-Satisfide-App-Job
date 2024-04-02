@@ -158,7 +158,7 @@ const ProfileEmployee = () => {
 
                   <View>
                     {/* Display name and organization */}
-                    <Text className="font-semibold capitalize text-[#4080ED] text-lg">
+                    <Text className="font-semibold capitalize text-[#4080ED] text-[14px]">
                       {editMode ? (
                         <TextInput
                           value={formData.firstname}
@@ -180,7 +180,7 @@ const ProfileEmployee = () => {
                         formData.lastname
                       )}
                     </Text>
-                    <Text className="">
+                    <Text className="capitalize text-[13px]">
                       {editMode ? (
                         <TextInput
                           value={formData.organisationname}
@@ -192,7 +192,7 @@ const ProfileEmployee = () => {
                         formData.organisationname
                       )}
                     </Text>
-                    <Text className="capitalize">
+                    <Text className="capitalize text-[13px]">
                       {editMode ? (
                         <TextInput
                           value={formData.location}

@@ -10,7 +10,6 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-
 import Onboarding from "react-native-onboarding-swiper";
 
 import { Entypo } from "@expo/vector-icons";
@@ -18,6 +17,8 @@ import { EvilIcons } from "@expo/vector-icons";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+
+import { Fontisto } from "@expo/vector-icons";
 
 import {
   Ionicons,
@@ -30,10 +31,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllJobs } from "../redux/action/studentAction";
 import { useNavigation } from "@react-navigation/native";
 
+import Slider from "../component/Slider";
+
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { allJobs, error, loading } = useSelector((e) => e.student);
+  const { allJobs, error, loading, page } = useSelector((e) => e.student);
+
+  const { currentPage, totalPages } = page;
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -54,21 +59,45 @@ const Jobs = ({ navigation }) => {
     internship: false,
     salary: "",
   });
+  const [Page, setPage] = useState(currentPage);
 
   useEffect(() => {
-    dispatch(AllJobs());
-  }, []);
+    dispatch(AllJobs({ page: Page, ...formData }));
+  }, [Page, formData]);
+
+  const handleInputChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+  };
 
   const handelSubmit = () => {
-    dispatch(AllJobs(formData));
+    dispatch(AllJobs({ ...formData, page: 1 }));
     toggleDrawer();
-    setFormData({});
+  };
+
+  const goToNextPage = () => {
+    if (Page < totalPages) {
+      setPage(Page + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (Page > 1) {
+      setPage(Page - 1);
+    }
   };
 
   return (
-    <ScrollView className="relative">
+    <ScrollView className="relative" style={{ flex: 1 }}>
       {loading ? (
-        <Loading />
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loading />
+        </View>
       ) : (
         <>
           <View>
@@ -81,9 +110,8 @@ const Jobs = ({ navigation }) => {
               handelSubmit={handelSubmit}
             />
           </View>
-
           <View
-            className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+            className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
           >
             <TouchableOpacity
               onPress={handelSubmit}
@@ -111,16 +139,102 @@ const Jobs = ({ navigation }) => {
               <AntDesign name="filter" size={15} color="#008BDC" />
             </TouchableOpacity>
           </View>
-
-          <View className="flex flex-row items-center justify-center">
+          <View className="flex flex-row items-center justify-center px-[13px]">
             <Slider images={images} />
           </View>
-
           <View className="flex items-center my-[12px]">
             {allJobs &&
-              allJobs?.map((e) => {
-                return <JobCard {...e}></JobCard>;
+              allJobs?.map((job, index) => {
+                return (
+                  <>
+                    <JobCard {...job}></JobCard>
+                    {index === 4 && (
+                      <View>
+                        <View className="font-semibold m-[13px] mb-[16px]">
+                          <View className="flex flex-row justify-between py-1 mb-2">
+                            <Text className="text-[13px] font-[500]">
+                              Top Company
+                            </Text>
+                          </View>
+                          <View className="gap-2 h-fit  overflow-scroll flex flex-row">
+                            <ScrollView horizontal className="space-x-2">
+                              <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                                <Image
+                                  source={require("../../assets/Images/facebook.png")}
+                                  className="w-[38px] h-[38px] rounded-md mx-auto"
+                                ></Image>
+                                <View className="text-center">
+                                  <Text className="text-[12px] font-semibold">
+                                    UX Designer
+                                  </Text>
+                                  <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                    facebook
+                                  </Text>
+                                </View>
+                                <Text className="text-[12px] font-semibold">
+                                  $80,000/y
+                                </Text>
+                              </View>
+
+                              <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
+                                <Image
+                                  source={require("../../assets/Images/google.png")}
+                                  className="w-[36px] h-[36px] rounded-md mx-auto"
+                                ></Image>
+                                <View className="text-center">
+                                  <Text className="text-[12px] font-semibold">
+                                    UX Designer
+                                  </Text>
+                                  <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                    Google
+                                  </Text>
+                                </View>
+                                <Text className="text-[12px] font-semibold">
+                                  $98,000/y
+                                </Text>
+                              </View>
+
+                              <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                                <Image
+                                  source={require("../../assets/Images/facebook.png")}
+                                  className="w-[38px] h-[38px] rounded-md mx-auto"
+                                ></Image>
+                                <View className="text-center">
+                                  <Text className="text-[12px] font-semibold">
+                                    UX Designer
+                                  </Text>
+                                  <Text className="text-[10px] mx-1 opacity-[0.5]">
+                                    UX Designer
+                                  </Text>
+                                </View>
+                                <Text className="text-[12px] font-semibold">
+                                  $80,000/y
+                                </Text>
+                              </View>
+                            </ScrollView>
+                          </View>
+                        </View>
+                      </View>
+                    )}
+                  </>
+                );
               })}
+          </View>
+          <View className="flex flex-row justify-between p-[12px]">
+            <TouchableOpacity
+              className="bg-white px-[5px] py-[4px] rounded-sm"
+              onPress={goToPrevPage}
+              disabled={page === 1}
+            >
+              <Text className="text-[11px]">Previous</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-white px-[5px] py-[4px] rounded-sm"
+              onPress={goToNextPage}
+              disabled={page === totalPages}
+            >
+              <Text className="text-[11px]">Next</Text>
+            </TouchableOpacity>
           </View>
         </>
       )}
@@ -132,7 +246,7 @@ export default Jobs;
 
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
-import Slider from "../component/Slider";
+import { getDaysSinceToday } from "../constants/date";
 
 const JobCard = ({
   _id,
@@ -146,6 +260,7 @@ const JobCard = ({
   isAlreadyApplied,
   jobId,
   applications,
+  createdAt,
 }) => {
   const navigation = useNavigation();
 
@@ -198,6 +313,7 @@ const JobCard = ({
             marginBottom: 10,
           }}
         >
+          {/* organisationlogo */}
           <Image
             source={{ uri: employer?.organisationlogo?.url }}
             style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
@@ -211,7 +327,7 @@ const JobCard = ({
             </Text>
             <Text
               style={{
-                fontSize: 11,
+                fontSize: 12.5,
                 color: "#666666",
                 textTransform: "capitalize",
               }}
@@ -234,14 +350,31 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <AntDesign name="clockcircleo" size={13} color="#8A8A8A" />
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
-            className="capitalize"
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
+          >
+            {getDaysSinceToday(createdAt)} days ago
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <Ionicons name="location-outline" size={13} color="#8A8A8A" />
+          <Text
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
           >
             {location}
           </Text>
         </View>
+
         <View
           style={{
             flexDirection: "row",
@@ -251,10 +384,11 @@ const JobCard = ({
         >
           <MaterialCommunityIcons
             name="currency-rupee"
-            size={14}
+            size={13}
             color="#8A8A8A"
           />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {salary} / Per Year
           </Text>
         </View>
@@ -265,8 +399,8 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="building-o" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <FontAwesome name="building-o" size={13} color="#8A8A8A" />
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {jobType}
           </Text>
         </View>

@@ -119,20 +119,20 @@ const AdminDashboard = () => {
         <View className="flex items-center justify-center">
           <View style={[styles.infoContainer]} className="space-y-4 py-[15px]">
             <View className="w-[250px] h-[60px] flex  flex-row justify-between px-[20px] space-x-2 items-center bg-[#0EA5E9] rounded-md">
-              <Octicons name="people" size={24} color="white" />
-              <Text className="text-white text-[17px] font-semibold">
+              <Octicons name="people" size={23} color="white" />
+              <Text className="text-white text-[16px] font-semibold">
                 Total Students: {adminInfo.userCount}
               </Text>
             </View>
             <View className="w-[250px] h-[60px] flex flex-row justify-between px-[20px] space-x-2 items-center bg-[#F97316] rounded-md">
-              <Octicons name="people" size={24} color="white" />
-              <Text className="text-white text-[17px] font-semibold">
+              <Octicons name="people" size={23} color="white" />
+              <Text className="text-white text-[16px] font-semibold">
                 Total Employers: {adminInfo.employerCount}
               </Text>
             </View>
             <View className="w-[250px] h-[60px] flex flex-row justify-between px-[20px] items-center bg-[#EAB308] rounded-md">
-              <FontAwesome5 name="chart-line" size={24} color="white" />
-              <Text className="text-white text-[17px] font-semibold">
+              <FontAwesome5 name="chart-line" size={23} color="white" />
+              <Text className="text-white text-[16px] font-semibold">
                 Total Jobs Posted: {adminInfo.jobCount}
               </Text>
             </View>

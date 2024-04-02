@@ -13,6 +13,7 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 import { useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Example({ navigation }) {
   const { employee, error, loading } = useSelector((e) => e.employee);
@@ -69,26 +70,21 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#fe9400" }]}>
-                <FeatherIcon color="#fff" name="globe" size={20} />
+                <FeatherIcon color="#fff" name="globe" size={14} />
               </View>
               <Text style={styles.rowLabel}>Profile</Text>
               <View style={styles.rowSpacer} />
             </TouchableOpacity>
             <View style={styles.row}>
               <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
-                <FeatherIcon color="#fff" name="bell" size={20} />
+                <MaterialCommunityIcons
+                  name="database-arrow-down-outline"
+                  size={14}
+                  color="white"
+                />
               </View>
-
-              <Text style={styles.rowLabel}>Push Notifications</Text>
-
+              <Text style={styles.rowLabel}>Update Password</Text>
               <View style={styles.rowSpacer} />
-
-              <Switch
-                onValueChange={(pushNotifications) =>
-                  setForm({ ...form, pushNotifications })
-                }
-                value={form?.pushNotifications}
-              />
             </View>
           </View>
 
@@ -102,14 +98,14 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <MaterialIcons name="local-police" size={20} color="#fff" />
+                <MaterialIcons name="local-police" size={14} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>Polices</Text>
 
               <View style={styles.rowSpacer} />
 
-              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={14} />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -119,14 +115,14 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#007afe" }]}>
-                <Feather name="info" size={20} color="#fff" />
+                <Feather name="info" size={14} color="#fff" />
               </View>
 
               <Text style={styles.rowLabel}>About Us</Text>
 
               <View style={styles.rowSpacer} />
 
-              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={14} />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -136,14 +132,14 @@ export default function Example({ navigation }) {
               style={styles.row}
             >
               <View style={[styles.rowIcon, { backgroundColor: "#32c759" }]}>
-                <FeatherIcon color="#fff" name="star" size={20} />
+                <FeatherIcon color="#fff" name="star" size={14} />
               </View>
 
               <Text style={styles.rowLabel}>Rate in App Store</Text>
 
               <View style={styles.rowSpacer} />
 
-              <FeatherIcon color="#C6C6C6" name="chevron-right" size={20} />
+              <FeatherIcon color="#C6C6C6" name="chevron-right" size={14} />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -171,8 +167,8 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   profileAvatar: {
-    width: 72,
-    height: 72,
+    width: 65,
+    height: 65,
     borderRadius: 9999,
   },
   profileAction: {
@@ -187,15 +183,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#007bff",
   },
   profileName: {
-    marginTop: 20,
-    fontSize: 19,
+    marginTop: 8,
+    fontSize: 14,
     fontWeight: "600",
     color: "#414d63",
     textAlign: "center",
   },
   profileAddress: {
     marginTop: 5,
-    fontSize: 16,
+    fontSize: 14,
     color: "#989898",
     textAlign: "center",
   },
@@ -204,7 +200,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   sectionTitle: {
-    paddingVertical: 12,
+    paddingVertical: 8,
     fontSize: 12,
     fontWeight: "600",
     color: "#9e9e9e",
@@ -216,16 +212,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    height: 50,
+    height: 40,
     backgroundColor: "#f2f2f2",
     borderRadius: 8,
-    marginBottom: 12,
-    paddingLeft: 12,
-    paddingRight: 12,
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 8,
   },
   rowIcon: {
-    width: 32,
-    height: 32,
+    width: 25,
+    height: 25,
     borderRadius: 9999,
     marginRight: 12,
     flexDirection: "row",
@@ -233,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   rowLabel: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "400",
     color: "#0c0c0c",
   },

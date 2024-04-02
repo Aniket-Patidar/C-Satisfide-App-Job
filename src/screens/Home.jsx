@@ -21,9 +21,17 @@ import { EvilIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Loading from "../component/Loading";
+import Slider from "../component/Slider";
 
 const Home = ({ navigation }) => {
   const { student, loading } = useSelector((e) => e.student);
+
+  const images = [
+    require("../../assets/banner/b3.jpg"),
+    require("../../assets/banner/b1.jpg"),
+    require("../../assets/banner/b4.jpg"),
+  ];
+
   return (
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
@@ -47,6 +55,8 @@ const Home = ({ navigation }) => {
                 source={require("../../assets/hero1.jpg")}
                 className="h-[31px] w-[31px] rounded-md"
               ></Image>
+
+
             </View>
 
             {/* <View
@@ -77,10 +87,9 @@ const Home = ({ navigation }) => {
               </View>
             </View> */}
 
-            <Image
-              source={require("../../assets/banner/1.png")}
-              className="w-[92vw] h-[150px] my-2"
-            ></Image>
+           <View className="flex flex-row items-center justify-center my-2">
+                <Slider images={images} />
+              </View>
 
             <View className="mt-1 font-semibold">
               <View className="flex flex-row py-1 justify-between">

@@ -8,6 +8,7 @@ import { headerStyle } from '../constants/colors';
 /* login */
 import { useEmployeeLoggedIn } from "./auth.js";
 
+
 /* employee */
 import DashScreen from "../dashbord/DashBord.jsx";
 import Profile from "../dashbord/Profile";
@@ -28,7 +29,6 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { useRoute } from "@react-navigation/native";
-
 
 const Drawer = createDrawerNavigator();
 
@@ -106,7 +106,7 @@ function MyDrawer() {
                     />
 
                     <Drawer.Screen
-                        name="Profile"
+                        name="profile"
                         component={Profile}
                         options={{
                             drawerIcon: ({ focused, size }) => (
@@ -129,10 +129,10 @@ function MyDrawer() {
                 :
                 <>
                     <Drawer.Screen
-                        name="DashBoard"
+                        name="Dashboard"
                         component={DashBoard}
                         options={{
-                            drawerLabel: 'Dashboard',
+
                             drawerIcon: ({ focused, size }) => (
                                 <MaterialIcons name="dashboard" size={24} color={`${focused ? "#4080ED" : "#5F5F5F"}`} />
                             ),
@@ -164,13 +164,12 @@ function MyDrawer() {
                         }}
                     />
                     <Drawer.Screen
-                        name="All Employee"
+                        name="Companies"
                         component={AllEmployee}
                         options={{
-                            drawerLabel: 'Employees',
+                            drawerLabel: 'Companies',
                             drawerIcon: ({ focused, size }) => (
-                                <FontAwesome name="user-circle-o" size={24} color={focused ? '#4080ED' : '#5F5F5F'}
-                                />
+                                <FontAwesome name="building" size={24} color={focused ? '#4080ED' : '#5F5F5F'} />
                             ),
                             headerStyle: {
                                 backgroundColor: '#4080ED',
@@ -183,7 +182,7 @@ function MyDrawer() {
                     />
 
                     <Drawer.Screen
-                        name="All Student"
+                        name="Students"
                         component={AllStudent}
                         options={{
                             drawerIcon: ({ focused, size }) => (

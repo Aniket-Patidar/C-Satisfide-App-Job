@@ -20,7 +20,6 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { Fontisto } from "@expo/vector-icons";
 
-
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -37,7 +36,9 @@ import Slider from "../component/Slider";
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { allJobs, error, loading } = useSelector((e) => e.student);
+  const { allJobs, error, loading, page } = useSelector((e) => e.student);
+
+  const { currentPage, totalPages } = page;
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -58,22 +59,42 @@ const Jobs = ({ navigation }) => {
     internship: false,
     salary: "",
   });
+  const [Page, setPage] = useState(currentPage);
 
   useEffect(() => {
-    dispatch(AllJobs());
-  }, []);
+    dispatch(AllJobs({ page: Page, ...formData }));
+  }, [Page, formData]);
+
+  const handleInputChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+  };
 
   const handelSubmit = () => {
-    dispatch(AllJobs(formData));
+    dispatch(AllJobs({ ...formData, page: 1 }));
     toggleDrawer();
-    setFormData({});
+  };
+
+  const goToNextPage = () => {
+    if (Page < totalPages) {
+      setPage(Page + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (Page > 1) {
+      setPage(Page - 1);
+    }
   };
 
   return (
     <ScrollView className="relative" style={{ flex: 1 }}>
       {loading ? (
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <Loading />
         </View>
@@ -90,7 +111,7 @@ const Jobs = ({ navigation }) => {
             />
           </View>
           <View
-            className={`h-[30px]   my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+            className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
           >
             <TouchableOpacity
               onPress={handelSubmit}
@@ -199,6 +220,22 @@ const Jobs = ({ navigation }) => {
                 );
               })}
           </View>
+          <View className="flex flex-row justify-between p-[12px]">
+            <TouchableOpacity
+              className="bg-white px-[5px] py-[4px] rounded-sm"
+              onPress={goToPrevPage}
+              disabled={page === 1}
+            >
+              <Text className="text-[11px]">Previous</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-white px-[5px] py-[4px] rounded-sm"
+              onPress={goToNextPage}
+              disabled={page === totalPages}
+            >
+              <Text className="text-[11px]">Next</Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </ScrollView>
@@ -249,7 +286,6 @@ const JobCard = ({
     Linking.openURL(`tel:${phoneNumber}`);
   };
 
-
   return (
     <Animated.View
       style={{
@@ -277,8 +313,9 @@ const JobCard = ({
             marginBottom: 10,
           }}
         >
+          {/* organisationlogo */}
           <Image
-            source={require("../../assets/Icons/logo.jpg")}
+            source={{ uri: employer?.organisationlogo?.url }}
             style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
           />
           <View>
@@ -290,7 +327,7 @@ const JobCard = ({
             </Text>
             <Text
               style={{
-                fontSize: 11,
+                fontSize: 12.5,
                 color: "#666666",
                 textTransform: "capitalize",
               }}
@@ -313,10 +350,10 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <AntDesign name="clockcircleo" size={14} color="#8A8A8A" />
+          <AntDesign name="clockcircleo" size={13} color="#8A8A8A" />
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
-            className="capitalize"
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
           >
             {getDaysSinceToday(createdAt)} days ago
           </Text>
@@ -329,10 +366,10 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <Ionicons name="location-outline" size={13} color="#8A8A8A" />
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
-            className="capitalize"
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
           >
             {location}
           </Text>
@@ -347,11 +384,11 @@ const JobCard = ({
         >
           <MaterialCommunityIcons
             name="currency-rupee"
-            size={14}
+            size={13}
             color="#8A8A8A"
           />
 
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {salary} / Per Year
           </Text>
         </View>
@@ -362,8 +399,8 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="building-o" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <FontAwesome name="building-o" size={13} color="#8A8A8A" />
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {jobType}
           </Text>
         </View>
@@ -412,4 +449,3 @@ const JobCard = ({
     </Animated.View>
   );
 };
-

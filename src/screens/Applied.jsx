@@ -87,8 +87,10 @@ const JobCard = ({ application }) => {
           style={styles.logo}
         />
         <View>
-          <Text style={styles.jobTitle}>{jobId?.title}</Text>
-          <Text style={styles.employer}>{jobId?.employer?.name}</Text>
+          <Text style={styles.jobTitle} className="capitalize">
+            {jobId?.title}
+          </Text>
+          <Text style={styles.employer}>{jobId?.employer?.organisationname}</Text>
         </View>
       </View>
       <View style={styles.detailsContainer}>
@@ -143,12 +145,12 @@ const styles = StyleSheet.create({
     marginRight: windowWidth * 0.04,
   },
   jobTitle: {
-    fontSize: windowWidth * 0.05,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#333",
   },
   employer: {
-    fontSize: windowWidth * 0.035,
+    fontSize: 13,
     color: "#888",
   },
   detailsContainer: {

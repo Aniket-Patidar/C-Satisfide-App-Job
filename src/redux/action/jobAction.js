@@ -34,8 +34,6 @@ export const allJobs = (filters = {}) => async (dispatch) => {
             },
             withCredentials: true
         });
-
-
         dispatch(setLoading(false));
         dispatch(setJobs(data.jobs));
     } catch (error) {
