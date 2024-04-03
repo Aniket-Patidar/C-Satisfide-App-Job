@@ -218,10 +218,10 @@ const StudentCard = ({
             marginBottom: 8,
           }}
         >
-          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <Ionicons name="location-outline" size={12} color="#8A8A8A" />
 
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
+            style={{ fontSize: 12, color: "#8A8A8A", marginLeft: 5 }}
             className="capitalize"
           >
             {city}
@@ -234,8 +234,8 @@ const StudentCard = ({
             marginBottom: 8,
           }}
         >
-          <AntDesign name="phone" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <AntDesign name="phone" size={12} color="#8A8A8A" />
+          <Text style={{ fontSize: 12, color: "#8A8A8A", marginLeft: 5 }}>
             {contact}
           </Text>
         </View>

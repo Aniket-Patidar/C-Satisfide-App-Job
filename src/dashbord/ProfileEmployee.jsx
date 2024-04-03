@@ -112,11 +112,13 @@ const ProfileEmployee = () => {
       aspect: [1, 1],
       quality: 1,
     });
+
     const avatarFile = {
       uri: result.assets[0].uri,
       name: "avatar.jpg",
       type: result.assets[0].mimeType,
     };
+    
     setImage(result.uri);
     dispatch(avatarEmployee(avatarFile));
   };
@@ -129,7 +131,7 @@ const ProfileEmployee = () => {
       ) : (
         <>
           {/* Profile header */}
-          <View className="w-full h-[170px] bg-[#4080ED] px-[13px] space-y-2">
+          <View className="w-full h-[170px]  bg-[#4080ED] px-[13px] space-y-2">
             {/* Profile information */}
             <Text className="mt-[13px] font-semibold text-[22px] relative text-white">
               My Profile

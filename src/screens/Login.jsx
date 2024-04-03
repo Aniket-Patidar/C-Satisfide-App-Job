@@ -66,28 +66,37 @@ const Login = ({ navigation, route }) => {
   }, [error]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView
+      className="flex  bg-red-500"
+      style={{ flex: 1, backgroundColor: COLORS.white }}
+    >
       {loading ? (
         <Loading />
       ) : (
-        <View style={{ flex: 1, marginHorizontal: 22 }}>
+        <View className="" style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>
+            <Image
+              source={require("../../assets/Icons/logo.png")}
+              className="w-[90px] h-[90px] my-[20px] mx-auto rounded-full"
+            />
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: "bold",
-                marginVertical: 12,
+                marginVertical: 8,
                 color: COLORS.black,
               }}
+              
+              className="mx-auto"
             >
-              Hi Welcome Back ! 👋
+              Hii Welcome Back ! 👋
             </Text>
 
             <Text
               style={{
-                fontSize: 16,
-                color: COLORS.black,
+                fontSize: 14,
               }}
+              className="text-[#99A2B4]"
             >
               Hello again you have been missed! Student
             </Text>
@@ -96,10 +105,12 @@ const Login = ({ navigation, route }) => {
           <View style={{ marginBottom: 12 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
+              
             >
               Email address
             </Text>
@@ -107,18 +118,18 @@ const Login = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
                 placeholder="Enter your email address"
-                placeholderTextColor={COLORS.black}
+                placeholderTextColor={"#99A2B4"}
                 keyboardType="email-address"
                 onChangeText={(text) => handleInputChange("email", text)}
                 style={{
@@ -129,13 +140,14 @@ const Login = ({ navigation, route }) => {
           </View>
 
           <View style={{ marginBottom: 12 }}>
-            <View className="flex flex-row justify-between items-center">
+            <View className="flex flex-row  justify-between items-center">
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: 400,
                   marginVertical: 8,
                 }}
+                className="text-[#2980FF] "
               >
                 Password
               </Text>
@@ -147,7 +159,9 @@ const Login = ({ navigation, route }) => {
                   marginVertical: 8,
                 }}
               >
-                <Text className="text-[13px] ">Forget</Text>
+                <Text className="text-[13px] text-red-400 font-semibold">
+                  Forget ?
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -156,16 +170,16 @@ const Login = ({ navigation, route }) => {
                 width: "100%",
                 height: 48,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
                 placeholder="Enter your password"
-                placeholderTextColor={COLORS.black}
+                placeholderTextColor={"#99A2B4"}
                 secureTextEntry={isPasswordShown}
                 onChangeText={(text) => handleInputChange("password", text)}
                 style={{
@@ -215,7 +229,7 @@ const Login = ({ navigation, route }) => {
             onPress={handleSignIn}
           />
 
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -298,7 +312,7 @@ const Login = ({ navigation, route }) => {
 
               <Text>Google</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -307,7 +321,7 @@ const Login = ({ navigation, route }) => {
               marginVertical: 22,
             }}
           >
-            <Text style={{ fontSize: 16, color: COLORS.black }}>
+            <Text style={{ fontSize: 14, color: COLORS.black }}>
               Don't have an account ?{" "}
             </Text>
             <TouchableOpacity
@@ -315,7 +329,7 @@ const Login = ({ navigation, route }) => {
             >
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: "600",
                   marginLeft: 6,
                 }}

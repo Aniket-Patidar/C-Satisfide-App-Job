@@ -110,7 +110,7 @@ const ViewAllEmploye = () => {
           <View className="flex flex-row items-center justify-center mb-[20px] rounded-lg">
             <Slider images={images} />
           </View>
-          {employes.reverse()?.map((e) => {
+          {employes?.map((e) => {
             return (
               <View className="flex items-center">
                 <EmployeeCard {...e} setEmployes={setEmployes}></EmployeeCard>
@@ -290,15 +290,13 @@ const EmployeeCard = ({
             >
               {organisationname}
             </Text>
-            <Text className="text-black">{industry}</Text>
+            <Text className="text-black text-[13px]">{industry}</Text>
           </View>
         </View>
-
         {applications.length > 0 && (
           <Text className="text-[#4080ED]">+{applications.length}</Text>
         )}
       </View>
-
       <View className="flex items-start">
         <View
           style={{
@@ -307,10 +305,10 @@ const EmployeeCard = ({
             marginBottom: 8,
           }}
         >
-          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <Ionicons name="location-outline" size={16} color="#8A8A8A" />
 
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
+            style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}
             className="capitalize"
           >
             {location}
@@ -324,7 +322,7 @@ const EmployeeCard = ({
           }}
         >
           <MaterialIcons name="post-add" size={16} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             Jobs {jobs.length}
           </Text>
         </View>
@@ -336,7 +334,7 @@ const EmployeeCard = ({
           }}
         >
           <Feather name="users" size={16} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {companySize}
           </Text>
         </View>

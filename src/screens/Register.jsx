@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ToastAndroid,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,12 +16,13 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import Button from "../component/Button";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
 import { registerEmployee } from "../redux/action/employeeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../redux/sclice/studentSclice";
 import { registerStudent } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ route }) => {
   //student
@@ -37,8 +39,7 @@ const Register = ({ route }) => {
     contact: "",
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    name: "",
   });
 
   const handleInputChange = (field, value) => {
@@ -50,11 +51,10 @@ const Register = ({ route }) => {
 
   const handleSignUp = () => {
     if (
-      !userData.firstname ||
+      !userData.name ||
       !userData.email ||
       !userData.contact ||
-      !userData.password ||
-      !userData.lastname
+      !userData.password
     ) {
       ToastAndroid.show(
         "Please fill out all required fields.",
@@ -66,10 +66,14 @@ const Register = ({ route }) => {
   };
 
   useEffect(() => {
-    if (student) {
-      setUserLoggedIn(true);
-    }
-  }, [student]);
+    const getTokenAndNavigate = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        navigation.navigate("OTP Student");
+      }
+    };
+    getTokenAndNavigate();
+  }, [handleSignUp]);
 
   useEffect(() => {
     if (error) {
@@ -83,57 +87,66 @@ const Register = ({ route }) => {
       {loading ? (
         <Loading />
       ) : (
-        <View style={{ flex: 1, marginHorizontal: 22 }}>
-          <View style={{ marginVertical: 2 }}>
+        <ScrollView
+          style={{ flex: 1, marginHorizontal: 22 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ marginVertical: 22 }}>
+            <Image
+              source={require("../../assets/Icons/logo.png")}
+              className="w-[90px] h-[90px] my-[20px] mx-auto rounded-full"
+            />
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: "bold",
-                marginVertical: 12,
+                marginVertical: 8,
                 color: COLORS.black,
               }}
+              className="mx-auto"
             >
-              Create Account
+              👋Create you profile
             </Text>
-            {/* 
-          <Text
-            style={{
-              fontSize: 16,
-              color: COLORS.black,
-            }}
-          >
-            Connect with your friend today!
-          </Text> */}
+
+            <Text
+              style={{
+                fontSize: 14,
+              }}
+              className="text-[#99A2B4] mx-auto"
+            >
+              We can help you Succeed
+            </Text>
           </View>
 
           <View style={{ marginBottom: 3 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
             >
-              First Name
+              Name
             </Text>
 
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
-                placeholder="Enter your first name"
+                placeholder="Enter your name"
                 placeholderTextColor={COLORS.black}
                 keyboardType="text"
-                onChangeText={(text) => handleInputChange("firstname", text)}
+                onChangeText={(text) => handleInputChange("name", text)}
                 style={{
                   width: "100%",
                 }}
@@ -144,45 +157,11 @@ const Register = ({ route }) => {
           <View style={{ marginBottom: 3 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
-            >
-              Last Name
-            </Text>
-
-            <View
-              style={{
-                width: "100%",
-                height: 48,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 22,
-              }}
-            >
-              <TextInput
-                placeholder="Enter your last name"
-                placeholderTextColor={COLORS.black}
-                keyboardType="text"
-                onChangeText={(text) => handleInputChange("lastname", text)}
-                style={{
-                  width: "100%",
-                }}
-              />
-            </View>
-          </View>
-
-          <View style={{ marginBottom: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
+              className="text-[#2980FF]"
             >
               Email address
             </Text>
@@ -190,13 +169,13 @@ const Register = ({ route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
@@ -214,10 +193,11 @@ const Register = ({ route }) => {
           <View style={{ marginBottom: 3 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
             >
               contact
             </Text>
@@ -225,13 +205,13 @@ const Register = ({ route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
@@ -249,10 +229,47 @@ const Register = ({ route }) => {
           <View style={{ marginBottom: 3 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
+            >
+              city
+            </Text>
+
+            <View
+              style={{
+                width: "100%",
+                height: 35,
+                borderColor: COLORS.black,
+                borderBottomWidth: 0.5,
+                borderRadius: 8,
+                alignItems: "center",
+                justifyContent: "center",
+                paddingLeft: 8,
+              }}
+            >
+              <TextInput
+                placeholder="Enter your city"
+                placeholderTextColor={COLORS.black}
+                keyboardType="text"
+                onChangeText={(text) => handleInputChange("city", text)}
+                style={{
+                  width: "100%",
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 3 }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: 400,
+                marginVertical: 8,
+              }}
+              className="text-[#2980FF]"
             >
               Password
             </Text>
@@ -260,13 +277,13 @@ const Register = ({ route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
@@ -358,7 +375,7 @@ const Register = ({ route }) => {
          <View style={{ marginBottom: 3 }}>
           <Text
             style={{
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: 400,
               marginVertical: 8,
             }}
@@ -471,13 +488,13 @@ const Register = ({ route }) => {
             marginVertical: 22,
           }}
         >
-          <Text style={{ fontSize: 16, color: COLORS.black }}>
+          <Text style={{ fontSize: 14, color: COLORS.black }}>
             Already have an account
           </Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 color: COLORS.primary,
                 fontWeight: "bold",
                 marginLeft: 6,
@@ -487,7 +504,7 @@ const Register = ({ route }) => {
             </Text>
           </Pressable>
         </View> */}
-        </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );

@@ -5,7 +5,7 @@ const AboutUs = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require('../../assets/Icons/logo.jpg')}
+        source={require('../../assets/Icons/logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />

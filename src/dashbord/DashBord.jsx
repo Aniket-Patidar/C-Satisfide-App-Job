@@ -53,14 +53,7 @@ const Dashboard = () => {
     ]).start();
   }, []);
 
-  const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-      },
-    ],
-  };
+
 
   // Function to filter applications based on email, contact, or title
   const filterApplications = () => {
@@ -86,7 +79,7 @@ const Dashboard = () => {
       ) : (
         <>
           <View style={styles.header}>
-            <Text style={styles.headerText}>Welcome Back, User!</Text>
+            <Text style={styles.headerText}>👋 Welcome Back Aniket</Text>
           </View>
           <View style={styles.searchContainer}>
             <TextInput
@@ -115,13 +108,14 @@ const Dashboard = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.dataCard}>
               <FontAwesome name="file-text-o" size={24} color="#4080ED" />
+
               <Text style={styles.dataTitle}>Total Applications Received</Text>
               <Text style={styles.dataValue}>
                 {employee?.applications.length}
               </Text>
             </TouchableOpacity>
           </ScrollView>
-          <View style={styles.chartContainer}>
+          {/* <View style={styles.chartContainer}>
             <LineChart
               data={chartData}
               width={350}
@@ -144,7 +138,8 @@ const Dashboard = () => {
               }}
               bezier
             />
-          </View>
+          </View> */}
+
           <ResponsiveTable
             data={searchText.trim() ? filterApplications() : allApplication}
           />
@@ -158,13 +153,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 20,
   },
   header: {
     marginBottom: 20,
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000",
   },
@@ -175,7 +170,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#F5F5F5",
     borderRadius: 10,
     padding: 10,
     marginRight: 10,
@@ -188,7 +183,7 @@ const styles = StyleSheet.create({
   dataCard: {
     width: 130,
     height: 130,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#F5F5F5",
     borderRadius: 10,
     padding: 15,
     justifyContent: "center",

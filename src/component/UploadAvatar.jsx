@@ -28,7 +28,7 @@ const UploadAvatar = ({ data, upload }) => {
 
   return (
     <GestureHandlerRootView>
-        <TouchableOpacity onPress={pickImage}>{data}</TouchableOpacity>
+      <TouchableOpacity onPress={pickImage}>{data}</TouchableOpacity>
     </GestureHandlerRootView>
   );
 };

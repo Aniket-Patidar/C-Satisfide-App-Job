@@ -26,7 +26,7 @@ export default function Example({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <View style={styles.container}>
+      <View style={styles.container} className="mt-[20px]">
         <View style={styles.profile}>
           <TouchableOpacity onPress={() => {}}>
             <View style={styles.profileAvatarWrapper}>

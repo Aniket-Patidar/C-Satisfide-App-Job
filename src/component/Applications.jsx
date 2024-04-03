@@ -7,11 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
+  Linking,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { updateStatus } from "../redux/action/employeeAction";
 
-const TableItem = ({ item, onUpdateStatus }) => {
+const TableItem = ({ item, onUpdateStatus, index }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Pending":
@@ -39,29 +40,48 @@ const TableItem = ({ item, onUpdateStatus }) => {
     dispatch(updateStatus({ id, status }));
   };
 
+  const rowColor = index % 2 != 0 ? "#ffedd5" : "#fff"; // Alternate row color
+
   return (
-    <View style={styles.row}>
-      <Text style={styles.cell}>
-        {item.studentId
-          ? `${item?.studentId?.firstname} ${item.studentId.lastname}`
-          : "N/A"}
-      </Text>
-      <Text style={styles.cell}>
-        {item.studentId ? item?.studentId?.email : "N/A"}
-      </Text>
-      <Text style={styles.cell}>
-        {item.studentId ? item?.studentId?.contact : "N/A"}
-      </Text>
-      <Text style={styles.cell}>{item?.jobId ? item?.jobId?.title : "N/A"}</Text>
+    <View style={[styles.row, { backgroundColor: rowColor }]}>
+      <View style={[styles.cell, { width: 150 }]}>
+        <Text style={styles.cellText}>
+          {item.studentId ? `${item?.studentId?.name}` : "N/A"}
+        </Text>
+      </View>
+      <View style={[styles.cell, { width: 200 }]}>
+        <Text style={styles.cellText}>
+          {item.studentId ? item?.studentId?.email : "N/A"}
+        </Text>
+      </View>
+      <View style={[styles.cell, { width: 120 }]}>
+        <Text style={styles.cellText}>
+          {item.studentId ? item?.studentId?.contact : "N/A"}
+        </Text>
+      </View>
+      <View style={[styles.cell, { width: 200 }]}>
+        <Text style={styles.cellText}>
+          {item?.jobId ? item?.jobId?.title : "N/A"}
+        </Text>
+      </View>
       <TouchableOpacity
-        style={styles.statusCell}
+        onPress={() => Linking.openURL(item.studentId.resumePdf.url + "pdf")}
+        style={[styles.cell, { width: 200 }]}
+      >
+        <Text style={styles.cellText}>
+          {item?.jobId ? "View" : "N/A"}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.cell, { width: 120, alignItems: "center" }]}
         onPress={() => setShowDropdown(true)}
       >
-        <Text style={[styles.cell, { color: getStatusColor(item?.status) }]}>
+        <Text
+          style={[styles.cellText, { color: getStatusColor(item?.status) }]}
+        >
           {selectedStatus}
         </Text>
       </TouchableOpacity>
-
       <Modal
         visible={showDropdown}
         animationType="slide"
@@ -92,22 +112,38 @@ const ResponsiveTable = ({ data }) => {
   const updateStatus = (status) => {};
 
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal={true} vertical={true} style={styles.scrollView}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Name</Text>
-          <Text style={styles.headerText}>Email</Text>
-          <Text style={styles.headerText}>Contact</Text>
-          <Text style={styles.headerText}>Job Title</Text>
-          <Text style={styles.headerText}>Status</Text>
+        <View style={[styles.row, styles.header]}>
+          <View style={[styles.cell, { width: 150 }]}>
+            <Text style={styles.headerText}>Name</Text>
+          </View>
+          <View style={[styles.cell, { width: 200 }]}>
+            <Text style={styles.headerText}>Email</Text>
+          </View>
+          <View style={[styles.cell, { width: 120 }]}>
+            <Text style={styles.headerText}>Contact</Text>
+          </View>
+          <View style={[styles.cell, { width: 200 }]}>
+            <Text style={styles.headerText}>Job Title</Text>
+          </View>
+          <View style={[styles.cell, { width: 200 }]}>
+            <Text style={styles.headerText}>Resume</Text>
+          </View>
+          <View style={[styles.cell, { width: 120 }]}>
+            <Text style={styles.headerText}>Status</Text>
+          </View>
         </View>
         <FlatList
           data={data}
-          renderItem={({ item }) => (
-            <TableItem item={item} onUpdateStatus={updateStatus} />
+          renderItem={({ item, index }) => (
+            <TableItem
+              item={item}
+              onUpdateStatus={updateStatus}
+              index={index}
+            />
           )}
           keyExtractor={(item, index) => index.toString()}
-          style={styles.table}
         />
       </View>
     </ScrollView>
@@ -120,31 +156,26 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 30,
   },
-  header: {
-    flexDirection: "row",
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderColor: "#000",
-  },
-  headerText: {
-    flex: 1,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   row: {
     flexDirection: "row",
-    marginBottom: 5,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderColor: "#000",
   },
   cell: {
-    flex: 1,
     textAlign: "center",
-    width: 100, // Adjust width as needed
     paddingVertical: 10,
+    borderColor: "#000",
   },
-  table: {
-    flex: 1,
+  cellText: {
+    textAlign: "center",
+  },
+  header: {
+    backgroundColor: "#075985",
+  },
+  headerText: {
+    fontWeight: "500",
+    textAlign: "center",
+    color: "#fff",
   },
   modalContainer: {
     flex: 1,
@@ -160,6 +191,9 @@ const styles = StyleSheet.create({
   dropdownItem: {
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  scrollView: {
+    flex: 1,
   },
 });
 

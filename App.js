@@ -22,6 +22,8 @@ import SettingScreen from './src/screens/Setting.jsx';
 
 import Forget from './src/screens/Forget.jsx'
 
+import OTPScreen from './src/screens/OTP.jsx';
+
 import OnboardingScreen from './src/component/Onboarding.jsx'
 import EditScreen from './src/dashbord/EditJob.jsx'
 
@@ -32,6 +34,7 @@ import ProfileStudent from './src/screens/ProfileStudent.jsx';
 import PrivacyPolicy from './src/dashbord/PrivacyPolicy.jsx';
 import AboutUs from './src/dashbord/AboutUs.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +97,7 @@ export default function App() {
                 <Stack.Screen name="Login Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={LoginScreenUserEmployee} options={{ headerShown: false }} />
                 <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />
                 <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
+                <Stack.Screen name="OTP Student" initialParams={{ setUserLoggedIn }} component={OTPScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
                 <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{
                   headerShown: false,

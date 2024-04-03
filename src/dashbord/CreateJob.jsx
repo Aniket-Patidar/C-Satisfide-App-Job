@@ -114,7 +114,6 @@ const JobForm = () => {
       skills,
     } = formData;
 
-    console.log(formData, "===");
 
     // Perform validation
     if (

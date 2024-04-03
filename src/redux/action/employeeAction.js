@@ -7,7 +7,6 @@ import { useEmployeeLoggedIn } from '../../constants/auth';
 /* TODO */
 const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
 
-
 async function config() {
     return {
         headers: {
@@ -16,7 +15,6 @@ async function config() {
         withCredentials: true
     }
 }
-
 
 export const currentEmployee = (userData) => async (dispatch) => {
     try {
@@ -55,17 +53,44 @@ export const registerEmployee = (userData) => async (dispatch) => {
         dispatch(setLoading(true));
         const { data } = await axios.post(`${basePath}/signup`, { ...userData });
         dispatch(setLoading(false));
-        /* TODO */
-        token = data.token
-        setToken(data.token)
-        dispatch(currentEmployee())
-
+        await AsyncStorage.setItem("token", data.Token)
     } catch (error) {
         dispatch(setLoading(false));
         console.error(error);
         dispatch(setError(error?.response?.data?.message || "register failed"));
     }
 }
+
+export const submitOtpEmployer = (otp) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        const response = await axios.post(
+            `${basePath}/validation`,
+            otp, {
+            headers: {
+                'authorization': await AsyncStorage.getItem('token')
+            },
+            withCredentials: true
+        }
+        );
+        console.log(response.data.token)
+        if (response.data.success) {
+            AsyncStorage.removeItem("token");
+            AsyncStorage.setItem("token", response.data.token);
+            dispatch(currentEmployee())
+            return response.data.message;
+        }
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        dispatch(
+            setError(error?.response?.data?.message || "get current user failed")
+        );
+    }
+};
+
+
 
 export const updateEmployee = (details) => async (dispatch) => {
     try {
@@ -136,6 +161,7 @@ export const avatarEmployee = (fileData) => async (dispatch) => {
             },
         });
         dispatch(currentEmployee());
+
         dispatch(setLoading(false));
     } catch (error) {
         dispatch(setLoading(false));
@@ -154,6 +180,7 @@ export const updateStatus = (requestData) => async (dispatch) => {
             withCredentials: true
         });
         dispatch(setLoading(false));
+        dispatch(allApplications())
     } catch (error) {
         dispatch(setLoading(false));
         console.error(error);
@@ -161,8 +188,6 @@ export const updateStatus = (requestData) => async (dispatch) => {
     }
 };
 
-
-/*TODO  */
 export const sendMail = (email) => async (dispatch) => {
     try {
         dispatch(setLoading(true));

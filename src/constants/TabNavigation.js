@@ -71,7 +71,7 @@ const TabNavigator = ({ }) => {
                     },
                     headerTitle: () => (
                         <View style={styles.headerTitleContainer}>
-                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Image source={require("../../assets/Icons/logo.png")} className="w-[40px] h-[40px] rounded-full"></Image>
                             <Text style={styles.headerTitle}>Satisfied Job</Text>
                         </View>
                     ),
@@ -102,7 +102,7 @@ const TabNavigator = ({ }) => {
                     },
                     headerTitle: () => (
                         <View style={styles.headerTitleContainer}>
-                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Image source={require("../../assets/Icons/logo.png")} className="w-[40px] h-[40px] rounded-full"></Image>
                             <Text style={styles.headerTitle}>Satisfied Job</Text>
                         </View>
                     ),
@@ -132,7 +132,7 @@ const TabNavigator = ({ }) => {
                     },
                     headerTitle: () => (
                         <View style={styles.headerTitleContainer}>
-                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Image source={require("../../assets/Icons/logo.png")} className="w-[40px] h-[40px] rounded-full"></Image>
                             <Text style={styles.headerTitle}>Applied Jobs</Text>
                         </View>
                     ),
@@ -163,7 +163,7 @@ const TabNavigator = ({ }) => {
                     },
                     headerTitle: () => (
                         <View style={styles.headerTitleContainer}>
-                            <Image source={require("../../assets/Icons/logo.jpg")} className="w-[40px] h-[40px] rounded-full"></Image>
+                            <Image source={require("../../assets/Icons/logo.png")} className="w-[40px] h-[40px] rounded-full"></Image>
                             <Text style={styles.headerTitle}>Profile</Text>
                         </View>
                     ),

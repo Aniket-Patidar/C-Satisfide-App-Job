@@ -77,34 +77,40 @@ const Login = ({ navigation, route }) => {
       ) : (
         <View style={{ flex: 1, marginHorizontal: 22 }}>
           <View style={{ marginVertical: 22 }}>
+            <Image
+              source={require("../../assets/Icons/logo.png")}
+              className="w-[90px] h-[90px] my-[20px] mx-auto rounded-full"
+            />
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: "bold",
-                marginVertical: 12,
+                marginVertical: 8,
                 color: COLORS.black,
               }}
+              className="mx-auto"
             >
-              Hi Welcome Back ! 👋
+              Hii Welcome Back ! 👋
             </Text>
 
             <Text
               style={{
-                fontSize: 16,
-                color: COLORS.black,
+                fontSize: 14,
               }}
+              className="text-[#99A2B4]"
             >
-              Hello again you have been missed!
+              Hello again you have been missed! Student
             </Text>
           </View>
 
           <View style={{ marginBottom: 12 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
             >
               Email address
             </Text>
@@ -112,13 +118,13 @@ const Login = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
@@ -136,10 +142,11 @@ const Login = ({ navigation, route }) => {
           <View style={{ marginBottom: 12 }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 400,
                 marginVertical: 8,
               }}
+              className="text-[#2980FF]"
             >
               Password
             </Text>
@@ -147,13 +154,13 @@ const Login = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: 48,
+                height: 35,
                 borderColor: COLORS.black,
-                borderWidth: 1,
+                borderBottomWidth: 0.5,
                 borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 22,
+                paddingLeft: 8,
               }}
             >
               <TextInput
@@ -198,92 +205,6 @@ const Login = ({ navigation, route }) => {
             }}
             onPress={handleSignIn}
           />
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 20,
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: COLORS.grey,
-                marginHorizontal: 10,
-              }}
-            />
-            <Text style={{ fontSize: 14 }}>Or Login with</Text>
-            <View
-              style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: COLORS.grey,
-                marginHorizontal: 10,
-              }}
-            />
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                height: 52,
-                borderWidth: 1,
-                borderColor: COLORS.grey,
-                marginRight: 4,
-                borderRadius: 10,
-              }}
-            >
-              <Image
-                source={require("../../assets/facebook.png")}
-                style={{
-                  height: 36,
-                  width: 36,
-                  marginRight: 8,
-                }}
-                resizeMode="contain"
-              />
-
-              <Text>Facebook</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                height: 52,
-                borderWidth: 1,
-                borderColor: COLORS.grey,
-                marginRight: 4,
-                borderRadius: 10,
-              }}
-            >
-              <Image
-                source={require("../../assets/google.png")}
-                style={{
-                  height: 36,
-                  width: 36,
-                  marginRight: 8,
-                }}
-                resizeMode="contain"
-              />
-
-              <Text>Google</Text>
-            </TouchableOpacity>
-          </View>
-
           <View
             style={{
               flexDirection: "row",

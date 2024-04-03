@@ -60,6 +60,7 @@ export default AllJobs;
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
 import Slider from "../component/Slider";
+import { getDaysSinceToday } from "../constants/date";
 
 const JobCard = ({
   _id,
@@ -73,10 +74,11 @@ const JobCard = ({
   isAlreadyApplied,
   jobId,
   applications,
+  createdAt,
 }) => {
   const navigation = useNavigation();
-
   const scaleAnimation = new Animated.Value(1);
+  const { employee } = useSelector((e) => e.employee);
 
   const handlePressIn = () => {
     Animated.spring(scaleAnimation, {
@@ -97,8 +99,6 @@ const JobCard = ({
   const callHR = (phoneNumber) => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
-
-  
 
   return (
     <Animated.View
@@ -127,6 +127,11 @@ const JobCard = ({
             marginBottom: 10,
           }}
         >
+          {/* organisationlogo */}
+          <Image
+            source={{ uri: employee?.organisationlogo?.url }}
+            style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
+          />
           <View>
             <Text
               style={{ fontSize: 14, fontWeight: "bold", color: "#333333" }}
@@ -136,12 +141,12 @@ const JobCard = ({
             </Text>
             <Text
               style={{
-                fontSize: 11,
+                fontSize: 12.5,
                 color: "#666666",
                 textTransform: "capitalize",
               }}
             >
-              {employer.organisationname}
+              {employee?.organisationname}
             </Text>
           </View>
         </View>
@@ -159,14 +164,15 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <Ionicons name="location-outline" size={14} color="#8A8A8A" />
+          <AntDesign name="clockcircleo" size={13} color="#8A8A8A" />
           <Text
-            style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}
-            className="capitalize"
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
           >
-            {location}
+            {getDaysSinceToday(createdAt)} days ago
           </Text>
         </View>
+
         <View
           style={{
             flexDirection: "row",
@@ -174,8 +180,29 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <MaterialIcons name="attach-money" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <Ionicons name="location-outline" size={13} color="#8A8A8A" />
+          <Text
+            style={{ color: "#8A8A8A", marginLeft: 5 }}
+            className="capitalize text-[13px]"
+          >
+            {location}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="currency-rupee"
+            size={13}
+            color="#8A8A8A"
+          />
+
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {salary} / Per Year
           </Text>
         </View>
@@ -186,8 +213,8 @@ const JobCard = ({
             marginBottom: 8,
           }}
         >
-          <FontAwesome name="briefcase" size={14} color="#8A8A8A" />
-          <Text style={{ fontSize: 14, color: "#8A8A8A", marginLeft: 5 }}>
+          <FontAwesome name="building-o" size={13} color="#8A8A8A" />
+          <Text style={{ fontSize: 13, color: "#8A8A8A", marginLeft: 5 }}>
             {jobType}
           </Text>
         </View>
@@ -213,7 +240,9 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("EditEmployeeJob", { id: _id })}
+          onPress={() => callHR(employer?.contact)}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
         >
           <View
             style={{
@@ -226,7 +255,7 @@ const JobCard = ({
             <Text
               style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
             >
-              Edit
+              Call HR
             </Text>
           </View>
         </TouchableOpacity>
