@@ -24,7 +24,6 @@ const Setting = () => {
   }, []);
 
   const handleLogout = () => {
-    console.log("Logging out...");
     dispatch(logoutStudent());
     setUserLoggedIn(false);
   };

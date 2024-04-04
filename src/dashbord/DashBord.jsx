@@ -53,8 +53,6 @@ const Dashboard = () => {
     ]).start();
   }, []);
 
-
-
   // Function to filter applications based on email, contact, or title
   const filterApplications = () => {
     if (!searchText.trim()) {
@@ -139,10 +137,10 @@ const Dashboard = () => {
               bezier
             />
           </View> */}
-
-          <ResponsiveTable
-            data={searchText.trim() ? filterApplications() : allApplication}
-          />
+          
+            <ResponsiveTable
+              data={searchText.trim() ? filterApplications() : allApplication}
+            />
         </>
       )}
     </ScrollView>

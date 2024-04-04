@@ -37,21 +37,29 @@ const AllJobs = ({ navigate }) => {
   ];
 
   return (
-    <ScrollView className="relative">
-      <View className="flex flex-row items-center justify-center mt-[10px]">
-        <Slider images={images} />
-      </View>
+    <>
+      {allJobs?.length != 0 && !loading ? (
+        <>
+          <Placeholder></Placeholder>
+        </>
+      ) : (
+        <ScrollView className="relative">
+          <View className="flex flex-row items-center justify-center mt-[10px]">
+            <Slider images={images} />
+          </View>
 
-      <View className="flex items-center  py-3">
-        {loading ? (
-          <Loading />
-        ) : (
-          jobs?.map((e, i) => {
-            return <JobCard {...e}></JobCard>;
-          })
-        )}
-      </View>
-    </ScrollView>
+          <View className="flex items-center  py-3">
+            {loading ? (
+              <Loading />
+            ) : (
+              jobs?.map((e, i) => {
+                return <JobCard {...e}></JobCard>;
+              })
+            )}
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 };
 
@@ -61,6 +69,7 @@ import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
 import Slider from "../component/Slider";
 import { getDaysSinceToday } from "../constants/date";
+import Placeholder from "../component/Placeholder";
 
 const JobCard = ({
   _id,

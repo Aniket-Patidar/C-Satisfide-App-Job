@@ -88,154 +88,162 @@ const Jobs = ({ navigation }) => {
 
   return (
     <ScrollView className="relative" style={{ flex: 1 }}>
-      {loading ? (
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Loading />
-        </View>
+      {allJobs?.length == 0 && !loading ? (
+        <>
+          <Placeholder></Placeholder>
+        </>
       ) : (
         <>
-          <View>
-            <CoolDrawer
-              isDrawerOpen={isDrawerOpen}
-              setIsDrawerOpen={setIsDrawerOpen}
-              toggleDrawer={toggleDrawer}
-              formData={formData}
-              setFormData={setFormData}
-              handelSubmit={handelSubmit}
-            />
-          </View>
-          <View
-            className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
-          >
-            <TouchableOpacity
-              onPress={handelSubmit}
-              className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white"
+          {loading ? (
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <EvilIcons
-                className="mx-2 px-3 font-semibold"
-                name="search"
-                size={20}
-                color="gray"
-              />
-              <TextInput
-                className="text-[11px]"
-                placeholder="Search your dream job"
-                value={formData.title}
-                onChangeText={(text) => handleInputChange("title", text)}
-              ></TextInput>
-            </TouchableOpacity>
+              <Loading />
+            </View>
+          ) : (
+            <>
+              <View>
+                <CoolDrawer
+                  isDrawerOpen={isDrawerOpen}
+                  setIsDrawerOpen={setIsDrawerOpen}
+                  toggleDrawer={toggleDrawer}
+                  formData={formData}
+                  setFormData={setFormData}
+                  handelSubmit={handelSubmit}
+                />
+              </View>
+              <View
+                className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+              >
+                <TouchableOpacity
+                  onPress={handelSubmit}
+                  className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white"
+                >
+                  <EvilIcons
+                    className="mx-2 px-3 font-semibold"
+                    name="search"
+                    size={20}
+                    color="gray"
+                  />
+                  <TextInput
+                    className="text-[11px]"
+                    placeholder="Search your dream job"
+                    value={formData.title}
+                    onChangeText={(text) => handleInputChange("title", text)}
+                  ></TextInput>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={toggleDrawer}
-              className="w-[30px] flex items-center justify-center
+                <TouchableOpacity
+                  onPress={toggleDrawer}
+                  className="w-[30px] flex items-center justify-center
              h-[30px] bg-white  opacity-[0.5] rounded-md"
-            >
-              <AntDesign name="filter" size={15} color="#008BDC" />
-            </TouchableOpacity>
-          </View>
-          <View className="flex flex-row items-center justify-center px-[13px]">
-            <Slider images={images} />
-          </View>
-          <View className="flex items-center my-[12px]">
-            {allJobs &&
-              allJobs?.map((job, index) => {
-                return (
-                  <>
-                    <JobCard {...job}></JobCard>
-                    {index === 4 && (
-                      <View>
-                        <View className="font-semibold m-[13px] mb-[16px]">
-                          <View className="flex flex-row justify-between py-1 mb-2">
-                            <Text className="text-[13px] font-[500]">
-                              Top Company
-                            </Text>
-                          </View>
-                          <View className="gap-2 h-fit  overflow-scroll flex flex-row">
-                            <ScrollView horizontal className="space-x-2">
-                              <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                                <Image
-                                  source={require("../../assets/Images/facebook.png")}
-                                  className="w-[38px] h-[38px] rounded-md mx-auto"
-                                ></Image>
-                                <View className="text-center">
-                                  <Text className="text-[12px] font-semibold">
-                                    UX Designer
-                                  </Text>
-                                  <Text className="text-[10px] mx-auto opacity-[0.5]">
-                                    facebook
-                                  </Text>
-                                </View>
-                                <Text className="text-[12px] font-semibold">
-                                  $80,000/y
+                >
+                  <AntDesign name="filter" size={15} color="#008BDC" />
+                </TouchableOpacity>
+              </View>
+              <View className="flex flex-row items-center justify-center px-[13px]">
+                <Slider images={images} />
+              </View>
+              <View className="flex items-center my-[12px]">
+                {allJobs &&
+                  allJobs?.map((job, index) => {
+                    return (
+                      <>
+                        <JobCard {...job}></JobCard>
+                        {index === 4 && (
+                          <View>
+                            <View className="font-semibold m-[13px] mb-[16px]">
+                              <View className="flex flex-row justify-between py-1 mb-2">
+                                <Text className="text-[13px] font-[500]">
+                                  Top Company
                                 </Text>
                               </View>
+                              <View className="gap-2 h-fit  overflow-scroll flex flex-row">
+                                <ScrollView horizontal className="space-x-2">
+                                  <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                                    <Image
+                                      source={require("../../assets/Images/facebook.png")}
+                                      className="w-[38px] h-[38px] rounded-md mx-auto"
+                                    ></Image>
+                                    <View className="text-center">
+                                      <Text className="text-[12px] font-semibold">
+                                        UX Designer
+                                      </Text>
+                                      <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                        facebook
+                                      </Text>
+                                    </View>
+                                    <Text className="text-[12px] font-semibold">
+                                      $80,000/y
+                                    </Text>
+                                  </View>
 
-                              <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
-                                <Image
-                                  source={require("../../assets/Images/google.png")}
-                                  className="w-[36px] h-[36px] rounded-md mx-auto"
-                                ></Image>
-                                <View className="text-center">
-                                  <Text className="text-[12px] font-semibold">
-                                    UX Designer
-                                  </Text>
-                                  <Text className="text-[10px] mx-auto opacity-[0.5]">
-                                    Google
-                                  </Text>
-                                </View>
-                                <Text className="text-[12px] font-semibold">
-                                  $98,000/y
-                                </Text>
-                              </View>
+                                  <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
+                                    <Image
+                                      source={require("../../assets/Images/google.png")}
+                                      className="w-[36px] h-[36px] rounded-md mx-auto"
+                                    ></Image>
+                                    <View className="text-center">
+                                      <Text className="text-[12px] font-semibold">
+                                        UX Designer
+                                      </Text>
+                                      <Text className="text-[10px] mx-auto opacity-[0.5]">
+                                        Google
+                                      </Text>
+                                    </View>
+                                    <Text className="text-[12px] font-semibold">
+                                      $98,000/y
+                                    </Text>
+                                  </View>
 
-                              <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                                <Image
-                                  source={require("../../assets/Images/facebook.png")}
-                                  className="w-[38px] h-[38px] rounded-md mx-auto"
-                                ></Image>
-                                <View className="text-center">
-                                  <Text className="text-[12px] font-semibold">
-                                    UX Designer
-                                  </Text>
-                                  <Text className="text-[10px] mx-1 opacity-[0.5]">
-                                    UX Designer
-                                  </Text>
-                                </View>
-                                <Text className="text-[12px] font-semibold">
-                                  $80,000/y
-                                </Text>
+                                  <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
+                                    <Image
+                                      source={require("../../assets/Images/facebook.png")}
+                                      className="w-[38px] h-[38px] rounded-md mx-auto"
+                                    ></Image>
+                                    <View className="text-center">
+                                      <Text className="text-[12px] font-semibold">
+                                        UX Designer
+                                      </Text>
+                                      <Text className="text-[10px] mx-1 opacity-[0.5]">
+                                        UX Designer
+                                      </Text>
+                                    </View>
+                                    <Text className="text-[12px] font-semibold">
+                                      $80,000/y
+                                    </Text>
+                                  </View>
+                                </ScrollView>
                               </View>
-                            </ScrollView>
+                            </View>
                           </View>
-                        </View>
-                      </View>
-                    )}
-                  </>
-                );
-              })}
-          </View>
-          <View className="flex flex-row justify-between p-[12px]">
-            <TouchableOpacity
-              className="bg-white px-[5px] py-[4px] rounded-sm"
-              onPress={goToPrevPage}
-              disabled={page === 1}
-            >
-              <Text className="text-[11px]">Previous</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="bg-white px-[5px] py-[4px] rounded-sm"
-              onPress={goToNextPage}
-              disabled={page === totalPages}
-            >
-              <Text className="text-[11px]">Next</Text>
-            </TouchableOpacity>
-          </View>
+                        )}
+                      </>
+                    );
+                  })}
+              </View>
+              <View className="flex flex-row justify-between p-[12px]">
+                <TouchableOpacity
+                  className="bg-white px-[5px] py-[4px] rounded-sm"
+                  onPress={goToPrevPage}
+                  disabled={page === 1}
+                >
+                  <Text className="text-[11px]">Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="bg-white px-[5px] py-[4px] rounded-sm"
+                  onPress={goToNextPage}
+                  disabled={page === totalPages}
+                >
+                  <Text className="text-[11px]">Next</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </>
       )}
     </ScrollView>
@@ -247,6 +255,7 @@ export default Jobs;
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
 import { getDaysSinceToday } from "../constants/date";
+import Placeholder from "../component/Placeholder";
 
 const JobCard = ({
   _id,

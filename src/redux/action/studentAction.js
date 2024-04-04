@@ -172,7 +172,6 @@ export const uploadResuma = (fileData) => async (dispatch) => {
         dispatch(setLoading(false));
     } catch (error) {
         dispatch(setLoading(false));
-        console.log(await AsyncStorage.getItem('token'), "===");
         console.error(JSON.stringify(error));
         dispatch(setError(error?.response?.data?.message || "upload resume failed"));
     }
@@ -188,10 +187,8 @@ export const registerStudent = (userData) => async (dispatch) => {
         dispatch(setLoading(false));
         setToken(data.Token);
         await AsyncStorage.setItem('token', data.Token);
-        console.log("token", JSON.stringify(data));
     } catch (error) {
         await AsyncStorage.removeItem('token');
-        console.log("token", JSON.stringify(error));
         dispatch(setLoading(false));
         dispatch(setError(error?.response?.data?.message || "registerStudent failed"));
     }
@@ -215,11 +212,9 @@ export const submitOtpEmployer = (otp) => async (dispatch) => {
             return response.data.message;
         }
         dispatch(setLoading(false));
-        console.log("error", JSON.stringify("otp", response.data));
 
     } catch (error) {
         dispatch(setLoading(false));
-        console.log("error", JSON.stringify(error));
         await AsyncStorage.removeItem('token');
         dispatch(
             setError(error?.response?.data?.message || "get current user failed")

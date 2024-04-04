@@ -73,7 +73,6 @@ export const submitOtpEmployer = (otp) => async (dispatch) => {
             withCredentials: true
         }
         );
-        console.log(response.data.token)
         if (response.data.success) {
             AsyncStorage.removeItem("token");
             AsyncStorage.setItem("token", response.data.token);

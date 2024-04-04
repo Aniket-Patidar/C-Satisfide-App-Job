@@ -50,7 +50,6 @@ const Forget = ({ route }) => {
   const dispatch = useDispatch();
 
   function send() {
-    console.log(otp);
     dispatch(submitOtpEmployer({ activationCode: otp }));
   }
 

@@ -20,6 +20,7 @@ import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import Slider from "../component/Slider";
+import Placeholder from "../component/Placeholder";
 
 /*  */
 
@@ -74,49 +75,57 @@ const ViewAllUsers = () => {
   ];
 
   return (
-    <View>
-      <View
-        className={`h-[30px] rounded-md flex flex-row space-x-1 items-center justify-start px-[15px] my-[8px]`}
-      >
-        <TouchableOpacity
-          onPress={() => {}}
-          className="flex flex-row items-center w-[100%] min-h-[32px] border-[1px] border-gray-200 rounded-md  justify-start  px-1 bg-white"
-        >
-          <EvilIcons
-            className="mx-2 px-3 font-semibold"
-            name="search"
-            size={20}
-            color="gray"
-          />
-          <TextInput
-            className="text-[11px]"
-            placeholder="Search your dream job"
-            onChangeText={(text) => setSearchTerm(text)}
-          ></TextInput>
-        </TouchableOpacity>
-      </View>
-
-      <View className="pb-[80px]  px-[15px]">
-        <ScrollView className="">
-          <View className="flex flex-row items-center justify-center mb-3 ">
-            <Slider images={images} />
+    <>
+      {users?.length == 0 ? (
+        <>
+          <Placeholder></Placeholder>
+        </>
+      ) : (
+        <View>
+          <View
+            className={`h-[30px] rounded-md flex flex-row space-x-1 items-center justify-start px-[15px] my-[8px]`}
+          >
+            <TouchableOpacity
+              onPress={() => {}}
+              className="flex flex-row items-center w-[100%] min-h-[32px] border-[1px] border-gray-200 rounded-md  justify-start  px-1 bg-white"
+            >
+              <EvilIcons
+                className="mx-2 px-3 font-semibold"
+                name="search"
+                size={20}
+                color="gray"
+              />
+              <TextInput
+                className="text-[11px]"
+                placeholder="Search your dream job"
+                onChangeText={(text) => setSearchTerm(text)}
+              ></TextInput>
+            </TouchableOpacity>
           </View>
-          {users.map((e) => {
-            return (
-              <>
-                <View className="flex items-center ">
-                  <StudentCard
-                    {...e}
-                    downloadPDF={downloadPDF}
-                    deleteUser={deleteUser}
-                  ></StudentCard>
-                </View>
-              </>
-            );
-          })}
-        </ScrollView>
-      </View>
-    </View>
+
+          <View className="pb-[80px]  px-[15px]">
+            <ScrollView className="">
+              <View className="flex flex-row items-center justify-center mb-3 ">
+                <Slider images={images} />
+              </View>
+              {users.map((e) => {
+                return (
+                  <>
+                    <View className="flex items-center ">
+                      <StudentCard
+                        {...e}
+                        downloadPDF={downloadPDF}
+                        deleteUser={deleteUser}
+                      ></StudentCard>
+                    </View>
+                  </>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 

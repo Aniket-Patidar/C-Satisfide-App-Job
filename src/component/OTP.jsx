@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, ToastAndroid } from "react-native";
+import { BackHandler, Dimensions, ToastAndroid } from "react-native";
 import {
   View,
   TextInput,
@@ -12,14 +12,16 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import { submitOtpEmployer } from "../redux/action/employeeAction";
 import { setError } from "../redux/sclice/employeeSclice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const OTPInputModal = ({ visible, onClose, scrollTo, setModalVisible }) => {
-  const [otp, setOTP] = useState("");
-
-  const { width } = Dimensions.get("window");
-
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const { employee, error, loading } = useSelector((e) => e.employee);
+  const { width } = Dimensions.get("window");
+  const [otp, setOTP] = useState("");
 
   useEffect(() => {
     if (error) {
@@ -39,6 +41,14 @@ const OTPInputModal = ({ visible, onClose, scrollTo, setModalVisible }) => {
     }
   }, [employee, handleSubmit]);
 
+  const handleBackButton = async () => {
+    await AsyncStorage.removeItem("token");
+    onClose();
+  };
+
+  /* TODO */
+  /* Remove otp screen on click of back btn */
+
   return (
     <Modal
       animationType="slide"
@@ -51,7 +61,13 @@ const OTPInputModal = ({ visible, onClose, scrollTo, setModalVisible }) => {
       ) : (
         <View style={styles.container}>
           <View style={styles.modalView}>
-            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={async () => {
+                await AsyncStorage.removeItem("token");
+                onClose();
+              }}
+            >
               <Icon name="close-outline" size={24} color="#888" />
             </TouchableOpacity>
             <Text style={styles.modalTitle}>Enter OTP</Text>

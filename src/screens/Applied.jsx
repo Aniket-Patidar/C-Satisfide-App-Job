@@ -13,6 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getApplication } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
+import Placeholder from "../component/Placeholder";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -26,36 +27,44 @@ const ApplicationPage = () => {
   }, [dispatch]);
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <Loading />
+    <>
+      {applications.length == 0 && !loading ? (
+        <>
+          <Placeholder></Placeholder>
+        </>
       ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.jobCardsContainer}
-        >
-          {applications?.map((application, index) => {
-            if (application.jobId?.title) {
-              return (
-                <React.Fragment key={index}>
-                  <JobCard application={application} />
-                  {(index + 1) % 4 === 0 && (
-                    <React.Fragment>
-                      <Image
-                        source={require("../../assets/banner/b4.jpg")}
-                        style={styles.image}
-                        className="w-full h-[120px] rounded-md mb-5"
-                      />
+        <View style={styles.container}>
+          {loading ? (
+            <Loading />
+          ) : (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.jobCardsContainer}
+            >
+              {applications?.map((application, index) => {
+                if (application.jobId?.title) {
+                  return (
+                    <React.Fragment key={index}>
+                      <JobCard application={application} />
+                      {(index + 1) % 4 === 0 && (
+                        <React.Fragment>
+                          <Image
+                            source={require("../../assets/banner/b4.jpg")}
+                            style={styles.image}
+                            className="w-full h-[120px] rounded-md mb-5"
+                          />
+                        </React.Fragment>
+                      )}
                     </React.Fragment>
-                  )}
-                </React.Fragment>
-              );
-            }
-            return null;
-          })}
-        </ScrollView>
+                  );
+                }
+                return null;
+              })}
+            </ScrollView>
+          )}
+        </View>
       )}
-    </View>
+    </>
   );
 };
 
@@ -90,7 +99,9 @@ const JobCard = ({ application }) => {
           <Text style={styles.jobTitle} className="capitalize">
             {jobId?.title}
           </Text>
-          <Text style={styles.employer}>{jobId?.employer?.organisationname}</Text>
+          <Text style={styles.employer}>
+            {jobId?.employer?.organisationname}
+          </Text>
         </View>
       </View>
       <View style={styles.detailsContainer}>

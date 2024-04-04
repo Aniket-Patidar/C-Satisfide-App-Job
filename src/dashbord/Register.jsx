@@ -100,7 +100,6 @@ const Register = ({ route }) => {
   useEffect(() => {
     const getTokenAndNavigate = async () => {
       const token = await AsyncStorage.getItem("token");
-      console.log(token);
       if (token) {
         setModalVisible(true);
       }
@@ -292,6 +291,7 @@ const Register = ({ route }) => {
                   <TextInput
                     placeholder="Enter your contact number"
                     onChangeText={(text) => handleInputChange("contact", text)}
+                    keyboardType="numeric"
                     style={{
                       width: "100%",
                     }}
@@ -350,7 +350,7 @@ const Register = ({ route }) => {
 
               <View className="mt-[20px]">
                 <Button
-                  title="Next"
+                  title="Submit"
                   filled
                   style={{
                     marginTop: 80,

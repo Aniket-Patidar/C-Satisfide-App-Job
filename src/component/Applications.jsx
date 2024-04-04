@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { updateStatus } from "../redux/action/employeeAction";
+import Placeholder from "./Placeholder";
+import LottieView from "lottie-react-native";
 
 const TableItem = ({ item, onUpdateStatus, index }) => {
   const getStatusColor = (status) => {
@@ -68,9 +70,7 @@ const TableItem = ({ item, onUpdateStatus, index }) => {
         onPress={() => Linking.openURL(item.studentId.resumePdf.url + "pdf")}
         style={[styles.cell, { width: 200 }]}
       >
-        <Text style={styles.cellText}>
-          {item?.jobId ? "View" : "N/A"}
-        </Text>
+        <Text style={styles.cellText}>{item?.jobId ? "View" : "N/A"}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.cell, { width: 120, alignItems: "center" }]}
@@ -112,41 +112,54 @@ const ResponsiveTable = ({ data }) => {
   const updateStatus = (status) => {};
 
   return (
-    <ScrollView horizontal={true} vertical={true} style={styles.scrollView}>
-      <View style={styles.container}>
-        <View style={[styles.row, styles.header]}>
-          <View style={[styles.cell, { width: 150 }]}>
-            <Text style={styles.headerText}>Name</Text>
-          </View>
-          <View style={[styles.cell, { width: 200 }]}>
-            <Text style={styles.headerText}>Email</Text>
-          </View>
-          <View style={[styles.cell, { width: 120 }]}>
-            <Text style={styles.headerText}>Contact</Text>
-          </View>
-          <View style={[styles.cell, { width: 200 }]}>
-            <Text style={styles.headerText}>Job Title</Text>
-          </View>
-          <View style={[styles.cell, { width: 200 }]}>
-            <Text style={styles.headerText}>Resume</Text>
-          </View>
-          <View style={[styles.cell, { width: 120 }]}>
-            <Text style={styles.headerText}>Status</Text>
-          </View>
+    <>
+      {data.length == 0 ? (
+        <View className="w-full h-[300px]" style={styles.animationContainer}>
+          <LottieView
+            source={require("../../assets/gfg/g4.json")}
+            autoPlay
+            loop
+            style={styles.animation}
+          />
         </View>
-        <FlatList
-          data={data}
-          renderItem={({ item, index }) => (
-            <TableItem
-              item={item}
-              onUpdateStatus={updateStatus}
-              index={index}
+      ) : (
+        <ScrollView horizontal={true} vertical={true} style={styles.scrollView}>
+          <View style={styles.container}>
+            <View style={[styles.row, styles.header]}>
+              <View style={[styles.cell, { width: 150 }]}>
+                <Text style={styles.headerText}>Name</Text>
+              </View>
+              <View style={[styles.cell, { width: 200 }]}>
+                <Text style={styles.headerText}>Email</Text>
+              </View>
+              <View style={[styles.cell, { width: 120 }]}>
+                <Text style={styles.headerText}>Contact</Text>
+              </View>
+              <View style={[styles.cell, { width: 200 }]}>
+                <Text style={styles.headerText}>Job Title</Text>
+              </View>
+              <View style={[styles.cell, { width: 200 }]}>
+                <Text style={styles.headerText}>Resume</Text>
+              </View>
+              <View style={[styles.cell, { width: 120 }]}>
+                <Text style={styles.headerText}>Status</Text>
+              </View>
+            </View>
+            <FlatList
+              data={data}
+              renderItem={({ item, index }) => (
+                <TableItem
+                  item={item}
+                  onUpdateStatus={updateStatus}
+                  index={index}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
             />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-    </ScrollView>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 };
 
@@ -195,6 +208,16 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  animationContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animation: {
+    width: "80%", // 80% of screen width
+    height: "80%", // 80% of screen height
+  },
+  // Your existing styles for table and modal
 });
 
 export default ResponsiveTable;
