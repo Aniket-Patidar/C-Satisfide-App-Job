@@ -42,7 +42,7 @@ export const loginEmployee = (userData) => async (dispatch) => {
         await AsyncStorage.setItem('token', data.token);
         dispatch(currentEmployee())
     } catch (error) {
-        dispatch(setLoading(true));
+        dispatch(setLoading(false));
         console.error(error);
         dispatch(setError(error?.response?.data?.message || "login failed"));
     }
@@ -88,8 +88,6 @@ export const submitOtpEmployer = (otp) => async (dispatch) => {
         );
     }
 };
-
-
 
 export const updateEmployee = (details) => async (dispatch) => {
     try {

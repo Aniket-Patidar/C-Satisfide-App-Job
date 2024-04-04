@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   StatusBar,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -22,15 +23,44 @@ import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Loading from "../component/Loading";
 import Slider from "../component/Slider";
+import axios from "axios";
 
 const Home = ({ navigation }) => {
   const { student, loading } = useSelector((e) => e.student);
+
+  const basePath = "https://final-satisfied-backend-2.onrender.com/user";
 
   const images = [
     require("../../assets/banner/b3.jpg"),
     require("../../assets/banner/b1.jpg"),
     require("../../assets/banner/b4.jpg"),
   ];
+
+  const [topCompany, setTopCompany] = useState([]);
+  const [resentJobs, setResentJobs] = useState([]);
+
+  const fetchTopCompany = async () => {
+    try {
+      const response = await axios.post(`${basePath}/topcompony`);
+      setTopCompany(response.data.jobs);
+    } catch (error) {
+      ToastAndroid.show("failed to fetch Top Company", ToastAndroid.SHORT);
+    }
+  };
+
+  const fetchResentJobs = async () => {
+    try {
+      const response = await axios.post(`${basePath}/resentjobs`);
+      setResentJobs(response.data.jobs);
+    } catch (error) {
+      ToastAndroid.show("failed to fetch resent job", ToastAndroid.SHORT);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopCompany();
+    fetchResentJobs();
+  }, []);
 
   return (
     <View>
@@ -55,120 +85,77 @@ const Home = ({ navigation }) => {
                 source={require("../../assets/hero1.jpg")}
                 className="h-[31px] w-[31px] rounded-md"
               ></Image>
-
-
             </View>
 
-            {/* <View
-              className={`h-[30px] my-[20px]  mt-[20px] rounded-md flex flex-row  space-x-1 items-center justify-start flex-row-reverse space-x-1`}
-            >
-              <View className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-gray-100">
-                <EvilIcons
-                  className="mx-2 px-3 font-semibold"
-                  name="search"
-                  size={20}
-                  color="gray"
-                />
-                <TextInput
-                  className="text-[11px]"
-                  placeholder="Search your dream job"
-                ></TextInput>
-              </View>
-
-              <View
-                className="w-[30px] max-h-[30px] bg-gray-200  mr-1 flex items-center justify-center
-             h-[50px]  opacity-[0.5] rounded-md"
-              >
-                <MaterialCommunityIcons
-                  name="menu-open"
-                  size={24}
-                  color="black"
-                />
-              </View>
-            </View> */}
-
-           <View className="flex flex-row items-center justify-center my-2">
-                <Slider images={images} />
-              </View>
+            <View className="flex flex-row items-center justify-center my-2">
+              <Slider images={images} />
+            </View>
 
             <View className="mt-1 font-semibold">
               <View className="flex flex-row py-1 justify-between">
                 <Text className="text-[13px] font-[500]">Top Jobs</Text>
-                <Text className="text-[11px] opacity-[0.7]">Show more</Text>
+                {/* <Text className="text-[11px] opacity-[0.7]">Show more</Text> */}
               </View>
               <ScrollView horizontal={true}>
-                <View className="flex flex-row gap-2 py-2">
-                  <View className="my-2 py-2 w-[200px] h-[140px] bg-[#2cc57b] rounded-lg">
-                    <View className="px-2 py-2 flex flex-row items-center ">
-                      <Image
-                        source={require("../../assets/goole2.webp")}
-                        className="w-[25px] h-[25px] mr-[10px] rounded-md"
-                      ></Image>
-                      <View>
-                        <Text className="text-[12px] text-1xl font-semibold text-white">
-                          Mern Web Developer
-                        </Text>
-                        <Text className="text-[11px]  opacity-[.5] text-white">
-                          Google
-                        </Text>
+                <View className="flex flex-row gap-2 py-2 ">
+                  {resentJobs?.map((job, index) => {
+                    return (
+                      <View
+                        key={index}
+                        className="my-2 py-2 w-[200px] h-[140px] bg-[#2cc57b] rounded-lg overflow-hidden"
+                      >
+                        <View className="px-2 py-2 flex flex-row items-center ">
+                          <Image
+                            source={{ uri: job?.organisationlogo?.url }}
+                            className="w-[25px] h-[25px] mr-[10px] rounded-md"
+                          />
+                          <View>
+                            <Text className="text-[12px] text-1xl font-semibold text-white">
+                              {job.title}
+                            </Text>
+                            <Text className="text-[11px]  opacity-[.5] text-white">
+                              {job.employer.organisationname}
+                            </Text>
+                          </View>
+                        </View>
+                        <ScrollView
+                          horizontal
+                          contentContainerStyle={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            paddingHorizontal: 2,
+                          }}
+                          style={{ marginTop: 1 }}
+                        >
+                          {job.skills.map((skill, skillIndex) => (
+                            <Text
+                              key={skillIndex}
+                              style={{
+                                fontSize: 11,
+                                color: "white",
+                                backgroundColor: "#c7c8cc45",
+                                paddingVertical: 4,
+                                paddingHorizontal: 10,
+                                textAlign: "center",
+                                borderRadius: 5,
+                                marginHorizontal: 2,
+                              }}
+                            >
+                              {skill.length > 5 ? skill.slice(0, 5) : skill}
+                            </Text>
+                          ))}
+                        </ScrollView>
+                        <View className="mt-2 flex flex-row justify-between">
+                          <Text className="text-[11px] text-white py-2 px-2">
+                            ${job.salary}/year
+                          </Text>
+                          <Text className="text-[11px] text-white py-2 px-2">
+                            {job.location}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                    <View className="px-2 mt-1 flex flex-row space-x-1">
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[50px] py-1 text-center rounded-md">
-                        HTML
-                      </Text>
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[50px] py-1 text-center rounded-md">
-                        CSS
-                      </Text>
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[60px] py-1 text-center rounded-md">
-                        JavaScript
-                      </Text>
-                    </View>
-                    <View className="mt-2 flex flex-row justify-between">
-                      <Text className="text-[11px] text-white py-2 px-2">
-                        $98000/year
-                      </Text>
-                      <Text className="text-[11px] text-white py-2 px-2">
-                        Sironj M.P
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View className="my-2 py-2 w-[200px] h-[140px] bg-[#2ea1e0] rounded-lg">
-                    <View className="px-2 py-2 flex flex-row items-center ">
-                      <Image
-                        source={require("../../assets/facbook.webp")}
-                        className="w-[25px] h-[25px] mr-[10px] rounded-md"
-                      ></Image>
-                      <View>
-                        <Text className="text-[12px] text-1xl font-semibold text-white">
-                          Mern Web Developer
-                        </Text>
-                        <Text className="text-[11px]  opacity-[.5] text-white">
-                          Facebook
-                        </Text>
-                      </View>
-                    </View>
-                    <View className="px-2 mt-1 flex flex-row space-x-1">
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[50px] py-1 text-center rounded-md">
-                        HTML
-                      </Text>
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[50px] py-1 text-center rounded-md">
-                        CSS
-                      </Text>
-                      <Text className="text-[11px] text-white bg-[#c7c8cc45] min-w-[60px] py-1 text-center rounded-md">
-                        JavaScript
-                      </Text>
-                    </View>
-                    <View className="mt-2 flex flex-row justify-between">
-                      <Text className="text-[11px] text-white py-2 px-2">
-                        $98000/year
-                      </Text>
-                      <Text className="text-[11px] text-white py-2 px-2">
-                        Sironj M.P
-                      </Text>
-                    </View>
-                  </View>
+                    );
+                  })}
                 </View>
               </ScrollView>
             </View>
@@ -179,53 +166,52 @@ const Home = ({ navigation }) => {
                 <Text className="text-[11px] opacity-[0.7]">Show more</Text>
               </View>
               <ScrollView horizontal={true} className="gap-2">
-                <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                  <Image
-                    source={require("../../assets/Images/facebook.png")}
-                    className="w-[38px] h-[38px] rounded-md mx-auto"
-                  ></Image>
-                  <View className="text-center">
-                    <Text className="text-[12px] font-semibold">
-                      UX Designer
-                    </Text>
-                    <Text className="text-[10px] mx-auto opacity-[0.5]">
-                      facebook
-                    </Text>
-                  </View>
-                  <Text className="text-[12px] font-semibold">$80,000/y</Text>
-                </View>
-
-                <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
-                  <Image
-                    source={require("../../assets/Images/google.png")}
-                    className="w-[36px] h-[36px] rounded-md mx-auto"
-                  ></Image>
-                  <View className="text-center">
-                    <Text className="text-[12px] font-semibold">
-                      UX Designer
-                    </Text>
-                    <Text className="text-[10px] mx-auto opacity-[0.5]">
-                      Google
-                    </Text>
-                  </View>
-                  <Text className="text-[12px] font-semibold">$98,000/y</Text>
-                </View>
-
-                <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                  <Image
-                    source={require("../../assets/Images/facebook.png")}
-                    className="w-[38px] h-[38px] rounded-md mx-auto"
-                  ></Image>
-                  <View className="text-center">
-                    <Text className="text-[12px] font-semibold">
-                      UX Designer
-                    </Text>
-                    <Text className="text-[10px] mx-1 opacity-[0.5]">
-                      UX Designer
-                    </Text>
-                  </View>
-                  <Text className="text-[12px] font-semibold">$80,000/y</Text>
-                </View>
+                {topCompany.map((e) => {
+                  return (
+                    <>
+                      <View className="flex flex-row gap-2 py-2">
+                        {topCompany.map((job, index) => {
+                          const organisationlogo =
+                            job.employer.organisationlogo;
+                          return (
+                            <View
+                              key={index}
+                              className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center mx-2 my-1 space-y-2"
+                            >
+                              <Image
+                                source={{ uri: organisationlogo?.url }}
+                                style={{
+                                  width: 38,
+                                  height: 38,
+                                  borderRadius: 19,
+                                }}
+                              />
+                              <View>
+                                <Text
+                                  style={{ fontSize: 12, fontWeight: "bold" }}
+                                  className="mx-auto"
+                                >
+                                  {job.title}
+                                </Text>
+                                <Text
+                                  style={{ fontSize: 10, opacity: 0.5 }}
+                                  className="mx-auto"
+                                >
+                                  {job.employer.organisationname}
+                                </Text>
+                              </View>
+                              <Text
+                                style={{ fontSize: 12, fontWeight: "bold" }}
+                              >
+                                ${job.salary}/y
+                              </Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    </>
+                  );
+                })}
               </ScrollView>
             </View>
           </View>
@@ -236,3 +222,5 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
+
+// bg-[#2ea1e0]
