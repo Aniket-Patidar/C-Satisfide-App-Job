@@ -13,6 +13,7 @@ import {
 import { EvilIcons } from "@expo/vector-icons";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { handleIncomingCall } from "../component/Call";
 
 import { FontAwesome } from "@expo/vector-icons"; // Importing FontAwesome icons from Expo
 import axios from "axios";
@@ -259,10 +260,6 @@ const EmployeeCard = ({
     }).start();
   };
 
-  const callHR = (phoneNumber) => {
-    Linking.openURL(`tel:${phoneNumber}`);
-  };
-
   return (
     <Animated.View
       style={{
@@ -382,7 +379,7 @@ const EmployeeCard = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => callHR(employer?.contact)}
+          onPress={() => handleIncomingCall(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >

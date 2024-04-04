@@ -165,9 +165,7 @@ const StudentCard = ({
     }).start();
   };
 
-  const callHR = (phoneNumber) => {
-    Linking.openURL(`tel:${phoneNumber}`);
-  };
+
 
   return (
     <Animated.View

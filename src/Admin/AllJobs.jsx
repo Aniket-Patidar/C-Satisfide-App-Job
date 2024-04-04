@@ -11,6 +11,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
+import { handleIncomingCall } from "../component/Call";
+
 
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -291,9 +293,6 @@ const JobCard = ({
     }).start();
   };
 
-  const callHR = (phoneNumber) => {
-    Linking.openURL(`tel:${phoneNumber}`);
-  };
 
   return (
     <Animated.View
@@ -435,7 +434,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => callHR(employer?.contact)}
+          onPress={() => handleIncomingCall(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >

@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { handleIncomingCall } from "../component/Call";
+
 import { SimpleLineIcons } from "@expo/vector-icons";
 import {
   Ionicons,
@@ -249,7 +251,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => callHR(employer?.contact)}
+          onPress={() => handleIncomingCall(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >

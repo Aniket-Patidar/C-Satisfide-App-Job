@@ -20,6 +20,8 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { Fontisto } from "@expo/vector-icons";
 
+import {handleIncomingCall} from "../component/Call"
+
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -291,9 +293,7 @@ const JobCard = ({
     }).start();
   };
 
-  const callHR = (phoneNumber) => {
-    Linking.openURL(`tel:${phoneNumber}`);
-  };
+
 
   return (
     <Animated.View
@@ -435,7 +435,7 @@ const JobCard = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => callHR(employer?.contact)}
+          onPress={() => handleIncomingCall(employer?.contact)}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >
