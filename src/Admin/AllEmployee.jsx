@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Animated,
   Image,
+  Alert,
 } from "react-native";
 
 import { EvilIcons } from "@expo/vector-icons";
@@ -226,22 +227,41 @@ const EmployeeCard = ({
 
   const DeleteEmployer = async (id) => {
     try {
-      const response = await axios.post(
-        `https://final-satisfied-backend-2.onrender.com/employer/admin/delete/employer/${id}`,
-        null,
-        {
-          headers: {
-            authorization: await AsyncStorage.getItem("token"),
+      // Ask for confirmation
+      Alert .alert(
+        'Confirm Deletion',
+        'Are you sure you want to delete this employer?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Deletion canceled'),
+            style: 'cancel',
           },
-          withCredentials: true,
-        }
+          {
+            text: 'Delete',
+            onPress: async () => {
+              // If user confirms deletion, proceed with the delete request
+              const response = await axios.post(
+                `https://final-satisfied-backend-2.onrender.com/employer/admin/delete/employer/${id}`,
+                null,
+                {
+                  headers: {
+                    authorization: await AsyncStorage.getItem('token'),
+                  },
+                  withCredentials: true,
+                }
+              );
+              console.log('delete employee');
+              setEmployes(response.data.user);
+            },
+          },
+        ],
+        { cancelable: false }
       );
-      setEmployes(response.data.user);
     } catch (error) {
-      console.error("Error deleting employer:", JSON.stringify(error));
+      console.error('Error deleting employer:', JSON.stringify(error));
     }
   };
-
   const scaleAnimation = new Animated.Value(1);
 
   const handlePressIn = () => {
