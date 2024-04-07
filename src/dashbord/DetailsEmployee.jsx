@@ -16,7 +16,7 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getJobById } from "../redux/action/jobAction";
+import { allJobs, getJobById } from "../redux/action/jobAction";
 import { useRoute } from "@react-navigation/native";
 import { applicationSend } from "../redux/action/studentAction";
 import Loading from "../component/Loading";
@@ -45,7 +45,9 @@ const Details = ({}) => {
     dispatch(getJobById(id));
     checkIsApplyed(id);
   }, []);
+  
 
+  /* TODO */
   function HandelApply() {
     dispatch(applicationSend({ jobId: id, resume: "a.pdf" }));
     setApplied(true);

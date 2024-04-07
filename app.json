@@ -16,14 +16,36 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.aniketpatidar.SatisfiedJobs"
+      "bundleIdentifier": "com.aniketpatidar.SatisfiedJobs",
+      "buildProperties": {
+        "plugins": [
+          [
+            "expo-build-properties",
+            {
+              "deploymentTarget": "13.0"
+            }
+          ]
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.aniketpatidar.SatisfiedJobs"
+      "package": "com.aniketpatidar.SatisfiedJobs",
+      "buildProperties": {
+        "plugins": [
+          [
+            "expo-build-properties",
+            {
+              "compileSdkVersion": 31,
+              "targetSdkVersion": 31,
+              "buildToolsVersion": "31.0.0"
+            }
+          ]
+        ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

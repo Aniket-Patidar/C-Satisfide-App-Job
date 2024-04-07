@@ -38,7 +38,7 @@ export const allJobs = (filters = {}) => async (dispatch) => {
         dispatch(setJobs(data.jobs));
     } catch (error) {
         dispatch(setLoading(false));
-        console.error(error);
+        console.error(JSON.stringify(error));
         dispatch(setError(error?.response?.data?.message || "allJobs failed"));
     }
 };
@@ -54,9 +54,10 @@ export const getJobById = (id, body = {}) => async (dispatch) => {
         });
         dispatch(setLoading(false));
         dispatch(setJob(data.job))
+
     } catch (error) {
         dispatch(setLoading(false));
-        console.error(error);
+        console.error(JSON.stringify(error));
         dispatch(setError(error?.response?.data?.message || "createJob failed"));
     }
 }

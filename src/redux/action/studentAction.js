@@ -128,6 +128,7 @@ export const applicationSend = (dets) => async (dispatch) => {
             withCredentials: true
         });
         dispatch(AllJobs())
+        dispatch(getApplication());
         dispatch(setLoading(false));
     } catch (error) {
         dispatch(setLoading(false));

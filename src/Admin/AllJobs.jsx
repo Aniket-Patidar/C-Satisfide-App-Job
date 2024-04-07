@@ -13,7 +13,6 @@ import {
 import Onboarding from "react-native-onboarding-swiper";
 import { handleIncomingCall } from "../component/Call";
 
-
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 
@@ -33,8 +32,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AllJobs } from "../redux/action/studentAction";
 import { useNavigation } from "@react-navigation/native";
 
-import Slider from "../component/Slider";
 
+import Slider from "../component/Slider";
 const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -292,7 +291,6 @@ const JobCard = ({
       useNativeDriver: true,
     }).start();
   };
-
 
   return (
     <Animated.View

@@ -28,9 +28,11 @@ const AllJobs = ({ navigate }) => {
 
   const dispatch = useDispatch();
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     dispatch(allJobs());
-  }, []);
+  }, [navigation]);
 
   const images = [
     require("../../assets/banner/b3.jpg"),
@@ -250,26 +252,53 @@ const JobCard = ({
             <AntDesign name="arrowright" size={12} color="#4080ED" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => handleIncomingCall(employer?.contact)}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}
-        >
-          <View
-            style={{
-              backgroundColor: "#2cc57b",
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderRadius: 5,
-            }}
+
+        <View className="flex flex-row gap-2">
+          {/* TODO */}
+
+          <TouchableOpacity
+            onPress={() => {}}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
           >
-            <Text
-              style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+            <View
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
             >
-              Call HR
-            </Text>
-          </View>
-        </TouchableOpacity>
+              <Text
+                className=""
+                style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+              >
+                <AntDesign name="delete" size={14.5} color="white" />
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EditEmployeeJob", { id: _id })}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+          >
+            <View
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
+            >
+              <Text
+                style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+              >
+                Edit
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </Animated.View>
   );

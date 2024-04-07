@@ -139,7 +139,7 @@ const ProfileEmployee = () => {
             <View className="flex items-center justify-center ">
               <View className="w-full h-[102px] bg-white rounded-lg">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
-                  <View className="h-[80px] w-[80px] bg-red-100 rounded-md">
+                  <View className="h-[80px] w-[80px]  rounded-md">
                     <TouchableOpacity
                       onPress={pickImage}
                       className="w-[80px] h-[80px]"

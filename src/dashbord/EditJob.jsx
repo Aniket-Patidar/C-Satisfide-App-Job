@@ -156,7 +156,7 @@ const EditJob = () => {
             <Text style={styles.label}>Openings:</Text>
             <TextInput
               style={styles.input}
-              value={String(job?.openings)}
+              value={String(formData.openings)}
               onChangeText={(text) =>
                 setFormData({ ...formData, openings: text })
               }
@@ -168,7 +168,7 @@ const EditJob = () => {
             <Text style={styles.label}>Salary:</Text>
             <TextInput
               style={styles.input}
-              value={String(job?.salary)}
+              value={String(formData.salary)}
               onChangeText={(text) =>
                 setFormData({ ...formData, salary: text })
               }

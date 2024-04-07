@@ -8,7 +8,10 @@ import {
   ToastAndroid,
   StatusBar,
   ScrollView,
+  Platform,
 } from "react-native";
+
+import * as FileSystem from "expo-file-system";
 
 import { EvilIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -104,11 +107,59 @@ const ProfileStudent = () => {
     }
   };
 
-  function resumePreview(url) {
-    Linking.openURL(url)
-      .then(() => console.log("URL opened"))
-      .catch((error) => console.error("Failed to open URL:", error));
-  }
+  const downloadResume = async (url) => {
+    console.log(url);
+    const filename = "small.pdf";
+    const result = await FileSystem.downloadAsync(
+      `${url}`,
+      FileSystem.documentDirectory + filename
+    );
+    console.log(result);
+
+    save(result.uri, filename, result.headers["Content-Type"]);
+  };
+
+  const downloadResumeApi = async () => {
+    const filename = "MissCoding.pdf";
+    const localhost = Platform.OS === "android" ? "10.0.2.2" : "127.0.0.1";
+    const result = await FileSystem.downloadAsync(
+      `http://${localhost}:5000/generate-pdf?name=MissCoding&email=hello@tripwiretech.com`,
+      FileSystem.documentDirectory + filename,
+      {
+        headers: {
+          MyHeader: "MyValue",
+        },
+      }
+    );
+    console.log(result);
+    save(result.uri, filename, result.headers["Content-Type"]);
+  };
+  const save = async (uri, filename, mimetype) => {
+    if (Platform.OS === "android") {
+      const permissions =
+        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        const base64 = await FileSystem.readAsStringAsync(uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          filename,
+          mimetype || "application/octet-stream"
+        ) // provide a default mimetype if not provided
+          .then(async (createdUri) => {
+            await FileSystem.writeAsStringAsync(createdUri, base64, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+          })
+          .catch((e) => console.log(e));
+      } else {
+        shareAsync(uri);
+      }
+    } else {
+      shareAsync(uri);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -259,7 +310,7 @@ const ProfileStudent = () => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => resumePreview(student?.resumePdf?.url)}
+                  onPress={() => downloadResume(student?.resumePdf?.url)}
                   className="flex flex-row items-start gap-1 border-b-[.4px] border-gray-300 py-2"
                 >
                   <AntDesign name="filetext1" size={20} color="black" />
