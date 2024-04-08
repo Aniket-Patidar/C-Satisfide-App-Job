@@ -57,7 +57,7 @@ const AllJobs = ({ navigate }) => {
               <Loading />
             ) : (
               jobs?.map((e, i) => {
-                return <JobCard {...e}></JobCard>;
+                return <JobCard {...e} key={i}></JobCard>
               })
             )}
           </View>

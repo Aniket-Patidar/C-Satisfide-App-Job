@@ -45,9 +45,8 @@ const Details = ({}) => {
     dispatch(getJobById(id));
     checkIsApplyed(id);
   }, []);
-  
 
-  /* TODO */
+  /* TODO => Arpit */
   function HandelApply() {
     dispatch(applicationSend({ jobId: id, resume: "a.pdf" }));
     setApplied(true);
@@ -73,10 +72,13 @@ const Details = ({}) => {
                   {job?.employer.organisationname}
                 </Text>
                 <View className="flex flex-row  justify-center w-full gap-3">
-                  {job?.skills.slice(0, 3)?.map((e) => {
+                  {job?.skills.slice(0, 3)?.map((e, i) => {
                     return (
-                      <Text className="bg-[#ffffff61] uppercase  text-[12px] px-[10px] py-[3px] rounded-md text-white">
-                        {e}
+                      <Text
+                        key={i}
+                        className="bg-[#ffffff61] uppercase  text-[12px] px-[10px] py-[3px] rounded-md text-white"
+                      >
+                    {e.length > 6 ? `${e.substring(0, 6)}..` : e}
                       </Text>
                     );
                   })}
@@ -320,9 +322,10 @@ function About({
         {/* skills */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text className="font-semibold mb-[1px]">Skills:</Text>
-          {skills?.map((e) => {
+          {skills?.map((e, i) => {
             return (
               <Text
+                key={i}
                 style={{ color: "#8A8A8A", marginLeft: 5 }}
                 className="capitalize"
               >
@@ -343,9 +346,9 @@ function Description({ description, preferences }) {
         <View>
           <Text className="text-md font-semibold text-md">Description</Text>
           <View style={{ marginLeft: 15 }} className="space-y-1">
-            {description.map((e) => {
+            {description.map((e, i) => {
               return (
-                <Text style={{ marginLeft: 5 }} className="text-[13px]">
+                <Text key={i} style={{ marginLeft: 5 }} className="text-[13px]">
                   • {e}
                 </Text>
               );
@@ -355,9 +358,9 @@ function Description({ description, preferences }) {
         <View>
           <Text className="text-md font-semibold text-md">Preference</Text>
           <View style={{ marginLeft: 15 }} className="space-y-1">
-            {preferences.map((e) => {
+            {preferences.map((e, i) => {
               return (
-                <Text style={{ marginLeft: 5 }} className="text-[13px]">
+                <Text key={i} style={{ marginLeft: 5 }} className="text-[13px]">
                   • {e}
                 </Text>
               );

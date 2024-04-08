@@ -75,17 +75,7 @@ export default function Example({ navigation }) {
               <Text style={styles.rowLabel}>Profile</Text>
               <View style={styles.rowSpacer} />
             </TouchableOpacity>
-            <View style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
-                <MaterialCommunityIcons
-                  name="database-arrow-down-outline"
-                  size={14}
-                  color="white"
-                />
-              </View>
-              <Text style={styles.rowLabel}>Update Password</Text>
-              <View style={styles.rowSpacer} />
-            </View>
+           
           </View>
 
           <View style={styles.section}>

@@ -95,17 +95,7 @@ export default function Example({ navigation, route }) {
               <View style={styles.rowSpacer} />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={Logout} style={styles.row}>
-              <View style={[styles.rowIcon, { backgroundColor: "#38C959" }]}>
-                <MaterialCommunityIcons
-                  name="database-arrow-down"
-                  size={14}
-                  color="#fff"
-                />
-              </View>
-              <Text style={styles.rowLabel}>Update Password</Text>
-              <View style={styles.rowSpacer} />
-            </TouchableOpacity>
+           
           </View>
 
           <View style={styles.section}>

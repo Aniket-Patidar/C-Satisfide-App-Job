@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEmployeeLoggedIn } from '../../constants/auth';
 
 /* TODO */
-const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
+const basePath = "https://api.satisfiedjob.com/employer";
 
 async function config() {
     return {

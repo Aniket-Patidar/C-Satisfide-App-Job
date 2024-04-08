@@ -34,6 +34,7 @@ import ProfileStudent from './src/screens/ProfileStudent.jsx';
 import PrivacyPolicy from './src/dashbord/PrivacyPolicy.jsx';
 import AboutUs from './src/dashbord/AboutUs.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Main from './Main.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -67,112 +68,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <SafeAreaView style={styles.container}>
-          <Stack.Navigator>
-
-            {userLoggedIn && (
-              <Stack.Screen
-                name="TabNavigator"
-                component={TabNavigator}
-                options={{
-                  headerShown: false,
-                }}
-                initialParams={{ userLoggedIn, setUserLoggedIn }}
-              />
-            )}
-
-            {employeeLoggedIn && (
-              <Stack.Screen
-                name="DrawerNavigator"
-                component={MyDrawer}
-                options={{ headerShown: false }}
-                initialParams={{ employeeLoggedIn, setEmployeeLoggedIn }}
-              />
-            )}
-
-            {!employeeLoggedIn && !userLoggedIn && (
-              <>
-                {!renderOnboardingScreen() && <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
-                <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="Login Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={LoginScreenUserEmployee} options={{ headerShown: false }} />
-                <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />
-                <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
-                <Stack.Screen name="OTP Student" initialParams={{ setUserLoggedIn }} component={OTPScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
-                <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{
-                  headerShown: false,
-                  statusBarStyle: 'light-content',
-                  statusBarBackgroundColor: '#your_color_here' // Change the status bar background color to black
-                }} />
-              </>
-            )}
-
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: true }} />
-
-            <Stack.Screen name="Setting" component={SettingScreen} options={{
-              title: 'Settings',
-              headerStyle: {
-                backgroundColor: '#4080ED',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }} />
-
-            <Stack.Screen name="Job Details" component={DetailsEmployee} options={{ headerShown: false }} />
-
-            <Stack.Screen name="Resuma" component={ResumaScreen} options={{ headerShown: true }} />
-
-            <Stack.Screen name="ProfileStudent" component={ProfileStudent} options={{
-              headerShown: false,
-              headerStyle: {
-                backgroundColor: '#4080ED',
-              },
-              headerTintColor: 'white',
-              headerTitle: 'Profile',
-            }} />
-
-            <Stack.Screen name="ProfileEmployee" component={ProfileEmployee} options={{
-              headerShown: false,
-              headerStyle: {
-                backgroundColor: '#4080ED',
-              },
-              headerTintColor: 'white',
-              headerTitle: 'Profile',
-            }} />
-
-            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: '#4080ED',
-              },
-              headerTintColor: 'white',
-              headerTitle: 'Privacy Policy',
-            }} />
-
-            <Stack.Screen name="About" component={AboutUs} options={{
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: '#4080ED',
-              },
-              headerTintColor: 'white',
-              headerTitle: 'About Us',
-            }} />
-
-            <Stack.Screen name="EditEmployeeJob"
-              component={EditScreen}
-              options={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: '#4080ED',
-                },
-                headerTintColor: 'white',
-                headerTitle: 'Edit Job',
-              }}
-            />
-          </Stack.Navigator>
-        </SafeAreaView>
+        <Main />
       </Provider>
     </NavigationContainer>
   );
@@ -188,4 +84,3 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
-

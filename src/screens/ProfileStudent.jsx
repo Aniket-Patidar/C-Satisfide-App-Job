@@ -109,7 +109,7 @@ const ProfileStudent = () => {
 
   const downloadResume = async (url) => {
     console.log(url);
-    const filename = "small.pdf";
+    const filename = "Resume.pdf";
     const result = await FileSystem.downloadAsync(
       `${url}`,
       FileSystem.documentDirectory + filename
@@ -119,21 +119,6 @@ const ProfileStudent = () => {
     save(result.uri, filename, result.headers["Content-Type"]);
   };
 
-  const downloadResumeApi = async () => {
-    const filename = "MissCoding.pdf";
-    const localhost = Platform.OS === "android" ? "10.0.2.2" : "127.0.0.1";
-    const result = await FileSystem.downloadAsync(
-      `http://${localhost}:5000/generate-pdf?name=MissCoding&email=hello@tripwiretech.com`,
-      FileSystem.documentDirectory + filename,
-      {
-        headers: {
-          MyHeader: "MyValue",
-        },
-      }
-    );
-    console.log(result);
-    save(result.uri, filename, result.headers["Content-Type"]);
-  };
   const save = async (uri, filename, mimetype) => {
     if (Platform.OS === "android") {
       const permissions =
@@ -167,7 +152,7 @@ const ProfileStudent = () => {
         <Loading />
       ) : (
         <>
-          <View className="w-full h-[210px] bg-[#4080ED] px-[13px] space-y-2">
+          <View className="w-full h-[160px] bg-[#4080ED] px-[13px] space-y-2">
             <Text className="mt-[13px] font-semibold text-[22px] text-white">
               My Profile
             </Text>
@@ -175,7 +160,7 @@ const ProfileStudent = () => {
               className="flex items-center justify-center"
               style={{ flex: 1 }}
             >
-              <View className="w-full h-[140px] bg-white rounded-lg">
+              <View className="w-full h-fit bg-white rounded-lg">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
                   <View className="h-[80px] w-[80px] bg-red-100 rounded-md overflow-hidden">
                     <TouchableOpacity
@@ -208,32 +193,37 @@ const ProfileStudent = () => {
                       </Text>
                     )}
                     <Text className="capitalize">{formData.city}</Text>
+
+                    <View className="flex flex-row items-center space-x-2">
+                      {editMode ? (
+                        <TouchableOpacity
+                          onPress={handleSave}
+                          className="flex flex-row w-fit  justify-center py-1 rounded-md items-center"
+                        >
+                          <EvilIcons name="pencil" size={20} color="#3A3D4F" />
+                          <Text className="text-[#3A3D4F] text-[12px]">
+                            Save
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <>
+                          <TouchableOpacity
+                            onPress={handleEdit}
+                            className="flex flex-row w-fit  justify-center py-1 rounded-md items-center"
+                          >
+                            <EvilIcons
+                              name="pencil"
+                              size={20}
+                              color="#3A3D4F"
+                            />
+                            <Text className="text-[#3A3D4F] text-[12px]">
+                              Edit
+                            </Text>
+                          </TouchableOpacity>
+                        </>
+                      )}
+                    </View>
                   </View>
-                </View>
-                <View className="flex flex-row items-center space-x-2">
-                  {editMode ? (
-                    <TouchableOpacity
-                      onPress={handleSave}
-                      className="flex flex-row bg-[#dde0e7de] w-[80px] ml-[11px] justify-center px-2 h-[33px] rounded-md items-center"
-                    >
-                      <EvilIcons name="pencil" size={24} color="#3A3D4F" />
-                      <Text className="text-[#3A3D4F]">Save</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <>
-                      <TouchableOpacity
-                        onPress={handleEdit}
-                        className="flex flex-row bg-[#dde0e7de] w-[80px] ml-[11px] justify-center px-2 h-[33px] rounded-md items-center"
-                      >
-                        <EvilIcons name="pencil" size={24} color="#3A3D4F" />
-                        <Text className="text-[#3A3D4F]">Edit</Text>
-                      </TouchableOpacity>
-                    </>
-                  )}
-                  <TouchableOpacity className="flex flex-row border-[1px] w-[180px] border-[#01C698] space-x-2 justify-center px-2 h-[33px] rounded-md items-center">
-                    <FontAwesome name="whatsapp" size={20} color="#01C698" />
-                    <Text className="text-[#01C698]">Share Resume</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </View>

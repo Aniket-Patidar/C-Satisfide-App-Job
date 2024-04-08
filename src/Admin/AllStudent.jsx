@@ -35,7 +35,7 @@ const ViewAllUsers = () => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const basePath = `https://final-satisfied-backend-2.onrender.com/employer`;
+  const basePath = `https://api.satisfiedjob.com/employer`;
 
   const deleteUser = async (id) => {
     const response = await axios.post(
@@ -108,10 +108,10 @@ const ViewAllUsers = () => {
               <View className="flex flex-row items-center justify-center mb-3 ">
                 <Slider images={images} />
               </View>
-              {users.map((e) => {
+              {users.map((e,i) => {
                 return (
                   <>
-                    <View className="flex items-center ">
+                    <View key={i} className="flex items-center ">
                       <StudentCard
                         {...e}
                         downloadPDF={downloadPDF}

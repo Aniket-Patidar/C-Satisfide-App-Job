@@ -38,7 +38,7 @@ const AdminDashboard = () => {
       try {
         const token = await AsyncStorage.getItem("token");
         const response = await axios.get(
-          `https://final-satisfied-backend-2.onrender.com/employer/admin/registration-stats`,
+          `https://api.satisfiedjob.com/employer/admin/registration-stats`,
           {
             headers: {
               authorization: token,
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
       const token = await AsyncStorage.getItem("token");
 
       const response = await axios.get(
-        "https://final-satisfied-backend-2.onrender.com/employer/admin/info",
+        "https://api.satisfiedjob.com/employer/admin/info",
         {
           headers: {
             authorization: token,

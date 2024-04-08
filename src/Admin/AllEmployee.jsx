@@ -29,7 +29,7 @@ import { Feather } from "@expo/vector-icons";
 import Slider from "../component/Slider";
 import Placeholder from "../component/Placeholder";
 
-const basePath = "https://final-satisfied-backend-2.onrender.com/employer";
+const basePath = "https://api.satisfiedjob.com/employer";
 
 const ViewAllEmploye = () => {
   const { employee, error, loading } = useSelector((e) => e.employee);
@@ -64,7 +64,7 @@ const ViewAllEmploye = () => {
   const MakeEmployeAdmin = async (id) => {
     try {
       const response = await axios.post(
-        `https://final-satisfied-backend-2.onrender.com/admin/make/${id}`,
+        `https://api.satisfiedjob.com/admin/make/${id}`,
         null,
         {
           headers: {
@@ -119,9 +119,9 @@ const ViewAllEmploye = () => {
               <View className="flex flex-row items-center justify-center mb-[20px] rounded-lg">
                 <Slider images={images} />
               </View>
-              {employes?.map((e) => {
+              {employes?.map((e, i) => {
                 return (
-                  <View className="flex items-center">
+                  <View key={i} className="flex items-center">
                     <EmployeeCard
                       {...e}
                       setEmployes={setEmployes}
@@ -228,30 +228,30 @@ const EmployeeCard = ({
   const DeleteEmployer = async (id) => {
     try {
       // Ask for confirmation
-      Alert .alert(
-        'Confirm Deletion',
-        'Are you sure you want to delete this employer?',
+      Alert.alert(
+        "Confirm Deletion",
+        "Are you sure you want to delete this employer?",
         [
           {
-            text: 'Cancel',
-            onPress: () => console.log('Deletion canceled'),
-            style: 'cancel',
+            text: "Cancel",
+            onPress: () => console.log("Deletion canceled"),
+            style: "cancel",
           },
           {
-            text: 'Delete',
+            text: "Delete",
             onPress: async () => {
               // If user confirms deletion, proceed with the delete request
               const response = await axios.post(
-                `https://final-satisfied-backend-2.onrender.com/employer/admin/delete/employer/${id}`,
+                `https://api.satisfiedjob.com/employer/admin/delete/employer/${id}`,
                 null,
                 {
                   headers: {
-                    authorization: await AsyncStorage.getItem('token'),
+                    authorization: await AsyncStorage.getItem("token"),
                   },
                   withCredentials: true,
                 }
               );
-              console.log('delete employee');
+              console.log("delete employee");
               setEmployes(response.data.user);
             },
           },
@@ -259,7 +259,7 @@ const EmployeeCard = ({
         { cancelable: false }
       );
     } catch (error) {
-      console.error('Error deleting employer:', JSON.stringify(error));
+      console.error("Error deleting employer:", JSON.stringify(error));
     }
   };
   const scaleAnimation = new Animated.Value(1);

@@ -21,6 +21,8 @@ import StudentDetailsCard from "../component/Applications";
 import ResponsiveTable from "../component/Applications";
 import Loading from "../component/Loading";
 
+import * as FileSystem from "expo-file-system";
+
 const Dashboard = () => {
   const scaleValue = useRef(new Animated.Value(0)).current;
   const fadeInValue = useRef(new Animated.Value(0)).current;
@@ -35,6 +37,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(allApplications({}));
   }, []);
+
 
   useEffect(() => {
     Animated.parallel([
@@ -137,10 +140,10 @@ const Dashboard = () => {
               bezier
             />
           </View> */}
-          
-            <ResponsiveTable
-              data={searchText.trim() ? filterApplications() : allApplication}
-            />
+
+          <ResponsiveTable
+            data={searchText.trim() ? filterApplications() : allApplication}
+          />
         </>
       )}
     </ScrollView>

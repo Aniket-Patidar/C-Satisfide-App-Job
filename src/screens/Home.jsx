@@ -28,7 +28,7 @@ import axios from "axios";
 const Home = ({ navigation }) => {
   const { student, loading } = useSelector((e) => e.student);
 
-  const basePath = "https://final-satisfied-backend-2.onrender.com/user";
+  const basePath = "https://api.satisfiedjob.com/user";
 
   const images = [
     require("../../assets/banner/b3.jpg"),
@@ -38,13 +38,17 @@ const Home = ({ navigation }) => {
 
   const [topCompany, setTopCompany] = useState([]);
   const [resentJobs, setResentJobs] = useState([]);
+  const [loadingTopCompany, setLoadingTopCompany] = useState(true);
+  const [loadingResentJobs, setLoadingResentJobs] = useState(true);
 
   const fetchTopCompany = async () => {
     try {
       const response = await axios.post(`${basePath}/topcompony`);
       setTopCompany(response.data.jobs);
     } catch (error) {
-      ToastAndroid.show("failed to fetch Top Company", ToastAndroid.SHORT);
+      ToastAndroid.show("Failed to fetch Top Company", ToastAndroid.SHORT);
+    } finally {
+      setLoadingTopCompany(false);
     }
   };
 
@@ -53,7 +57,9 @@ const Home = ({ navigation }) => {
       const response = await axios.post(`${basePath}/resentjobs`);
       setResentJobs(response.data.jobs);
     } catch (error) {
-      ToastAndroid.show("failed to fetch resent job", ToastAndroid.SHORT);
+      ToastAndroid.show("Failed to fetch resent job", ToastAndroid.SHORT);
+    } finally {
+      setLoadingResentJobs(false);
     }
   };
 
@@ -65,7 +71,7 @@ const Home = ({ navigation }) => {
   return (
     <View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
-        {loading ? (
+        {loading || loadingTopCompany || loadingResentJobs ? (
           <Loading />
         ) : (
           <View className="w-[100%]  min-h-[100vh] px-[13px] py-4 bg-white">
@@ -93,20 +99,27 @@ const Home = ({ navigation }) => {
 
             <View className="mt-1 font-semibold">
               <View className="flex flex-row py-1 justify-between">
-                <Text className="text-[13px] font-[500]">Top Jobs</Text>
+                <Text className="text-[13px] font-[500] capitalize">
+                  Resent Jobs
+                </Text>
                 {/* <Text className="text-[11px] opacity-[0.7]">Show more</Text> */}
               </View>
               <ScrollView horizontal={true}>
                 <View className="flex flex-row gap-2 py-2 ">
                   {resentJobs?.map((job, index) => {
+                    const organizationLogoUrl =
+                      job.employer.organisationlogo.url;
+
                     return (
                       <View
                         key={index}
                         className="my-2 py-2 w-[200px] h-[140px] bg-[#2cc57b] rounded-lg overflow-hidden"
                       >
-                        <View className="px-2 py-2 flex flex-row items-center ">
+                        <View className="px-2 py-2 flex flex-row items-center bg-red ">
                           <Image
-                            source={{ uri: job?.organisationlogo?.url }}
+                            source={{
+                              uri: organizationLogoUrl,
+                            }}
                             className="w-[25px] h-[25px] mr-[10px] rounded-md"
                           />
                           <View>
@@ -163,13 +176,13 @@ const Home = ({ navigation }) => {
             <View className="mt-1  font-semibold">
               <View className="flex flex-row justify-between py-1 mb-2">
                 <Text className="text-[13px] font-[500]">Top Company</Text>
-                <Text className="text-[11px] opacity-[0.7]">Show more</Text>
+                {/* <Text className="text-[11px] opacity-[0.7]">Show more</Text> */}
               </View>
               <ScrollView horizontal={true} className="gap-2">
-                {topCompany.map((e) => {
+                {topCompany.map((e, i) => {
                   return (
                     <>
-                      <View className="flex flex-row gap-2 py-2">
+                      <View key={i} className="flex flex-row gap-2 py-2">
                         {topCompany.map((job, index) => {
                           const organisationlogo =
                             job.employer.organisationlogo;

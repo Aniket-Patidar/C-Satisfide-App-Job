@@ -8,11 +8,16 @@ import {
   TouchableOpacity,
   Modal,
   Linking,
+  Platform,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { updateStatus } from "../redux/action/employeeAction";
 import Placeholder from "./Placeholder";
 import LottieView from "lottie-react-native";
+
+import { AntDesign } from "@expo/vector-icons";
+
+import * as FileSystem from "expo-file-system";
 
 const TableItem = ({ item, onUpdateStatus, index }) => {
   const getStatusColor = (status) => {
@@ -42,6 +47,45 @@ const TableItem = ({ item, onUpdateStatus, index }) => {
     dispatch(updateStatus({ id, status }));
   };
 
+  const downloadResume = async (url) => {
+    console.log(url);
+    const filename = "Resume.pdf";
+    const result = await FileSystem.downloadAsync(
+      `${url}`,
+      FileSystem.documentDirectory + filename
+    );
+    console.log(result);
+
+    save(result.uri, filename, result.headers["Content-Type"]);
+  };
+
+  const save = async (uri, filename, mimetype) => {
+    if (Platform.OS === "android") {
+      const permissions =
+        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        const base64 = await FileSystem.readAsStringAsync(uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          filename,
+          mimetype || "application/octet-stream"
+        ) // provide a default mimetype if not provided
+          .then(async (createdUri) => {
+            await FileSystem.writeAsStringAsync(createdUri, base64, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+          })
+          .catch((e) => console.log(e));
+      } else {
+        shareAsync(uri);
+      }
+    } else {
+      shareAsync(uri);
+    }
+  };
+
   const rowColor = index % 2 != 0 ? "#ffedd5" : "#fff"; // Alternate row color
 
   return (
@@ -67,10 +111,10 @@ const TableItem = ({ item, onUpdateStatus, index }) => {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => Linking.openURL(item.studentId.resumePdf.url + "pdf")}
+        onPress={() => downloadResume(item.studentId.resumePdf.url)}
         style={[styles.cell, { width: 200 }]}
       >
-        <Text style={styles.cellText}>{item?.jobId ? "View" : "N/A"}</Text>
+        <Text style={styles.cellText}>{item?.jobId ? "Download" : "N/A"}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.cell, { width: 120, alignItems: "center" }]}

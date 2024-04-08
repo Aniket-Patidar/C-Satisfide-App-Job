@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,43 +6,33 @@ import {
   ScrollView,
   TextInput,
   Animated,
-  StatusBar,
   ActivityIndicator,
 } from "react-native";
-import Onboarding from "react-native-onboarding-swiper";
+import React, { useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { handleIncomingCall } from "../component/Call";
 
-import { Entypo } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
-
-import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-
-import { Fontisto } from "@expo/vector-icons";
-
 import {
   Ionicons,
   MaterialCommunityIcons,
   FontAwesome,
 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import CoolDrawer from "../component/DrawerFilter";
-import { useDispatch, useSelector } from "react-redux";
-import { AllJobs } from "../redux/action/studentAction";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { allJobs } from "../redux/action/jobAction";
+const AllJobs = ({ navigate }) => {
+  const { jobs, loading, error } = useSelector((e) => e.Jobs);
+  const { employee } = useSelector((e) => e.employee);
 
-
-import Slider from "../component/Slider";
-const Jobs = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { allJobs, error, loading, page } = useSelector((e) => e.student);
 
-  const { currentPage, totalPages } = page;
+  const navigation = useNavigation();
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+  useEffect(() => {
+    dispatch(allJobs());
+  }, [navigation]);
 
   const images = [
     require("../../assets/banner/b3.jpg"),
@@ -51,210 +40,38 @@ const Jobs = ({ navigation }) => {
     require("../../assets/banner/b4.jpg"),
   ];
 
-  const [formData, setFormData] = useState({
-    title: "",
-    location: "",
-    skills: "",
-    inOffice: false,
-    remote: false,
-    internship: false,
-    salary: "",
-  });
-  const [Page, setPage] = useState(currentPage);
-
-  useEffect(() => {
-    dispatch(AllJobs({ page: Page, ...formData }));
-  }, [Page, formData]);
-
-  const handleInputChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
-
-  const handelSubmit = () => {
-    dispatch(AllJobs({ ...formData, page: 1 }));
-    toggleDrawer();
-  };
-
-  const goToNextPage = () => {
-    if (Page < totalPages) {
-      setPage(Page + 1);
-    }
-  };
-
-  const goToPrevPage = () => {
-    if (Page > 1) {
-      setPage(Page - 1);
-    }
-  };
-
   return (
-    <ScrollView className="relative" style={{ flex: 1 }}>
-      {allJobs?.length == 0 && !loading ? (
+    <>
+      {allJobs?.length != 0 && !loading ? (
         <>
           <Placeholder></Placeholder>
         </>
       ) : (
-        <>
-          {loading ? (
-            <View
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+        <ScrollView className="relative">
+          <View className="flex flex-row items-center justify-center mt-[10px]">
+            <Slider images={images} />
+          </View>
+
+          <View className="flex items-center  py-3">
+            {loading ? (
               <Loading />
-            </View>
-          ) : (
-            <>
-              <View>
-                <CoolDrawer
-                  isDrawerOpen={isDrawerOpen}
-                  setIsDrawerOpen={setIsDrawerOpen}
-                  toggleDrawer={toggleDrawer}
-                  formData={formData}
-                  setFormData={setFormData}
-                  handelSubmit={handelSubmit}
-                />
-              </View>
-              <View
-                className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
-              >
-                <TouchableOpacity
-                  onPress={handelSubmit}
-                  className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white"
-                >
-                  <EvilIcons
-                    className="mx-2 px-3 font-semibold"
-                    name="search"
-                    size={20}
-                    color="gray"
-                  />
-                  <TextInput
-                    className="text-[11px]"
-                    placeholder="Search your dream job"
-                    value={formData.title}
-                    onChangeText={(text) => handleInputChange("title", text)}
-                  ></TextInput>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={toggleDrawer}
-                  className="w-[30px] flex items-center justify-center
-             h-[30px] bg-white  opacity-[0.5] rounded-md"
-                >
-                  <AntDesign name="filter" size={15} color="#008BDC" />
-                </TouchableOpacity>
-              </View>
-              <View className="flex flex-row items-center justify-center px-[13px]">
-                <Slider images={images} />
-              </View>
-              <View className="flex items-center my-[12px]">
-                {allJobs &&
-                  allJobs?.map((job, index) => {
-                    return (
-                      <>
-                        <JobCard {...job}></JobCard>
-                        {index === 4 && (
-                          <View>
-                            <View className="font-semibold m-[13px] mb-[16px]">
-                              <View className="flex flex-row justify-between py-1 mb-2">
-                                <Text className="text-[13px] font-[500]">
-                                  Top Company
-                                </Text>
-                              </View>
-                              <View className="gap-2 h-fit  overflow-scroll flex flex-row">
-                                <ScrollView horizontal className="space-x-2">
-                                  <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                                    <Image
-                                      source={require("../../assets/Images/facebook.png")}
-                                      className="w-[38px] h-[38px] rounded-md mx-auto"
-                                    ></Image>
-                                    <View className="text-center">
-                                      <Text className="text-[12px] font-semibold">
-                                        UX Designer
-                                      </Text>
-                                      <Text className="text-[10px] mx-auto opacity-[0.5]">
-                                        facebook
-                                      </Text>
-                                    </View>
-                                    <Text className="text-[12px] font-semibold">
-                                      $80,000/y
-                                    </Text>
-                                  </View>
-
-                                  <View className="w-[130px] h-[150px] bg-[#d7f8e0] rounded-lg flex justify-center items-center space-y-2">
-                                    <Image
-                                      source={require("../../assets/Images/google.png")}
-                                      className="w-[36px] h-[36px] rounded-md mx-auto"
-                                    ></Image>
-                                    <View className="text-center">
-                                      <Text className="text-[12px] font-semibold">
-                                        UX Designer
-                                      </Text>
-                                      <Text className="text-[10px] mx-auto opacity-[0.5]">
-                                        Google
-                                      </Text>
-                                    </View>
-                                    <Text className="text-[12px] font-semibold">
-                                      $98,000/y
-                                    </Text>
-                                  </View>
-
-                                  <View className="w-[130px] h-[150px] bg-[#EBF1FF] rounded-lg flex justify-center items-center space-y-2">
-                                    <Image
-                                      source={require("../../assets/Images/facebook.png")}
-                                      className="w-[38px] h-[38px] rounded-md mx-auto"
-                                    ></Image>
-                                    <View className="text-center">
-                                      <Text className="text-[12px] font-semibold">
-                                        UX Designer
-                                      </Text>
-                                      <Text className="text-[10px] mx-1 opacity-[0.5]">
-                                        UX Designer
-                                      </Text>
-                                    </View>
-                                    <Text className="text-[12px] font-semibold">
-                                      $80,000/y
-                                    </Text>
-                                  </View>
-                                </ScrollView>
-                              </View>
-                            </View>
-                          </View>
-                        )}
-                      </>
-                    );
-                  })}
-              </View>
-              <View className="flex flex-row justify-between p-[12px]">
-                <TouchableOpacity
-                  className="bg-white px-[5px] py-[4px] rounded-sm"
-                  onPress={goToPrevPage}
-                  disabled={page === 1}
-                >
-                  <Text className="text-[11px]">Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="bg-white px-[5px] py-[4px] rounded-sm"
-                  onPress={goToNextPage}
-                  disabled={page === totalPages}
-                >
-                  <Text className="text-[11px]">Next</Text>
-                </TouchableOpacity>
-              </View>
-            </>
-          )}
-        </>
+            ) : (
+              jobs?.map((e, i) => {
+                return <JobCard {...e} key={i}></JobCard>
+              })
+            )}
+          </View>
+        </ScrollView>
       )}
-    </ScrollView>
+    </>
   );
 };
 
-export default Jobs;
+export default AllJobs;
 
 import * as Linking from "expo-linking";
 import Loading from "../component/Loading";
+import Slider from "../component/Slider";
 import { getDaysSinceToday } from "../constants/date";
 import Placeholder from "../component/Placeholder";
 
@@ -273,8 +90,8 @@ const JobCard = ({
   createdAt,
 }) => {
   const navigation = useNavigation();
-
   const scaleAnimation = new Animated.Value(1);
+  const { employee } = useSelector((e) => e.employee);
 
   const handlePressIn = () => {
     Animated.spring(scaleAnimation, {
@@ -290,6 +107,10 @@ const JobCard = ({
       tension: 40,
       useNativeDriver: true,
     }).start();
+  };
+
+  const callHR = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
@@ -321,7 +142,7 @@ const JobCard = ({
         >
           {/* organisationlogo */}
           <Image
-            source={{ uri: employer?.organisationlogo?.url }}
+            source={{ uri: employee?.organisationlogo?.url }}
             style={{ width: 35, height: 35, borderRadius: 20, marginRight: 5 }}
           />
           <View>
@@ -338,7 +159,7 @@ const JobCard = ({
                 textTransform: "capitalize",
               }}
             >
-              {employer.organisationname}
+              {employee?.organisationname}
             </Text>
           </View>
         </View>
@@ -431,27 +252,55 @@ const JobCard = ({
             <AntDesign name="arrowright" size={12} color="#4080ED" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => handleIncomingCall(employer?.contact)}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}
-        >
-          <View
-            style={{
-              backgroundColor: "#2cc57b",
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderRadius: 5,
-            }}
+
+        <View className="flex flex-row gap-2">
+          {/* TODO */}
+
+          <TouchableOpacity
+            onPress={() => {}}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
           >
-            <Text
-              style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+            <View
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
             >
-              Call HR
-            </Text>
-          </View>
-        </TouchableOpacity>
+              <Text
+                className=""
+                style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+              >
+                <AntDesign name="delete" size={14.5} color="white" />
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EditEmployeeJob", { id: _id })}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+          >
+            <View
+              style={{
+                backgroundColor: "#2cc57b",
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 5,
+              }}
+            >
+              <Text
+                style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
+              >
+                Edit
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </Animated.View>
   );
 };
+  

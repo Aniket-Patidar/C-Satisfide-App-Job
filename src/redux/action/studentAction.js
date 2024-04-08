@@ -3,7 +3,7 @@ import { setAllJobs, setApplication, setError, setLoading, setPage, setStudent }
 import { getToken, config, setToken, clearToken } from '../../constants/handelToken'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const basePath = "https://final-satisfied-backend-2.onrender.com/user";
+const basePath = "https://api.satisfiedjob.com/user";
 
 
 export const loginStudent = (userData) => async (dispatch) => {
@@ -178,8 +178,6 @@ export const uploadResuma = (fileData) => async (dispatch) => {
     }
 }
 
-
-/* Otp Update */
 export const registerStudent = (userData) => async (dispatch) => {
 
     try {
@@ -194,7 +192,6 @@ export const registerStudent = (userData) => async (dispatch) => {
         dispatch(setError(error?.response?.data?.message || "registerStudent failed"));
     }
 }
-
 
 export const submitOtpEmployer = (otp) => async (dispatch) => {
     try {
@@ -225,7 +222,6 @@ export const submitOtpEmployer = (otp) => async (dispatch) => {
 
 
 /* ------------- */
-
 export const sendMail = (email) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
