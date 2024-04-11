@@ -97,7 +97,7 @@ const Login = ({ navigation, route }) => {
               style={{
                 fontSize: 14,
               }}
-              className="text-[#99A2B4]"
+              className="text-[#99A2B4] mx-auto"
             >
               Hello again you have been missed! Student
             </Text>
@@ -140,16 +140,31 @@ const Login = ({ navigation, route }) => {
           </View>
 
           <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: 400,
-                marginVertical: 8,
-              }}
-              className="text-[#2980FF]"
-            >
-              Password
-            </Text>
+            <View className="flex flex-row  justify-between items-center">
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: 400,
+                  marginVertical: 8,
+                }}
+                className="text-[#2980FF] "
+              >
+                Password
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("forgot Password Employee")}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 400,
+                  marginVertical: 8,
+                }}
+                className="hidden"
+              >
+                <Text className="text-[13px] text-red-400 font-semibold">
+                  Forget ?
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             <View
               style={{

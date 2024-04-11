@@ -25,8 +25,7 @@ import Loading from "./Loading";
 import { Share } from "react-native";
 
 const CustomDrawer = (props) => {
-
-  const { setEmployeeLoggedIn } = props; 
+  const { setEmployeeLoggedIn } = props;
 
   const { employee, error, loading } = useSelector((e) => e.employee);
   const navigation = useNavigation();
@@ -117,7 +116,7 @@ const CustomDrawer = (props) => {
           <DrawerItemList {...props} />
         </View>
 
-        <View style={{ padding: 20, paddingTop: 0 }}>
+        <View style={{ padding: 10, paddingTop: 0 }}>
           <TouchableOpacity
             onPress={shareApp}
             style={{ paddingVertical: 15 }}
@@ -158,54 +157,53 @@ const CustomDrawer = (props) => {
             </View>
           </TouchableOpacity>
         </View>
-
-        <View
-          style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
-          className="mt-[10vh]"
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "",
-              paddingBottom: 20,
-            }}
-            className="flex flex-row justify-center mx-auto"
-          >
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="logo-facebook"
-                size={22}
-                color={"#4080ED"}
-                style={{ marginHorizontal: 10 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="logo-twitter"
-                size={22}
-                color={"#4080ED"}
-                style={{ marginHorizontal: 10 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="logo-instagram"
-                size={22}
-                color={"#4080ED"}
-                style={{ marginHorizontal: 10 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="logo-linkedin"
-                size={22}
-                color={"#4080ED"}
-                style={{ marginHorizontal: 10 }}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
       </DrawerContentScrollView>
+      <View
+        style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
+        className="mt-[10vh]"
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "",
+            paddingBottom: 20,
+          }}
+          className="flex flex-row justify-center mx-auto"
+        >
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="logo-facebook"
+              size={22}
+              color={"#4080ED"}
+              style={{ marginHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="logo-twitter"
+              size={22}
+              color={"#4080ED"}
+              style={{ marginHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="logo-instagram"
+              size={22}
+              color={"#4080ED"}
+              style={{ marginHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="logo-linkedin"
+              size={22}
+              color={"#4080ED"}
+              style={{ marginHorizontal: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };

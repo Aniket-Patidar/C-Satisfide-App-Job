@@ -8,11 +8,12 @@ import {
   Animated,
 } from "react-native";
 
+const { width, height } = Dimensions.get('window');
+
 const Slider = ({ images, autoplayInterval = 3000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
-
   useEffect(() => {
     const autoplay = setInterval(() => {
       if (currentIndex < images.length - 1) {
@@ -28,7 +29,7 @@ const Slider = ({ images, autoplayInterval = 3000 }) => {
   }, [currentIndex, images.length, autoplayInterval]);
 
   const renderItem = ({ item }) => (
-    <Image source={item} style={styles.image} resizeMode="cover" />
+    <Image source={item} style={styles.image} className="w-full h-[20vh]"  resizeMode="cover" />
   );
 
   const dotPosition = Animated.divide(scrollX, Dimensions.get("window").width);
@@ -65,14 +66,13 @@ const Slider = ({ images, autoplayInterval = 3000 }) => {
   );
 };
 
-const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   image: {
     width,
-    height: 140, // Adjust height as needed
+    height:  0.2 * height, // Adjust height as needed
   },
   pagination: {
     flexDirection: "row",

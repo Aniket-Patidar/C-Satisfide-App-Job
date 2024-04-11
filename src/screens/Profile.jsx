@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   profileAvatar: {
-    width: 65,
-    height: 65,
+    width: 90,
+    height: 90,
     borderRadius: 9999,
   },
   profileAction: {

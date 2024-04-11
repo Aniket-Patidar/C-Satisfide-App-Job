@@ -70,7 +70,11 @@ const Home = ({ navigation }) => {
 
   return (
     <View>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={true}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        scrollEnabled={true}
+      >
         {loading || loadingTopCompany || loadingResentJobs ? (
           <Loading />
         ) : (
@@ -104,7 +108,10 @@ const Home = ({ navigation }) => {
                 </Text>
                 {/* <Text className="text-[11px] opacity-[0.7]">Show more</Text> */}
               </View>
-              <ScrollView horizontal={true}>
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+              >
                 <View className="flex flex-row gap-2 py-2 ">
                   {resentJobs?.map((job, index) => {
                     const organizationLogoUrl =
@@ -139,6 +146,7 @@ const Home = ({ navigation }) => {
                             paddingHorizontal: 2,
                           }}
                           style={{ marginTop: 1 }}
+                          showsHorizontalScrollIndicator={false}
                         >
                           {job.skills.map((skill, skillIndex) => (
                             <Text
@@ -178,7 +186,11 @@ const Home = ({ navigation }) => {
                 <Text className="text-[13px] font-[500]">Top Company</Text>
                 {/* <Text className="text-[11px] opacity-[0.7]">Show more</Text> */}
               </View>
-              <ScrollView horizontal={true} className="gap-2">
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                className="gap-2"
+              >
                 {topCompany.map((e, i) => {
                   return (
                     <>

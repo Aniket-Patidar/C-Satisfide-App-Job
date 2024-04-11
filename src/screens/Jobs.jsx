@@ -132,11 +132,11 @@ const Jobs = ({ navigation }) => {
               />
             </View>
             <View
-              className={`h-[30px]  my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-start`}
+              className={`h-[35px] mx-auto my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-center`}
             >
               <TouchableOpacity
                 onPress={handelSubmit}
-                className="flex flex-row items-center w-[87.5%] min-h-[30px] rounded-md justify-start  px-1 bg-white"
+                className="flex flex-row mx-auto items-center w-[87.5%] min-h-[35px] md:h-[400px] rounded-md justify-start  px-1 bg-white"
               >
                 <EvilIcons
                   className="mx-2 px-3 font-semibold"
@@ -155,7 +155,7 @@ const Jobs = ({ navigation }) => {
               <TouchableOpacity
                 onPress={toggleDrawer}
                 className="w-[30px] flex items-center justify-center
-             h-[30px] bg-white  opacity-[0.5] rounded-md"
+                min-h-[35px] bg-white  opacity-[0.5] rounded-md"
               >
                 <AntDesign name="filter" size={15} color="#008BDC" />
               </TouchableOpacity>
@@ -213,24 +213,26 @@ const Jobs = ({ navigation }) => {
                 </>
               )}
             </View>
-            {allJobs?.length != 0 && (
-              <View className="flex flex-row justify-between p-[12px]">
-                <TouchableOpacity
-                  className="bg-white px-[5px] py-[4px] rounded-sm"
-                  onPress={goToPrevPage}
-                  disabled={page === 1}
-                >
-                  <Text className="text-[11px]">Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="bg-white px-[5px] py-[4px] rounded-sm"
-                  onPress={goToNextPage}
-                  disabled={page === totalPages}
-                >
-                  <Text className="text-[11px]">Next</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+            <View className="font-semibold m-[13px] mb-[16px]">
+              {allJobs?.length != 0 && (
+                <View className="flex flex-row justify-between p-[12px]">
+                  <TouchableOpacity
+                    className="bg-white px-[5px] py-[4px] rounded-sm"
+                    onPress={goToPrevPage}
+                    disabled={page === 1}
+                  >
+                    <Text className="text-[11px]">Previous</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-white px-[5px] py-[4px] rounded-sm"
+                    onPress={goToNextPage}
+                    disabled={page === totalPages}
+                  >
+                    <Text className="text-[11px]">Next</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
           </>
         )}
       </>

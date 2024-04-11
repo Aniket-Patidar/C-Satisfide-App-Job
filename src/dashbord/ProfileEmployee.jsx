@@ -133,11 +133,11 @@ const ProfileEmployee = () => {
           {/* Profile header */}
           <View className="w-full h-[170px]  bg-[#4080ED] px-[13px] space-y-2">
             {/* Profile information */}
-            <Text className="mt-[13px] font-semibold text-[22px] relative text-white">
+            <Text className="mt-[13px] font-semibold text-[22px] relative text-white ">
               My Profile
             </Text>
-            <View className="flex items-center justify-center ">
-              <View className="w-full h-[102px] bg-white rounded-lg">
+            <View className="flex items-center justify-center">
+              <View className="w-full h-[102px] bg-white rounded-lg max-w-[400px]">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
                   <View className="h-[80px] w-[80px]  rounded-md">
                     <TouchableOpacity
@@ -194,7 +194,7 @@ const ProfileEmployee = () => {
                         formData.organisationname
                       )}
                     </Text>
-                    <Text className="capitalize text-[13px]">
+                    <Text className="capitalize text-[13px] text-black">
                       {editMode ? (
                         <TextInput
                           value={formData.location}
@@ -204,7 +204,7 @@ const ProfileEmployee = () => {
                           className="capitalize"
                         />
                       ) : (
-                        formData.location
+                        formData.email || "ex.gmail.com"
                       )}
                     </Text>
                   </View>

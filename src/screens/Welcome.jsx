@@ -29,10 +29,10 @@ const Welcome = ({ navigation }) => {
       source={image}
       style={{
         width: Dimensions.get("window").width - 40,
-        height: 150,
         borderRadius: 10,
         marginRight: 10,
       }}
+      className="h-[30vh]"
     />
   );
 

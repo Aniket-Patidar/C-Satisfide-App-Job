@@ -17,6 +17,7 @@ import Placeholder from "../component/Placeholder";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+const { width } = Dimensions.get("window");
 
 const ApplicationPage = () => {
   const dispatch = useDispatch();
@@ -50,8 +51,11 @@ const ApplicationPage = () => {
                         <React.Fragment>
                           <Image
                             source={require("../../assets/banner/b4.jpg")}
-                            style={styles.image}
-                            className="w-full h-[120px] rounded-md mb-5"
+                            style={{
+                              width: "100%",
+                              marginBottom: 5,
+                              height: 0.2 * windowHeight,
+                            }}
                           />
                         </React.Fragment>
                       )}

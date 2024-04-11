@@ -157,10 +157,10 @@ const ProfileStudent = () => {
               My Profile
             </Text>
             <View
-              className="flex items-center justify-center"
+              className="flex items-start justify-center"
               style={{ flex: 1 }}
             >
-              <View className="w-full h-fit bg-white rounded-lg">
+              <View className="w-full h-fit bg-white  rounded-lg">
                 <View className="flex  items-start flex-row  space-x-4 p-2">
                   <View className="h-[80px] w-[80px] bg-red-100 rounded-md overflow-hidden">
                     <TouchableOpacity

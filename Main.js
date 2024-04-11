@@ -41,7 +41,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useTokenAndFetchCurrentUser from './src/component/isUserExist.js';
 import { currentStudent } from './src/redux/action/studentAction.js';
 import { currentEmployee } from './src/redux/action/employeeAction.js';
-
+import ForgetEmployee from './src/dashbord/Forget.jsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,26 +53,10 @@ export default function Main() {
         StatusBar.setBackgroundColor('#4080ED');
     }, []);
 
-
-
     const { userLoggedIn, setUserLoggedIn } = useUserLoggedIn();
     const { employeeLoggedIn, setEmployeeLoggedIn } = useEmployeeLoggedIn();
 
 
-    const checkOnboardingStatus = async () => {
-        try {
-            const onboardingCompleted = await AsyncStorage.getItem('onboardingCompleted');
-            return onboardingCompleted !== null;
-        } catch (error) {
-            console.error('Error checking onboarding status:', error);
-            return false;
-        }
-    };
-
-    const renderOnboardingScreen = async () => {
-        const onboardingCompleted = await checkOnboardingStatus();
-        return onboardingCompleted;
-    };
 
     useEffect(() => {
         const checkToken = async () => {
@@ -127,13 +111,14 @@ export default function Main() {
 
                 {!employeeLoggedIn && !userLoggedIn && (
                     <>
-                        {!renderOnboardingScreen() && <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
+                        {<Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
                         <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                         <Stack.Screen name="Login Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={LoginScreenUserEmployee} options={{ headerShown: false }} />
                         <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />
                         <Stack.Screen name="Register Student" initialParams={{ setUserLoggedIn }} component={RegisterScreenStudent} options={{ headerShown: false }} />
                         <Stack.Screen name="OTP Student" initialParams={{ setUserLoggedIn }} component={OTPScreen} options={{ headerShown: false }} />
                         <Stack.Screen name="forgot Password" initialParams={{ setUserLoggedIn }} component={Forget} options={{ headerShown: false }} />
+                        <Stack.Screen name="forgot Password Employee" initialParams={{ setUserLoggedIn }} component={ForgetEmployee} options={{ headerShown: false }} />
                         <Stack.Screen name="Login Student" initialParams={{ setUserLoggedIn }} component={LoginScreenUserStudent} options={{
                             headerShown: false,
                             statusBarStyle: 'light-content',

@@ -13,8 +13,15 @@ const AdminDashboard = () => {
   const [adminInfo, setAdminInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const screenWidth = Dimensions.get("window").width;
 
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  // Assuming you want the image to take up a certain percentage of the screen width and height
+  const imageWidth = windowWidth; // 80% of the screen width
+  const imageHeight = windowHeight * 0.4; // 40% of the screen height
+  const viewWidth = windowWidth * 0.8; // 80% of the screen width
+  const viewHeight = windowHeight / 5;
   // const chartData = {
   //   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
   //   datasets: [
@@ -110,7 +117,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="flex items-center">
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : error ? (
@@ -118,19 +125,28 @@ const AdminDashboard = () => {
       ) : adminInfo ? (
         <View className="flex items-center justify-center">
           <View style={[styles.infoContainer]} className="space-y-4 py-[15px]">
-            <View className="w-[250px] h-[60px] flex  flex-row justify-between px-[20px] space-x-2 items-center bg-[#0EA5E9] rounded-md">
+            <View
+              style={{ width: viewWidth, height:windowHeight* 0.10 }}
+              className="flex flex-row justify-between px-4 space-x-2 items-center bg-[#0EA5E9] rounded-md"
+            >
               <Octicons name="people" size={23} color="white" />
               <Text className="text-white text-[16px] font-semibold">
                 Total Students: {adminInfo.userCount}
               </Text>
             </View>
-            <View className="w-[250px] h-[60px] flex flex-row justify-between px-[20px] space-x-2 items-center bg-[#F97316] rounded-md">
+            <View
+              style={{ width: viewWidth, height:windowHeight* 0.10 }}
+              className="flex flex-row justify-between px-4 space-x-2 items-center bg-[#F97316] rounded-md"
+            >
               <Octicons name="people" size={23} color="white" />
               <Text className="text-white text-[16px] font-semibold">
                 Total Employers: {adminInfo.employerCount}
               </Text>
             </View>
-            <View className="w-[250px] h-[60px] flex flex-row justify-between px-[20px] items-center bg-[#EAB308] rounded-md">
+            <View
+              style={{ width: viewWidth, height:windowHeight* 0.10 }}
+              className="flex flex-row justify-between px-4 items-center bg-[#EAB308] rounded-md"
+            >
               <FontAwesome5 name="chart-line" size={23} color="white" />
               <Text className="text-white text-[16px] font-semibold">
                 Total Jobs Posted: {adminInfo.jobCount}
@@ -145,8 +161,8 @@ const AdminDashboard = () => {
           >
             <LineChart
               data={chartData}
-              width={350}
-              height={200}
+              width={imageWidth}
+              height={imageHeight}
               chartConfig={{
                 backgroundColor: "#F6F6F6",
                 backgroundGradientFrom: "#F6F6F6",

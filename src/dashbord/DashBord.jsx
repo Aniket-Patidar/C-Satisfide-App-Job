@@ -38,7 +38,6 @@ const Dashboard = () => {
     dispatch(allApplications({}));
   }, []);
 
-
   useEffect(() => {
     Animated.parallel([
       Animated.timing(scaleValue, {
@@ -101,7 +100,7 @@ const Dashboard = () => {
               <FontAwesome name="search" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mx-auto">
             <TouchableOpacity style={styles.dataCard}>
               <FontAwesome name="briefcase" size={24} color="#4080ED" />
               <Text style={styles.dataTitle}>Total Jobs Created</Text>
@@ -116,31 +115,6 @@ const Dashboard = () => {
               </Text>
             </TouchableOpacity>
           </ScrollView>
-          {/* <View style={styles.chartContainer}>
-            <LineChart
-              data={chartData}
-              width={350}
-              height={200}
-              chartConfig={{
-                backgroundColor: "#fff",
-                backgroundGradientFrom: "#fff",
-                backgroundGradientTo: "#fff",
-                decimalPlaces: 0,
-                color: () => "#4080ED",
-                labelColor: () => "#000",
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: "#4080ED",
-                },
-              }}
-              bezier
-            />
-          </View> */}
-
           <ResponsiveTable
             data={searchText.trim() ? filterApplications() : allApplication}
           />

@@ -60,10 +60,7 @@ export default function App() {
     }
   };
 
-  const renderOnboardingScreen = async () => {
-    const onboardingCompleted = await checkOnboardingStatus();
-    return onboardingCompleted;
-  };
+
 
   return (
     <NavigationContainer>

@@ -67,7 +67,7 @@ export default function OnboardingScreen({ navigation }) {
             "Connecting Talent with Opportunities Find Your Perfect Fit in the World of Work",
           image: (
             <LottieView
-              source={require("../../assets/gfg/g4.json")}
+              source={require("../../assets/gfg/g5.json")}
               autoPlay
               loop
               style={{ width: 300, height: 250 }}
