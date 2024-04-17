@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 });
 
 export default function OnboardingScreen({ navigation }) {
-
   const handleDone = async () => {
     try {
       await AsyncStorage.setItem("onboardingCompleted", "true");

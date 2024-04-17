@@ -57,11 +57,11 @@ const Jobs = ({ navigation }) => {
     title: "",
     location: "",
     skills: "",
-    inOffice: false,
-    remote: false,
-    internship: false,
+    jobType: "", //In Office', 'Remote
+    category: "", //'Internship', 'job'
     salary: "",
   });
+
   const [Page, setPage] = useState(1);
 
   useEffect(() => {
@@ -73,6 +73,7 @@ const Jobs = ({ navigation }) => {
   };
 
   const handelSubmit = () => {
+    console.log(formData,"==");
     dispatch(AllJobs({ ...formData, page: 1 }));
     toggleDrawer();
   };

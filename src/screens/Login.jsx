@@ -156,7 +156,7 @@ const Login = ({ navigation, route }) => {
                   fontWeight: 400,
                   marginVertical: 8,
                 }}
-                className="hidden"
+                className=""
               >
                 <Text className="text-[13px] text-red-400 font-semibold">
                   Forget ?

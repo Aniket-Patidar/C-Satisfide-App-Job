@@ -15,6 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../component/Loading";
 
 const Forget = () => {
   useEffect(() => {
@@ -95,9 +96,8 @@ const Forget = () => {
   return (
     <View className="px-[15px] py-[10px]  flex justify-center">
       {loading ? (
-        <>
-          <Text>Loading..</Text>
-        </>
+        <Loading>
+        </Loading>
       ) : (
         <View className="">
           <TouchableOpacity>

@@ -112,7 +112,7 @@ const CustomDrawer = (props) => {
           </View>
         )}
 
-        <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10 }}>
+        <View style={{ flex: 1, backgroundColor: "white", paddingTop: 10 }}>
           <DrawerItemList {...props} />
         </View>
 
@@ -124,7 +124,7 @@ const CustomDrawer = (props) => {
           >
             <View
               style={{ flexDirection: "row", alignItems: "center" }}
-              className="space-x-[30px]"
+              className="space-x-[30px] mx-[10px]"
             >
               <Ionicons name="share-social-outline" size={22} />
               <Text
@@ -142,7 +142,7 @@ const CustomDrawer = (props) => {
           <TouchableOpacity onPress={logout} style={{ paddingVertical: 15 }}>
             <View
               style={{ flexDirection: "row", alignItems: "center" }}
-              className="space-x-[30px]"
+              className="space-x-[30px] mx-[10px]"
             >
               <Ionicons name="exit-outline" size={22} />
               <Text
@@ -158,10 +158,7 @@ const CustomDrawer = (props) => {
           </TouchableOpacity>
         </View>
       </DrawerContentScrollView>
-      <View
-        style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}
-        className="mt-[10vh]"
-      >
+      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
         <View
           style={{
             flexDirection: "row",

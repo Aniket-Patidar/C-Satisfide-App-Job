@@ -108,7 +108,6 @@ const ProfileStudent = () => {
   };
 
   const downloadResume = async (url) => {
-    console.log(url);
     const filename = "Resume.pdf";
     const result = await FileSystem.downloadAsync(
       `${url}`,

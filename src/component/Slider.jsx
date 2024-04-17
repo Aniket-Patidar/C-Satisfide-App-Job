@@ -1,19 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  FlatList,
-  Image,
-  StyleSheet,
-  Dimensions,
-  Animated,
-} from "react-native";
+import { View, FlatList, Image, StyleSheet, Dimensions, Animated } from "react-native";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const Slider = ({ images, autoplayInterval = 3000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
+
   useEffect(() => {
     const autoplay = setInterval(() => {
       if (currentIndex < images.length - 1) {
@@ -29,17 +23,23 @@ const Slider = ({ images, autoplayInterval = 3000 }) => {
   }, [currentIndex, images.length, autoplayInterval]);
 
   const renderItem = ({ item }) => (
-    <Image source={item} style={styles.image} className="w-full h-[20vh]"  resizeMode="cover" />
+    <Image source={item} style={styles.image} resizeMode="cover" />
   );
 
-  const dotPosition = Animated.divide(scrollX, Dimensions.get("window").width);
+  const dotPosition = Animated.divide(scrollX, width);
+
+  const getItemLayout = (_, index) => ({
+    length: width,
+    offset: width * index,
+    index,
+  });
 
   return (
     <View style={styles.container}>
       <FlatList
         data={images}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
@@ -48,6 +48,7 @@ const Slider = ({ images, autoplayInterval = 3000 }) => {
           { useNativeDriver: false }
         )}
         ref={flatListRef}
+        getItemLayout={getItemLayout}
       />
       <View style={styles.pagination}>
         {images.map((_, index) => {
@@ -57,9 +58,7 @@ const Slider = ({ images, autoplayInterval = 3000 }) => {
             extrapolate: "clamp",
           });
 
-          return (
-            <Animated.View key={index} style={[styles.dot, { opacity }]} />
-          );
+          return <Animated.View key={index} style={[styles.dot, { opacity }]} />;
         })}
       </View>
     </View>
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width,
-    height:  0.2 * height, // Adjust height as needed
+    height: height * 0.2, // Adjust height as needed
   },
   pagination: {
     flexDirection: "row",

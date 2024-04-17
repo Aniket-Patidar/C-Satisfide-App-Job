@@ -81,12 +81,6 @@ const CoolDrawer = ({
                 </Text>
               </View>
 
-              {/* <TextInput
-                style={styles.input}
-                placeholder="Salary"
-                value={formData.salary}
-                onChangeText={(text) => handleInputChange("salary", text)}
-              /> */}
               <Slider
                 maximumValue={100000}
                 minimumValue={0}
@@ -103,9 +97,9 @@ const CoolDrawer = ({
               <View style={styles.checkboxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={formData.inOffice}
+                  value={formData.jobType === "In Office"}
                   onValueChange={(value) =>
-                    handleInputChange("inOffice", value)
+                    handleInputChange("jobType", value ? "In Office" : null)
                   }
                 />
                 <Text style={styles.checkboxLabel}>In Office</Text>
@@ -116,8 +110,10 @@ const CoolDrawer = ({
               <View style={styles.checkboxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={formData.remote}
-                  onValueChange={(value) => handleInputChange("remote", value)}
+                  value={formData.jobType === "Remote"}
+                  onValueChange={(value) =>
+                    handleInputChange("jobType", value ? "Remote" : null)
+                  }
                 />
                 <Text style={styles.checkboxLabel}>Remote</Text>
               </View>
@@ -127,31 +123,33 @@ const CoolDrawer = ({
               <View style={styles.checkboxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={formData.internship}
+                  value={formData.category == "internship"}
                   onValueChange={(value) =>
-                    handleInputChange("internship", value)
+                    handleInputChange("category", value ? "internship" : null)
                   }
                 />
                 <Text style={styles.checkboxLabel}>Internship</Text>
               </View>
             </View>
 
+            <View style={styles.item}>
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={formData.category === "job"}
+                  onValueChange={(value) =>
+                    handleInputChange("category", value ? "job" : null)
+                  }
+                />
+                <Text style={styles.checkboxLabel}>Job</Text>
+              </View>
+            </View>
+
             <TouchableOpacity
               onPress={handelSubmit}
-              style={{
-                backgroundColor: "#2cc57b",
-                paddingHorizontal: 12,
-                paddingVertical: 6,
-                borderRadius: 5,
-              }}
-              className="w-fit py-[10px]"
+              style={styles.submitButton}
             >
-              <Text
-                style={{ fontSize: 15, color: "#FFFFFF", fontWeight: "bold" }}
-                className="mx-auto"
-              >
-                Submit
-              </Text>
+              <Text style={styles.submitButtonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -211,6 +209,20 @@ const styles = StyleSheet.create({
     width: 300,
     height: 20,
     marginLeft: -15,
+  },
+  submitButton: {
+    backgroundColor: "#2cc57b",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  submitButtonText: {
+    fontSize: 15,
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
 });
 

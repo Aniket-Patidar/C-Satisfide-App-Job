@@ -85,6 +85,23 @@ export default function Main() {
         }
     }, [employee])
 
+    const [onboardingCompleted, setOnboardingCompleted] = React.useState(false);
+
+
+    const checkOnboardingStatus = async () => {
+        try {
+            const value = await AsyncStorage.getItem("onboardingCompleted");
+            setOnboardingCompleted(value === "true");
+        } catch (error) {
+            console.error("Error checking onboarding status:", error);
+        }
+    };
+
+    useEffect(() => {
+        checkOnboardingStatus();
+      }, []);
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -111,7 +128,7 @@ export default function Main() {
 
                 {!employeeLoggedIn && !userLoggedIn && (
                     <>
-                        {<Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
+                        {!onboardingCompleted && <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />}
                         <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                         <Stack.Screen name="Login Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={LoginScreenUserEmployee} options={{ headerShown: false }} />
                         <Stack.Screen name="Register Employee" initialParams={{ setUserLoggedIn, setEmployeeLoggedIn }} component={RegisterScreenEmployee} options={{ headerShown: false }} />

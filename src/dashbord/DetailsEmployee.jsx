@@ -6,7 +6,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Linking,
+  Alert,
 } from "react-native";
+import { FontAwesome6 } from "@expo/vector-icons";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import Header from "../component/Header";
@@ -15,6 +19,9 @@ import {
   MaterialCommunityIcons,
   FontAwesome,
 } from "@expo/vector-icons";
+
+import { AntDesign } from "@expo/vector-icons";
+
 import { useDispatch, useSelector } from "react-redux";
 import { allJobs, getJobById } from "../redux/action/jobAction";
 import { useRoute } from "@react-navigation/native";
@@ -78,7 +85,7 @@ const Details = ({}) => {
                         key={i}
                         className="bg-[#ffffff61] uppercase  text-[12px] px-[10px] py-[3px] rounded-md text-white"
                       >
-                    {e.length > 6 ? `${e.substring(0, 6)}..` : e}
+                        {e.length > 6 ? `${e.substring(0, 6)}..` : e}
                       </Text>
                     );
                   })}
@@ -260,11 +267,11 @@ function About({
             marginBottom: 5,
           }}
         >
-          <Ionicons name="location-outline" size={16} color="#8A8A8A" />
+          <Ionicons name="location-outline" size={16} color="black" />
           <Text
             style={{
               textTransform: "capitalize",
-              color: "#8A8A8A",
+              color: "black",
               marginLeft: 5,
             }}
           >
@@ -282,9 +289,9 @@ function About({
           <MaterialCommunityIcons
             name="progress-clock"
             size={16}
-            color="#8A8A8A"
+            color="black"
           />
-          <Text style={{ color: "#8A8A8A", marginLeft: 4 }}>{jobType}</Text>
+          <Text style={{ color: "black", marginLeft: 4 }}>{jobType}</Text>
         </View>
 
         <View
@@ -299,22 +306,22 @@ function About({
             className="ml-[15px]"
             name="rupee"
             size={16}
-            color="#8A8A8A"
+            color="black"
           />
-          <Text style={{ color: "#8A8A8A", marginLeft: 4 }}>
+          <Text style={{ color: "black", marginLeft: 4 }}>
             {salary} / Per Year
           </Text>
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          {/* <FontAwesome name="shopping-bag" size={14} color="#8A8A8A" /> */}
-          <MaterialIcons name="library-books" size={14} color="#8A8A8A" />
-          <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>{category}</Text>
+          {/* <FontAwesome name="shopping-bag" size={14} color="black" /> */}
+          <MaterialIcons name="library-books" size={14} color="black" />
+          <Text style={{ color: "black", marginLeft: 5 }}>{category}</Text>
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <FontAwesome name="shopping-bag" size={14} color="#8A8A8A" />
-          <Text style={{ color: "#8A8A8A", marginLeft: 5 }}>
+          <FontAwesome name="shopping-bag" size={14} color="black" />
+          <Text style={{ color: "black", marginLeft: 5 }}>
             {openings} Openings
           </Text>
         </View>
@@ -326,7 +333,7 @@ function About({
             return (
               <Text
                 key={i}
-                style={{ color: "#8A8A8A", marginLeft: 5 }}
+                style={{ color: "black", marginLeft: 5 }}
                 className="capitalize"
               >
                 {e}
@@ -373,25 +380,29 @@ function Description({ description, preferences }) {
 }
 
 const Company = ({ employer }) => {
-  const companyData = {
-    name: "Company Inc.",
-    industry: "Tech",
-    location: "San Francisco, CA",
-    employees: 1000,
-    hrManager: "Jane Smith",
-    hrContact: "jane.smith@coolcompany.com",
+  
+
+  const Link = async (url) => {
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Failed to open the link. Please check the URL and try again."
+      );
+    }
   };
 
   return (
     <View style={styles.container} className="space-y-2">
       <View>
         <Text style={styles.title} className="my-1">
-          {companyData.name}
+          {employer.organisationname}
         </Text>
         <View className="space-y-[0.5]">
           <Text style={styles.text}>Industry: {employer.organisationname}</Text>
           <Text style={styles.text}>Location: {employer.location} Bhopal</Text>
-          <Text style={styles.text}>Employees: {companyData.employees}</Text>
+          <Text style={styles.text}>Employees: {employer.companySize}</Text>
         </View>
       </View>
       <View>
@@ -415,13 +426,23 @@ const Company = ({ employer }) => {
       </View>
       <View>
         <Text style={styles.title} className="my-1">
-          Description
+          Other
         </Text>
         <View className="space-y-[0.5]">
-          <Text style={styles.text}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            non laboriosa
-          </Text>
+          <TouchableOpacity
+            onPress={() => Link(employer.website)}
+            className="flex flex-row gap-1 items-center"
+          >
+            <AntDesign name="earth" size={16} color="black" />
+            <Text>Website</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => Link(employer.socialMedia)}
+            className="flex flex-row gap-1 items-center"
+          >
+            <FontAwesome6 name="instalod" size={16} color="black" />
+            <Text>Social media </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
