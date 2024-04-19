@@ -72,7 +72,7 @@ const CustomDrawer = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} className="relative">
-        {loading && <Loading />}
+        {/* {loading && <Loading />} */}
         {employee && (
           <View
             source={require("../../assets/banner/profileBg.jpg")}

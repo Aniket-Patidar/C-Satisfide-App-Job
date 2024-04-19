@@ -52,7 +52,6 @@ const Forget = () => {
       await AsyncStorage.setItem("OTPToken", Token);
       setOtpTokenExists(true);
       setLoading(false);
-      console.log(data);
     } catch (error) {
       console.error("Error sending mail:", JSON.stringify(error));
       setLoading(false);

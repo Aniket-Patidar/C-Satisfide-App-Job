@@ -3,7 +3,7 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <View className="w-full h-full  flex items-center justify-center">
+    <View className="w-full h-[80vh] flex items-center justify-center">
       <ActivityIndicator size="large" color="#007AFF" />
       <Text>Loading...</Text>
     </View>

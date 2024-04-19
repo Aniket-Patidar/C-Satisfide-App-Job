@@ -289,6 +289,7 @@ const JobForm = () => {
         <TextInput
           style={styles.input}
           value={formData.openings}
+          keyboardType="numeric"
           onChangeText={(text) => setFormData({ ...formData, openings: text })}
           placeholder="Enter number of openings"
         />
@@ -299,6 +300,7 @@ const JobForm = () => {
         <TextInput
           style={styles.input}
           value={formData.salary}
+          keyboardType="numeric"
           onChangeText={(text) => setFormData({ ...formData, salary: text })}
           placeholder="Enter salary"
         />

@@ -77,7 +77,6 @@ const TableItem = ({ item, onUpdateStatus, index }) => {
               encoding: FileSystem.EncodingType.Base64,
             });
           })
-          .catch((e) => console.log(e));
       } else {
         shareAsync(uri);
       }

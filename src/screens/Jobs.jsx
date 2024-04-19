@@ -9,6 +9,7 @@ import {
   Animated,
   StatusBar,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
 
@@ -66,14 +67,17 @@ const Jobs = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(AllJobs({ page: Page, ...formData }));
-  }, [Page, formData]);
+  }, [Page]);
+
+  function handelProfileSubmit() {
+    dispatch(AllJobs({ page: Page, ...formData }));
+  }
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
   const handelSubmit = () => {
-    console.log(formData,"==");
     dispatch(AllJobs({ ...formData, page: 1 }));
     toggleDrawer();
   };
@@ -135,10 +139,7 @@ const Jobs = ({ navigation }) => {
             <View
               className={`h-[35px] mx-auto my-[10px] rounded-md flex flex-row  space-x-1 px-[10px]  items-center justify-center`}
             >
-              <TouchableOpacity
-                onPress={handelSubmit}
-                className="flex flex-row mx-auto items-center w-[87.5%] min-h-[35px] md:h-[400px] rounded-md justify-start  px-1 bg-white"
-              >
+              <TouchableOpacity className="flex flex-row mx-auto items-center w-[87.5%] min-h-[35px] md:h-[400px] rounded-md justify-start  px-1 bg-white">
                 <EvilIcons
                   className="mx-2 px-3 font-semibold"
                   name="search"
@@ -150,6 +151,7 @@ const Jobs = ({ navigation }) => {
                   placeholder="Search your dream job"
                   value={formData.title}
                   onChangeText={(text) => handleInputChange("title", text)}
+                  onSubmitEditing={handelProfileSubmit}
                 ></TextInput>
               </TouchableOpacity>
 

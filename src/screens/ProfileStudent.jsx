@@ -113,8 +113,6 @@ const ProfileStudent = () => {
       `${url}`,
       FileSystem.documentDirectory + filename
     );
-    console.log(result);
-
     save(result.uri, filename, result.headers["Content-Type"]);
   };
 

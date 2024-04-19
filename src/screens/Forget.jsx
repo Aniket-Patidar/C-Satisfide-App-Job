@@ -49,7 +49,6 @@ const Forget = () => {
         }
       );
       const { Token } = data;
-      console.log(Token, "===");
       await AsyncStorage.setItem("OTPToken", Token);
       setOtpTokenExists(true);
       setLoading(false);

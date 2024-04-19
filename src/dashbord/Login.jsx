@@ -159,7 +159,7 @@ const Login = ({ navigation, route }) => {
                   marginVertical: 8,
                 }}
               >
-                <Text className="text-[13px] text-red-400 font-semibold">
+                <Text className="text-[13px] text-red-400 font-semibold hidden">
                   Forget ?
                 </Text>
               </TouchableOpacity>

@@ -268,9 +268,10 @@ const JobCard = ({
                 paddingVertical: 6,
                 borderRadius: 5,
               }}
+              //TODO
+              className="hidden"
             >
               <Text
-                className=""
                 style={{ fontSize: 12, color: "#FFFFFF", fontWeight: "bold" }}
               >
                 <AntDesign name="delete" size={14.5} color="white" />

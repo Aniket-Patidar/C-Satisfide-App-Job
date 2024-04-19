@@ -234,7 +234,7 @@ const EmployeeCard = ({
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Deletion canceled"),
+         
             style: "cancel",
           },
           {
@@ -251,7 +251,6 @@ const EmployeeCard = ({
                   withCredentials: true,
                 }
               );
-              console.log("delete employee");
               setEmployes(response.data.user);
             },
           },
